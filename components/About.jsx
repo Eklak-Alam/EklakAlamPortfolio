@@ -122,7 +122,7 @@ export function AboutSection() {
                 <FiAward className="text-xl" />
               </div>
               <div>
-                <h4 className="font-medium text-white">50+ Projects</h4>
+                <h4 className="font-medium text-white">20+ Projects</h4>
                 <p className="text-sm text-slate-400">Delivered successfully</p>
               </div>
             </motion.div>

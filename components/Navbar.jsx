@@ -138,7 +138,7 @@ export function Navbar() {
 
                 <div className="flex items-center gap-6">
                   {/* Desktop Navigation */}
-                  <div className="hidden md:flex items-center gap-8">
+                  <div className="hidden lg:flex items-center gap-8">
                     {navItems.map((item) => (
                       <Link 
                         key={item.href} 
@@ -223,7 +223,7 @@ export function Navbar() {
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="md:hidden focus:outline-none p-2 rounded-lg"
+                    className="lg:hidden focus:outline-none p-2 rounded-lg"
                     aria-label="Toggle menu"
                     style={{
                       backgroundColor: darkMode ? "rgba(255,255,255,0.1)" : "#f1f5f9", // Slate-100

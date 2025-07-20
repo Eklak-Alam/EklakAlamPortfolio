@@ -13,8 +13,10 @@ import {
   FiMessageSquare
 } from "react-icons/fi";
 import { useEffect, useRef } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 export function Contact() {
+  const { darkMode } = useTheme();
   const socialLinks = [
     {
       name: "GitHub",
@@ -52,23 +54,60 @@ export function Contact() {
       title: "Email Me",
       value: "eklakalam420@gmail.com",
       action: "mailto:eklakalam420@gmail.com",
-      color: "from-blue-500 to-emerald-500"
+      color: "from-blue-500 to-emerald-500",
+      textColor: darkMode ? "#60a5fa" : "#2563eb" // Tailwind: blue-400 (dark) / blue-600 (light)
     },
     {
       icon: <FiPhone className="text-2xl" />,
       title: "WhatsApp",
       value: "+91 9473384492",
       action: "https://wa.me/9473384492",
-      color: "from-emerald-500 to-green-500"
+      color: "from-emerald-500 to-green-500",
+      textColor: darkMode ? "#34d399" : "#059669" // emerald-400 / emerald-600
     },
     {
       icon: <FiMapPin className="text-2xl" />,
       title: "Location",
       value: "Chapra, Bihar, India",
       action: "https://maps.google.com",
-      color: "from-amber-500 to-orange-500"
+      color: "from-amber-500 to-orange-500",
+      textColor: darkMode ? "#fbbf24" : "#f97316" // amber-400 / orange-500
     }
   ];
+
+
+  // Color schemes for both modes
+  const darkColors = {
+    background: "#0f172a",
+    textPrimary: "#ffffff",
+    textSecondary: "#e2e8f0",
+    cardBg: "rgba(30, 41, 59, 0.5)",
+    cardBorder: "rgba(255, 255, 255, 0.1)",
+    accentGradient: "from-blue-400 to-emerald-400",
+    iconBg: "rgba(59, 130, 246, 0.1)",
+    glowBg1: "rgba(59, 130, 246, 0.1)",
+    glowBg2: "rgba(16, 185, 129, 0.1)",
+    particleColor: "rgba(96, 165, 250, 0.3)",
+    arrowColor: "#9ca3af",
+    arrowHoverColor: "#ffffff"
+  };
+
+  const lightColors = {
+    background: "#ffffff",
+    textPrimary: "#0f172a",
+    textSecondary: "#334155",
+    cardBg: "rgba(248, 250, 252, 0.8)",
+    cardBorder: "rgba(0, 0, 0, 0.1)",
+    accentGradient: "from-blue-500 to-emerald-500",
+    iconBg: "rgba(219, 234, 254, 0.5)",
+    glowBg1: "rgba(219, 234, 254, 0.5)",
+    glowBg2: "rgba(209, 250, 229, 0.5)",
+    particleColor: "rgba(59, 130, 246, 0.2)",
+    arrowColor: "#6b7280",
+    arrowHoverColor: "#1e40af"
+  };
+
+  const colors = darkMode ? darkColors : lightColors;
 
   const containerRef = useRef(null);
   const controls = useAnimation();
@@ -140,6 +179,7 @@ export function Contact() {
       id="contact" 
       className="relative py-24 px-4 sm:px-6 overflow-hidden"
       ref={containerRef}
+      style={{ backgroundColor: colors.background }}
     >
       {/* Animated particles */}
       <div className="absolute inset-0 overflow-hidden opacity-20">
@@ -158,20 +198,27 @@ export function Contact() {
               repeatType: "reverse",
               ease: "easeInOut"
             }}
-            className="absolute rounded-full bg-gradient-to-r from-blue-400 to-emerald-400"
+            className="absolute rounded-full"
             style={{
               width: `${10 + i * 2}px`,
               height: `${10 + i * 2}px`,
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
+              backgroundColor: colors.particleColor
             }}
           />
         ))}
       </div>
 
       {/* Glow effects */}
-      <div className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full bg-blue-500/10 blur-3xl filter pointer-events-none" />
-      <div className="absolute -bottom-1/4 -right-1/4 w-[800px] h-[800px] rounded-full bg-emerald-500/10 blur-3xl filter pointer-events-none" />
+      <div 
+        className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full blur-3xl filter pointer-events-none" 
+        style={{ backgroundColor: colors.glowBg1 }}
+      />
+      <div 
+        className="absolute -bottom-1/4 -right-1/4 w-[800px] h-[800px] rounded-full blur-3xl filter pointer-events-none" 
+        style={{ backgroundColor: colors.glowBg2 }}
+      />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -186,15 +233,24 @@ export function Contact() {
             className="inline-block mb-6"
           >
             <div className="relative inline-flex items-center justify-center p-1 rounded-full bg-gradient-to-r from-blue-500 to-emerald-500">
-              <div className="bg-slate-900 rounded-full p-3">
+              <div 
+                className="rounded-full p-3"
+                style={{ backgroundColor: colors.background }}
+              >
                 <FiMessageSquare className="text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400" />
               </div>
             </div>
           </motion.div>
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-4">
+          <h2 
+            className="text-5xl md:text-6xl font-bold mb-4"
+            style={{ color: colors.textPrimary }}
+          >
             Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Connect</span>
           </h2>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+          <p 
+            className="text-xl max-w-3xl mx-auto"
+            style={{ color: colors.textSecondary }}
+          >
             Whether you have a project in mind or just want to chat tech, I'd love to hear from you!
           </p>
         </motion.div>
@@ -207,8 +263,14 @@ export function Contact() {
         >
           {/* Social Links */}
           <motion.div variants={itemVariants}>
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500/20 to-emerald-500/20">
+            <h3 
+              className="text-2xl font-bold mb-8 flex items-center gap-3"
+              style={{ color: colors.textPrimary }}
+            >
+              <div 
+                className="p-2 rounded-lg"
+                style={{ background: colors.iconBg }}
+              >
                 <FiSend className="text-blue-400" />
               </div>
               <span>Find Me Online</span>
@@ -239,8 +301,14 @@ export function Contact() {
 
           {/* Direct Contact */}
           <motion.div variants={itemVariants}>
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500/20 to-emerald-500/20">
+            <h3 
+              className="text-2xl font-bold mb-8 flex items-center gap-3"
+              style={{ color: colors.textPrimary }}
+            >
+              <div 
+                className="p-2 rounded-lg"
+                style={{ background: colors.iconBg }}
+              >
                 <FiPhone className="text-emerald-400" />
               </div>
               <span>Direct Contact</span>
@@ -255,17 +323,37 @@ export function Contact() {
                   href={method.action}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative overflow-hidden group rounded-xl p-6 flex items-center gap-5 transition-all backdrop-blur-sm bg-slate-800/30 hover:bg-slate-800/50 border border-slate-700 hover:border-slate-600 shadow-lg hover:shadow-xl"
+                  className="relative overflow-hidden group rounded-xl p-6 flex items-center gap-5 transition-all backdrop-blur-sm border shadow-lg hover:shadow-xl"
+                  style={{
+                    backgroundColor: colors.cardBg,
+                    borderColor: colors.cardBorder
+                  }}
                 >
                   <div className={`absolute -z-10 inset-0 bg-gradient-to-br ${method.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-                  <div className="p-3 rounded-lg bg-gradient-to-br from-blue-500/20 to-emerald-500/20">
+                  <div 
+                    className="p-3 rounded-lg"
+                    style={{ background: colors.iconBg, color: method.textColor }}
+                  >
                     {method.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="text-sm text-slate-400">{method.title}</h4>
-                    <p className="text-lg font-medium text-white">{method.value}</p>
+                    <h4 style={{ color: colors.textSecondary }}>{method.title}</h4>
+                    <p 
+                      className="text-lg font-medium"
+                      style={{ color: colors.textPrimary }}
+                    >
+                      {method.value}
+                    </p>
                   </div>
-                  <div className="text-slate-400 group-hover:text-white transition-colors">
+                  <div 
+                    className="transition-colors"
+                    style={{ 
+                      color: colors.arrowColor,
+                      '&:hover': {
+                        color: colors.arrowHoverColor
+                      }
+                    }}
+                  >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
@@ -284,7 +372,10 @@ export function Contact() {
           transition={{ delay: 0.5 }}
           className="text-center mt-20"
         >
-          <p className="text-slate-400 mb-8 text-lg">
+          <p 
+            className="mb-8 text-lg"
+            style={{ color: colors.textSecondary }}
+          >
             Ready to start your project?
           </p>
           <motion.a

@@ -3,6 +3,7 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 const testimonials = [
   {
@@ -53,10 +54,40 @@ const testimonials = [
 ];
 
 export function TestimonialsSection() {
+  const { darkMode } = useTheme();
   const [displayedTestimonials, setDisplayedTestimonials] = useState([...testimonials, ...testimonials]);
   const controls = useAnimation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+
+  // Color schemes for both modes
+  const darkColors = {
+    background: "#0f172a",
+    textPrimary: "#ffffff",
+    textSecondary: "#e2e8f0",
+    cardBg: "#1e293b",
+    cardBorder: "rgba(255, 255, 255, 0.1)",
+    accentGradient: "from-blue-600 to-indigo-600",
+    quoteText: "#e2e8f0",
+    quoteIcon: "#93c5fd",
+    ratingText: "#9ca3af",
+    borderColor: "rgba(255, 255, 255, 0.1)"
+  };
+
+  const lightColors = {
+    background: "#ffffff",
+    textPrimary: "#0f172a",
+    textSecondary: "#334155",
+    cardBg: "#f8fafc",
+    cardBorder: "rgba(0, 0, 0, 0.1)",
+    accentGradient: "from-blue-500 to-indigo-500",
+    quoteText: "#334155",
+    quoteIcon: "#3b82f6",
+    ratingText: "#6b7280",
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  };
+
+  const colors = darkMode ? darkColors : lightColors;
 
   useEffect(() => {
     if (isInView) {
@@ -73,13 +104,22 @@ export function TestimonialsSection() {
   }, [isInView, controls]);
 
   return (
-    <section className="relative py-24 px-4 sm:px-6 overflow-hidden">
+    <section 
+      className="relative py-24 px-4 sm:px-6 overflow-hidden"
+      style={{ backgroundColor: colors.background }}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-5xl md:text-6xl font-bold text-slate-800 dark:text-white mb-6">
-            Client <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Testimonials</span>
+          <h2 
+            className="text-5xl md:text-6xl font-bold mb-4"
+            style={{ color: colors.textPrimary }}
+          >
+            Client <span className={`text-transparent bg-clip-text bg-gradient-to-r ${colors.accentGradient}`}>Testimonials</span>
           </h2>
-          <p className="text-2xl text-slate-600 dark:text-slate-400 max-w-4xl mx-auto">
+          <p 
+            className="text-2xl max-w-4xl mx-auto"
+            style={{ color: colors.textSecondary }}
+          >
             Hear what industry leaders say about working with me
           </p>
         </div>
@@ -95,7 +135,8 @@ export function TestimonialsSection() {
             {displayedTestimonials.map((testimonial, index) => (
               <TestimonialCard 
                 key={`${testimonial.id}-${index}`} 
-                testimonial={testimonial} 
+                testimonial={testimonial}
+                colors={colors}
               />
             ))}
           </motion.div>
@@ -105,50 +146,82 @@ export function TestimonialsSection() {
   );
 }
 
-function TestimonialCard({ testimonial }) {
+function TestimonialCard({ testimonial, colors }) {
   return (
-    <div className="w-[380px] h-[380px] shrink-0 rounded-3xl border border-zinc-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 shadow-xl">
+    <div 
+      className="w-[380px] h-[380px] shrink-0 rounded-3xl border p-8 shadow-xl"
+      style={{
+        backgroundColor: colors.cardBg,
+        borderColor: colors.borderColor
+      }}
+    >
       <div className="absolute top-8 right-8 flex items-center gap-2">
         <div className="flex gap-1 text-amber-400">
           {[...Array(5)].map((_, i) => (
             <Star
               key={i} 
               size={18}
-              className={i < testimonial.rating ? "fill-current" : "text-zinc-300 dark:text-zinc-600"} 
+              className={i < testimonial.rating ? "fill-current" : "text-zinc-300"} 
             />
           ))}
         </div>
-        <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+        <span 
+          className="text-sm font-medium"
+          style={{ color: colors.ratingText }}
+        >
           {testimonial.rating}.0
         </span>
       </div>
       
       <div className="relative h-full flex flex-col">
-        <Quote className="absolute top-0 left-0 text-blue-400/20 text-5xl dark:text-blue-600/10" />
+        <Quote 
+          className="absolute top-0 left-0 text-5xl opacity-20" 
+          style={{ color: colors.quoteIcon }}
+        />
         
-        <p className="text-lg leading-relaxed text-neutral-800 dark:text-gray-200 mb-6 mt-4">
+        <p 
+          className="text-lg leading-relaxed mb-6 mt-4"
+          style={{ color: colors.quoteText }}
+        >
           "{testimonial.quote}"
         </p>
         
         <div className="mb-6">
-          <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-1">
+          <div 
+            className="text-sm font-semibold mb-1"
+            style={{ color: colors.quoteIcon }}
+          >
             {testimonial.project}
           </div>
-          <div className="text-xs text-zinc-500 dark:text-zinc-400">
+          <div 
+            className="text-xs"
+            style={{ color: colors.ratingText }}
+          >
             Completed: {testimonial.date}
           </div>
         </div>
 
-        <div className="mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800">
+        <div 
+          className="mt-auto pt-4 border-t"
+          style={{ borderColor: colors.borderColor }}
+        >
           <div className="flex items-center gap-4">
-            <div className="h-14 w-14 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-xl">
+            <div 
+              className="h-14 w-14 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-xl"
+            >
               {testimonial.name.charAt(0)}
             </div>
             <div>
-              <div className="font-medium text-lg text-neutral-900 dark:text-white">
+              <div 
+                className="font-medium text-lg"
+                style={{ color: colors.textPrimary }}
+              >
                 {testimonial.name}
               </div>
-              <div className="text-sm text-neutral-600 dark:text-neutral-400">
+              <div 
+                className="text-sm"
+                style={{ color: colors.textSecondary }}
+              >
                 {testimonial.title}
               </div>
             </div>

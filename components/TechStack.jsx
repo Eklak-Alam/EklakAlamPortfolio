@@ -3,6 +3,7 @@
 import { motion, useAnimation } from "framer-motion";
 import { useState, useEffect } from "react";
 import { FiCode, FiServer, FiCloud, FiTool, FiCpu } from "react-icons/fi";
+import { useTheme } from "../context/ThemeContext";
 
 const techCategories = [
   {
@@ -131,11 +132,6 @@ const techCategories = [
         img: "https://cdn.worldvectorlogo.com/logos/notion-logo-1.svg",
         usage: "Documentation"
       },
-      { 
-        name: "GitHub", 
-        img: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg",
-        usage: "Version Control"
-      },
     ],
   },
   {
@@ -168,8 +164,34 @@ const techCategories = [
 ];
 
 export function TechStack() {
+  const { darkMode } = useTheme();
   const [activeCategory, setActiveCategory] = useState(techCategories[0]);
   const controls = useAnimation();
+
+  // Color schemes for both modes
+  const darkColors = {
+    background: "#0f172a",
+    textPrimary: "#ffffff",
+    textSecondary: "#e2e8f0",
+    cardBg: "#1e293b",
+    cardBorder: "rgba(255, 255, 255, 0.1)",
+    inactiveTabBg: "rgba(255, 255, 255, 0.05)",
+    inactiveTabText: "#e2e8f0",
+    inactiveTabBorder: "rgba(255, 255, 255, 0.1)"
+  };
+
+  const lightColors = {
+    background: "#ffffff",
+    textPrimary: "#0f172a",
+    textSecondary: "#334155",
+    cardBg: "#f8fafc",
+    cardBorder: "rgba(0, 0, 0, 0.1)",
+    inactiveTabBg: "rgba(0, 0, 0, 0.05)",
+    inactiveTabText: "#334155",
+    inactiveTabBorder: "rgba(0, 0, 0, 0.1)"
+  };
+
+  const colors = darkMode ? darkColors : lightColors;
 
   useEffect(() => {
     controls.start("visible");
@@ -202,7 +224,9 @@ export function TechStack() {
     hover: {
       y: -10,
       scale: 1.05,
-      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      boxShadow: darkMode 
+        ? "0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1)"
+        : "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       transition: {
         duration: 0.3,
         ease: "easeOut"
@@ -211,7 +235,7 @@ export function TechStack() {
   };
 
   return (
-    <section className="py-16 px-4 sm:px-6">
+    <section className="py-16 px-4 sm:px-6" style={{ backgroundColor: colors.background }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -221,10 +245,10 @@ export function TechStack() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-100 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: colors.textPrimary }}>
             My <span className="text-blue-500">Tech Stack</span>
           </h2>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.textSecondary }}>
             Technologies and languages I work with to build digital experiences
           </p>
         </motion.div>
@@ -240,8 +264,19 @@ export function TechStack() {
               className={`px-5 py-3 rounded-xl font-medium text-sm sm:text-base flex items-center gap-2 transition-all ${
                 activeCategory.name === category.name
                   ? `${category.color} text-white shadow-lg`
-                  : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
+                  : `shadow-sm border`
               }`}
+              style={{
+                backgroundColor: activeCategory.name === category.name 
+                  ? undefined 
+                  : colors.inactiveTabBg,
+                color: activeCategory.name === category.name 
+                  ? undefined 
+                  : colors.inactiveTabText,
+                borderColor: activeCategory.name === category.name 
+                  ? undefined 
+                  : colors.inactiveTabBorder
+              }}
             >
               {category.icon}
               {category.name}
@@ -264,12 +299,17 @@ export function TechStack() {
               initial="hidden"
               animate="visible"
               whileHover="hover"
-              className="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200 cursor-default group relative"
+              className="rounded-2xl shadow-lg overflow-hidden border cursor-default group relative"
+              style={{
+                backgroundColor: colors.cardBg,
+                borderColor: colors.cardBorder
+              }}
             >
               <div className={`absolute top-0 left-0 h-2 w-full ${activeCategory.color}`}></div>
               <div className="p-6 pt-8">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-16 h-16 rounded-lg border border-slate-200 flex items-center justify-center p-3`}>
+                  <div className={`w-16 h-16 rounded-lg border flex items-center justify-center p-3`}
+                       style={{ borderColor: colors.cardBorder }}>
                     <img 
                       src={tech.img} 
                       alt={tech.name} 
@@ -280,8 +320,8 @@ export function TechStack() {
                     />
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-1">{tech.name}</h3>
-                <p className="text-slate-600 mb-4">{tech.usage}</p>
+                <h3 className="text-xl font-bold mb-1" style={{ color: colors.textPrimary }}>{tech.name}</h3>
+                <p className="mb-4" style={{ color: colors.textSecondary }}>{tech.usage}</p>
                 <div className={`h-1 w-0 group-hover:w-full ${activeCategory.color} transition-all duration-500`}></div>
               </div>
             </motion.div>

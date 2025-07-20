@@ -1,15 +1,15 @@
 'use client';
 
-import { Github, Linkedin, Mail, ArrowDown, Download, Youtube, Link } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowDown, Download, Youtube } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useTheme } from '../context/ThemeContext';
 
 const HeroSection = () => {
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
-  const router = useRouter();
+  const { darkMode } = useTheme();
 
   const roles = [
     "Frontend Developer",
@@ -18,6 +18,47 @@ const HeroSection = () => {
     "Content Creator",
     "Generative Ai"
   ];
+
+  // Color schemes for both modes
+  const darkColors = {
+    background: "#0f172a",
+    textPrimary: "#ffffff",
+    textSecondary: "#e2e8f0",
+    accent: "#38bdf8",
+    badgeBg: "rgba(255, 255, 255, 0.05)",
+    badgeBorder: "rgba(255, 255, 255, 0.1)",
+    buttonGradient: "linear-gradient(to right, #3b82f6, #6366f1)",
+    buttonHoverGradient: "linear-gradient(to right, #60a5fa, #818cf8)",
+    socialBg: "rgba(255, 255, 255, 0.05)",
+    socialBorder: "rgba(255, 255, 255, 0.1)",
+    socialIcon: "#ffffff",
+    socialHover: "#38bdf8",
+    particleBg: "rgba(255, 255, 255, 0.1)",
+    blobBg1: "rgba(59, 130, 246, 0.05)",
+    blobBg2: "rgba(16, 185, 129, 0.05)",
+    blobBg3: "rgba(99, 102, 241, 0.05)"
+  };
+
+  const lightColors = {
+    background: "#ffffff",
+    textPrimary: "#0f172a",
+    textSecondary: "#334155",
+    accent: "#0284c7",
+    badgeBg: "rgba(15, 23, 42, 0.05)",
+    badgeBorder: "rgba(15, 23, 42, 0.1)",
+    buttonGradient: "linear-gradient(to right, #2563eb, #4f46e5)",
+    buttonHoverGradient: "linear-gradient(to right, #1d4ed8, #4338ca)",
+    socialBg: "rgba(15, 23, 42, 0.05)",
+    socialBorder: "rgba(15, 23, 42, 0.1)",
+    socialIcon: "#0f172a",
+    socialHover: "#0284c7",
+    particleBg: "rgba(15, 23, 42, 0.1)",
+    blobBg1: "rgba(37, 99, 235, 0.05)",
+    blobBg2: "rgba(13, 148, 136, 0.05)",
+    blobBg3: "rgba(79, 70, 229, 0.05)"
+  };
+
+  const colors = darkMode ? darkColors : lightColors;
 
   // Typewriter effect
   useEffect(() => {
@@ -60,28 +101,41 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="relative py-32 min-h-screen overflow-hidden">
+    <div 
+      className="relative py-32 min-h-screen overflow-hidden"
+      style={{ backgroundColor: colors.background }}
+    >
       {/* Animated background elements */}
       <motion.div 
         style={{ y: y1 }}
         className="absolute inset-0 overflow-hidden"
       >
-        <div className="absolute top-20 left-20 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl animate-float-slow" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl animate-float-medium" />
-        <div className="absolute top-1/3 right-1/3 w-64 h-64 bg-indigo-500/5 rounded-full blur-2xl animate-float-fast" />
+        <div 
+          className="absolute top-20 left-20 w-80 h-80 rounded-full blur-3xl animate-float-slow"
+          style={{ backgroundColor: colors.blobBg1 }}
+        />
+        <div 
+          className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl animate-float-medium"
+          style={{ backgroundColor: colors.blobBg2 }}
+        />
+        <div 
+          className="absolute top-1/3 right-1/3 w-64 h-64 rounded-full blur-2xl animate-float-fast"
+          style={{ backgroundColor: colors.blobBg3 }}
+        />
       </motion.div>
 
       {/* Floating particles */}
       {[...Array(15)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute bg-white/10 rounded-full"
+          className="absolute rounded-full"
           style={{
             width: Math.random() * 5 + 2 + 'px',
             height: Math.random() * 5 + 2 + 'px',
             top: Math.random() * 100 + '%',
             left: Math.random() * 100 + '%',
             opacity: Math.random() * 0.5 + 0.1,
+            backgroundColor: colors.particleBg,
           }}
           animate={{
             y: [0, (Math.random() - 0.5) * 100],
@@ -107,10 +161,16 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center px-5 py-2.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-lg"
+            className="inline-flex items-center px-5 py-2.5 backdrop-blur-md rounded-full shadow-lg"
+            style={{
+              backgroundColor: colors.badgeBg,
+              border: `1px solid ${colors.badgeBorder}`
+            }}
           >
             <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full mr-3" />
-            <span className="text-sm font-medium text-white/80">Currently available for select projects</span>
+            <span className="text-sm font-medium" style={{ color: colors.textSecondary }}>
+              Currently available for select projects
+            </span>
           </motion.div>
 
           {/* Main headline */}
@@ -120,17 +180,19 @@ const HeroSection = () => {
             transition={{ delay: 0.4 }}
             className="space-y-6"
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
-              <span className="block">Elevating</span>
-              <span className="block bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
+              <span className="block" style={{ color: colors.textPrimary }}>Elevating</span>
+              <span 
+                className="block bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent"
+              >
                 Digital Experiences
               </span>
             </h1>
             
             {/* Dynamic role */}
             <div className="h-16 flex items-center justify-center">
-              <h2 className="text-2xl md:text-3xl font-medium text-white/80">
-                <span className="text-white">{displayText}</span>
+              <h2 className="text-2xl md:text-3xl font-medium" style={{ color: colors.textSecondary }}>
+                <span style={{ color: colors.textPrimary }}>{displayText}</span>
                 <span className="ml-1.5 text-emerald-400 animate-pulse">|</span>
               </h2>
             </div>
@@ -141,7 +203,8 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+            style={{ color: colors.textSecondary }}
           >
             Blending cutting-edge technology with elegant design to create digital products that 
             captivate users and drive measurable results.
@@ -160,7 +223,8 @@ const HeroSection = () => {
               download="Eklak_Alam_Resume.pdf"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group flex items-center space-x-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="group flex items-center space-x-3 px-8 py-4 text-white rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+              style={{ background: colors.buttonGradient }}
             >
               <Download className="w-5 h-5 group-hover:animate-bounce" />
               <span>Download Resume</span>
@@ -171,14 +235,19 @@ const HeroSection = () => {
               onClick={scrollToProjects}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-3 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-white rounded-xl font-semibold shadow-sm hover:shadow-lg transition-all duration-300"
+              className="flex items-center space-x-3 px-8 py-4 rounded-xl font-semibold shadow-sm hover:shadow-lg transition-all duration-300"
+              style={{
+                backgroundColor: colors.socialBg,
+                border: `1px solid ${colors.socialBorder}`,
+                color: colors.textPrimary
+              }}
             >
               <span>Explore Work</span>
               <ArrowDown className="w-5 h-5" />
             </motion.button>
           </motion.div>
 
-          {/* Social links */}
+          {/* Social links - Improved visibility */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -189,22 +258,22 @@ const HeroSection = () => {
               { 
                 icon: <Linkedin className="w-5 h-5" />, 
                 href: "https://www.linkedin.com/in/eklak-alam-40ba632b5/",
-                color: "hover:bg-blue-500/10 hover:text-blue-400"
+                hoverColor: "#0A66C2"
               },
               { 
                 icon: <Github className="w-5 h-5" />, 
                 href: "https://github.com/Eklak-Alam",
-                color: "hover:bg-white/30 hover:text-white"
+                hoverColor: "#181717"
               },
               { 
                 icon: <Mail className="w-5 h-5" />, 
                 href: "mailto:eklakalam420@gmail.com",
-                color: "hover:bg-emerald-500/10 hover:text-emerald-400"
+                hoverColor: "#EA4335"
               },
               {
                 icon: <Youtube className="w-5 h-5" />, 
                 href: "https://www.youtube.com/@eklakalam04",
-                color: "hover:bg-red-500/10 hover:text-red-400"
+                hoverColor: "#FF0000"
               }
             ].map((social, index) => (
               <motion.a
@@ -212,9 +281,14 @@ const HeroSection = () => {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -5, color: social.hoverColor }}
                 whileTap={{ scale: 0.9 }}
-                className={`p-4 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 shadow-sm transition-all duration-300 ${social.color}`}
+                className="p-4 backdrop-blur-md rounded-xl shadow-sm transition-all duration-300"
+                style={{
+                  backgroundColor: colors.socialBg,
+                  border: `1px solid ${colors.socialBorder}`,
+                  color: colors.socialIcon
+                }}
               >
                 {social.icon}
               </motion.a>
@@ -223,7 +297,7 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Custom animations in your globals.css */}
+      {/* Animation styles */}
       <style jsx global>{`
         @keyframes float-slow {
           0%, 100% { transform: translateY(0) translateX(0); }

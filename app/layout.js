@@ -3,6 +3,7 @@ import "./globals.css";
 import { Footer } from "@/components/Footer";
 import Head from 'next/head';
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata = {
   title: "Eklak Alam | Full Stack Developer & Designer",
@@ -53,17 +54,19 @@ export default function RootLayout({ children }) {
       </Head>
       
       <body className="bg-slate-900 text-slate-100 antialiased">
-        <LoadingScreen />
-        <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
-        
-        {/* Global loading indicator (optional) */}
-        <div id="global-loader" className="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-        </div>
+        <ThemeProvider>
+          <LoadingScreen />
+          <Navbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          
+          {/* Global loading indicator (optional) */}
+          <div id="global-loader" className="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+            <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

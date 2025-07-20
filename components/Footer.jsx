@@ -1,4 +1,3 @@
-// components/Footer.tsx
 "use client";
 
 import { motion } from "framer-motion";
@@ -12,8 +11,10 @@ import {
   FiYoutube,
   FiArrowRight
 } from "react-icons/fi";
+import { useTheme } from "../context/ThemeContext";
 
 export function Footer() {
+  const { darkMode } = useTheme();
   const socialLinks = [
     { icon: <FiGithub className="text-xl" />, url: "https://github.com/Eklak-Alam", name: "GitHub" },
     { icon: <FiTwitter className="text-xl" />, url: "https://x.com/dev_eklak", name: "Twitter" },
@@ -29,6 +30,45 @@ export function Footer() {
     { name: "Projects", href: "#projects" },
     { name: "Contact", href: "#contact" },
   ];
+
+  // Color schemes for both modes
+  const darkColors = {
+    background: "bg-gradient-to-b from-slate-900 to-slate-950",
+    textPrimary: "text-slate-100",
+    textSecondary: "text-slate-400",
+    border: "border-slate-800",
+    cardBg: "bg-slate-800/50",
+    hoverBg: "hover:bg-slate-700/50",
+    buttonGradient: "from-purple-500 to-blue-500",
+    accent1: "bg-teal-400",
+    accent2: "bg-blue-400",
+    accent3: "bg-purple-400",
+    arrowColor: "text-teal-400",
+    inputBg: "bg-slate-800/50",
+    inputBorder: "border-slate-700",
+    inputFocus: "focus:ring-purple-500/50",
+    copyrightBorder: "border-slate-800/50"
+  };
+
+  const lightColors = {
+    background: "bg-gradient-to-b from-slate-50 to-slate-100",
+    textPrimary: "text-slate-900",
+    textSecondary: "text-slate-600",
+    border: "border-slate-200",
+    cardBg: "bg-slate-100/80",
+    hoverBg: "hover:bg-slate-200/50",
+    buttonGradient: "from-purple-400 to-blue-400",
+    accent1: "bg-teal-500",
+    accent2: "bg-blue-500",
+    accent3: "bg-purple-500",
+    arrowColor: "text-teal-500",
+    inputBg: "bg-slate-100/80",
+    inputBorder: "border-slate-300",
+    inputFocus: "focus:ring-purple-400/50",
+    copyrightBorder: "border-slate-200/50"
+  };
+
+  const colors = darkMode ? darkColors : lightColors;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -57,12 +97,12 @@ export function Footer() {
   const hoverVariant = {
     hover: { 
       x: 5,
-      color: "#ffffff"
+      color: darkMode ? "#ffffff" : "#1e293b"
     }
   };
 
   return (
-    <footer className="bg-gradient-to-b from-slate-900 to-slate-950 text-slate-100 pt-20 pb-12 border-t border-slate-800">
+    <footer className={`${colors.background} ${colors.textPrimary} pt-20 pb-12 border-t ${colors.border}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -79,7 +119,7 @@ export function Footer() {
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center gap-3"
               >
-                <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-slate-700 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
+                <div className={`relative h-12 w-12 rounded-full overflow-hidden border-2 ${colors.border} bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center`}>
                   <span className="text-white font-bold text-xl">EA</span>
                 </div>
                 <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
@@ -87,7 +127,7 @@ export function Footer() {
                 </span>
               </motion.div>
             </Link>
-            <p className="text-slate-400 text-lg leading-relaxed">
+            <p className={`${colors.textSecondary} text-lg leading-relaxed`}>
               Crafting exceptional digital experiences with cutting-edge technology and innovative design solutions that drive real business results.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -101,11 +141,11 @@ export function Footer() {
                   whileHover={{ 
                     y: -4, 
                     scale: 1.1,
-                    backgroundColor: "rgba(30, 41, 59, 0.5)",
-                    boxShadow: "0 4px 14px 0 rgba(0, 118, 255, 0.2)"
+                    backgroundColor: darkMode ? "rgba(30, 41, 59, 0.5)" : "rgba(241, 245, 249, 0.7)",
+                    boxShadow: darkMode ? "0 4px 14px 0 rgba(0, 118, 255, 0.2)" : "0 4px 14px 0 rgba(0, 118, 255, 0.1)"
                   }}
                   whileTap={{ scale: 0.9 }}
-                  className="text-slate-300 hover:text-white text-xl p-3 transition-all bg-slate-800/50 rounded-xl backdrop-blur-sm"
+                  className={`${colors.textSecondary} ${darkMode ? "hover:text-white" : "hover:text-slate-900"} text-xl p-3 transition-all ${colors.cardBg} rounded-xl backdrop-blur-sm`}
                   aria-label={social.name}
                 >
                   {social.icon}
@@ -116,8 +156,8 @@ export function Footer() {
 
           {/* Links Columns */}
           <motion.div variants={itemVariants} className="space-y-4">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-teal-400"></span>
+            <h3 className={`text-lg font-semibold ${colors.textPrimary} flex items-center gap-2`}>
+              <span className={`w-2 h-2 rounded-full ${colors.accent1}`}></span>
               Navigation
             </h3>
             <ul className="space-y-3">
@@ -130,9 +170,9 @@ export function Footer() {
                 >
                   <Link
                     href={link.href}
-                    className="text-slate-400 hover:text-white flex items-center gap-2 transition-colors group"
+                    className={`${colors.textSecondary} ${darkMode ? "hover:text-white" : "hover:text-slate-900"} flex items-center gap-2 transition-colors group`}
                   >
-                    <FiArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity text-teal-400" />
+                    <FiArrowRight className={`opacity-0 group-hover:opacity-100 transition-opacity group-hover:text-current`} />
                     <span>{link.name}</span>
                   </Link>
                 </motion.li>
@@ -140,38 +180,13 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          {/* <motion.div variants={itemVariants} className="space-y-4">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-              Resources
-            </h3>
-            <ul className="space-y-3">
-              {resourceLinks.map((link, index) => (
-                <motion.li 
-                  key={index}
-                  variants={hoverVariant}
-                  whileHover="hover"
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <Link
-                    href={link.href}
-                    className="text-slate-400 hover:text-white flex items-center gap-2 transition-colors group"
-                  >
-                    <FiArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-400" />
-                    <span>{link.name}</span>
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div> */}
-
           {/* Newsletter Column */}
           <motion.div variants={itemVariants} className="space-y-4 lg:col-span-2">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+            <h3 className={`text-lg font-semibold ${colors.textPrimary} flex items-center gap-2`}>
+              <span className={`w-2 h-2 rounded-full ${colors.accent3}`}></span>
               Stay Updated
             </h3>
-            <p className="text-slate-400 text-lg">
+            <p className={`${colors.textSecondary} text-lg`}>
               Join my newsletter for exclusive content, latest projects, and tech insights delivered straight to your inbox.
             </p>
             <form className="space-y-4">
@@ -179,40 +194,25 @@ export function Footer() {
                 <input
                   type="email"
                   placeholder="Your email address"
-                  className="w-full px-5 py-3 rounded-xl bg-slate-800/50 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white placeholder-slate-500 backdrop-blur-sm"
+                  className={`w-full px-5 py-3 rounded-xl ${colors.inputBg} border ${colors.inputBorder} focus:outline-none focus:ring-2 ${colors.inputFocus} ${colors.textPrimary} placeholder-slate-500 backdrop-blur-sm`}
                   required
                 />
                 <motion.button
                   type="submit"
                   whileHover={{ 
                     scale: 1.02,
-                    boxShadow: "0 4px 14px 0 rgba(124, 58, 237, 0.3)"
+                    boxShadow: darkMode ? "0 4px 14px 0 rgba(124, 58, 237, 0.3)" : "0 4px 14px 0 rgba(124, 58, 237, 0.2)"
                   }}
                   whileTap={{ scale: 0.98 }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium text-sm"
+                  className={`absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-lg bg-gradient-to-r ${colors.buttonGradient} text-white font-medium text-sm`}
                 >
                   Subscribe
                 </motion.button>
               </div>
-              <p className="text-slate-500 text-sm">
+              <p className={`${colors.textSecondary} text-sm`}>
                 No spam ever. Unsubscribe anytime.
               </p>
             </form>
-            
-            {/* <div className="pt-4">
-              <h4 className="text-sm font-medium text-slate-300 mb-3">Proudly Built With:</h4>
-              <div className="flex flex-wrap gap-3">
-                {["Next.js", "Tailwind", "TypeScript", "Framer Motion", "Vercel"].map((tech, index) => (
-                  <motion.span
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    className="text-xs px-3 py-1.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700"
-                  >
-                    {tech}
-                  </motion.span>
-                ))}
-              </div>
-            </div> */}
           </motion.div>
         </motion.div>
 
@@ -222,19 +222,19 @@ export function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="border-t border-slate-800/50 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500"
+          className={`border-t ${colors.copyrightBorder} mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 ${colors.textSecondary}`}
         >
           <p className="text-sm">
             &copy; {new Date().getFullYear()} Eklak Alam. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-sm hover:text-slate-300 transition-colors">
+            <Link href="/" className={`text-sm hover:${colors.textPrimary} transition-colors`}>
               Privacy Policy
             </Link>
-            <Link href="/" className="text-sm hover:text-slate-300 transition-colors">
+            <Link href="/" className={`text-sm hover:${colors.textPrimary} transition-colors`}>
               Terms of Service
             </Link>
-            <Link href="/" className="text-sm hover:text-slate-300 transition-colors">
+            <Link href="/" className={`text-sm hover:${colors.textPrimary} transition-colors`}>
               Cookie Policy
             </Link>
           </div>

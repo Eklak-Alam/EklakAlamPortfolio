@@ -5,8 +5,9 @@ html {
   scroll-behavior: smooth;
 }
 
-
-@import "tailwindcss";
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
 
 @theme inline {
   --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;

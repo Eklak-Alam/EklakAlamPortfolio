@@ -60,8 +60,8 @@ export function Contact() {
     {
       icon: <FiPhone className="text-2xl" />,
       title: "WhatsApp",
-      value: "+91 9473384492",
-      action: "https://wa.me/9473384492",
+      value: "+91 XXXXXXXXXX",
+      action: "https://wa.me/XXXXXXXXXX",
       color: "from-emerald-500 to-green-500",
       textColor: darkMode ? "#34d399" : "#059669" // emerald-400 / emerald-600
     },

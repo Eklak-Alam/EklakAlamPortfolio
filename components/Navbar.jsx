@@ -129,7 +129,8 @@ export function Navbar() {
                     whileTap={{ scale: 0.95 }}
                     className="text-2xl font-bold bg-clip-text text-transparent bg-[length:200%] bg-left hover:bg-right transition-all duration-500"
                     style={{
-                      backgroundImage: `linear-gradient(to right, ${colors.primary}, ${colors.secondary}, ${colors.accent})`
+                      backgroundImage: `linear-gradient(to right, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
+                      fontFamily: 'cursive'
                     }}
                   >
                     Eklak Alam
@@ -151,7 +152,7 @@ export function Navbar() {
                               ? "text-white dark:text-slate-800"
                               : darkMode 
                                 ? "text-slate-300 hover:text-white"
-                                : "text-slate-600 hover:text-slate-900"
+                                : "text-slate-700 hover:text-slate-900"
                           }`}
                           whileHover={{ y: -2 }}
                           whileTap={{ scale: 0.95 }}

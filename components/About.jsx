@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiCode, FiServer, FiCloud, FiFilm, FiAward } from "react-icons/fi";
+import { FiCode, FiServer, FiCloud, FiFilm, FiAward, FiCpu } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
 
 export function AboutSection() {
@@ -54,11 +54,12 @@ export function AboutSection() {
       gradient: "from-purple-500 to-purple-600"
     },
     {
-      category: "Content Creation",
-      icon: <FiFilm className="text-2xl" />,
-      items: ["Technical Posting", "Video Tutorials", "Open Source", "Community Building"],
-      gradient: "from-amber-500 to-amber-600"
+      category: "AI & Generative Tech",
+      icon: <FiCpu className="text-2xl" />, // You can also use FiActivity or another AI-related icon
+      items: [ "Python & NumPy", "Pandas & Data Analysis", "Matplotlib & Seaborn", "Data Visualization", "FastAPI for AI APIs", "LangChain & LLMs"],
+      gradient: "from-indigo-500 to-purple-600"
     }
+
   ];
 
   const containerVariants = {

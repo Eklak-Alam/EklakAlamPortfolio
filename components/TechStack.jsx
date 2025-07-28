@@ -2,7 +2,7 @@
 
 import { motion, useAnimation } from "framer-motion";
 import { useState, useEffect } from "react";
-import { FiCode, FiServer, FiCloud, FiTool, FiCpu } from "react-icons/fi";
+import { FiCode, FiServer, FiCloud, FiTool, FiCpu, FiActivity } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
 
 const techCategories = [
@@ -161,6 +161,49 @@ const techCategories = [
       },
     ],
   },
+  {
+    name: "AI & GenAI",
+    icon: <FiActivity className="text-xl" />,
+    color: "bg-indigo-500",
+    techs: [
+      { 
+        name: "Python", 
+        img: "https://cdn.worldvectorlogo.com/logos/python-5.svg",
+        usage: "Core Language"
+      },
+      { 
+        name: "NumPy", 
+        img: "https://cdn.worldvectorlogo.com/logos/numpy-1.svg",
+        usage: "Numerical Computing"
+      },
+      { 
+        name: "Pandas", 
+        img: "https://cdn.worldvectorlogo.com/logos/pandas.svg",
+        usage: "Data Analysis"
+      },
+      { 
+        name: "Matplotlib", 
+        img: "https://cdn.worldvectorlogo.com/logos/matplotlib.svg",
+        usage: "Data Visualization"
+      },
+      { 
+        name: "Seaborn", 
+        img: "https://cdn.worldvectorlogo.com/logos/seaborn.svg",
+        usage: "Statistical Plots"
+      },
+      { 
+        name: "FastAPI", 
+        img: "https://cdn.worldvectorlogo.com/logos/fastapi.svg",
+        usage: "API for ML Models"
+      },
+      { 
+        name: "LangChain", 
+        img: "https://cdn.worldvectorlogo.com/logos/langchain.svg",
+        usage: "LLM Framework"
+      },
+    ],
+  }
+
 ];
 
 export function TechStack() {

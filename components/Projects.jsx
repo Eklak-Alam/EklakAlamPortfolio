@@ -7,12 +7,12 @@ import { useTheme } from "../context/ThemeContext";
 
 const projects = [
   {
-    title: "Portfolio Website",
-    description: "My personal showcase built with cutting-edge Next.js 14, featuring fluid animations with Framer Motion and sleek TailwindCSS styling. Demonstrates modern web development practices with optimized performance.",
-    image: "/projectImg/eklakportfolio.png",
-    techStack: ["Next.js 14", "Framer Motion", "TailwindCSS", "Three.js", "Aceternity UI"],
-    githubLink: "https://github.com/Eklak-Alam/eklak-portfolio",
-    liveLink: "https://eklak-portfolio.vercel.app/"
+    title: "Balaji Training Portal",
+    description: "Government-certified training platform with course management, certificate generation, and payment gateway integration for vocational education programs.",
+    image: "/projectImg/balaji.png",
+    techStack: ["MERN Stack", "PDF Generation", "Razorpay API", "Admin Dashboard", "Role-Based Access"],
+    githubLink: "https://github.com/Eklak-Alam/Training-Project-With-Certificate-Generate-Frontend-Code",
+    liveLink: "https://balajitraining.in/"
   },
   {
     title: "Shanaya Training Institute",
@@ -23,14 +23,6 @@ const projects = [
     liveLink: "https://shanayatraining.com/"
   },
   {
-    title: "AI Background Remover",
-    description: "Advanced image processing application that automatically removes backgrounds using AI algorithms. Processes high-resolution images in seconds with 98% accuracy.",
-    image: "/projectImg/bgremoval.png",
-    techStack: ["React.js", "Node.js", "TensorFlow.js", "Cloudinary API", "Canvas API"],
-    githubLink: "https://github.com/Eklak-Alam/BGRemoval",
-    liveLink: "https://bg-removal-eklak.vercel.app/"
-  },
-  {
     title: "Blix Media Solutions",
     description: "Corporate website for digital marketing agency featuring service showcases, client portfolios, and lead generation forms with analytics integration.",
     image: "/projectImg//blixmedia.png",
@@ -39,20 +31,28 @@ const projects = [
     liveLink: "https://project-psi-ivory-35.vercel.app/"
   },
   {
+    title: "Portfolio Website",
+    description: "My personal showcase built with cutting-edge Next.js 14, featuring fluid animations with Framer Motion and sleek TailwindCSS styling. Demonstrates modern web development practices with optimized performance.",
+    image: "/projectImg/eklakportfolio.png",
+    techStack: ["Next.js 14", "Framer Motion", "TailwindCSS", "Three.js", "Aceternity UI"],
+    githubLink: "https://github.com/Eklak-Alam/eklak-portfolio",
+    liveLink: "https://eklak-portfolio.vercel.app/"
+  },
+  {
+    title: "AI Background Remover",
+    description: "Advanced image processing application that automatically removes backgrounds using AI algorithms. Processes high-resolution images in seconds with 98% accuracy.",
+    image: "/projectImg/bgremoval.png",
+    techStack: ["React.js", "Node.js", "TensorFlow.js", "Cloudinary API", "Canvas API"],
+    githubLink: "https://github.com/Eklak-Alam/BGRemoval",
+    liveLink: "https://bg-removal-eklak.vercel.app/"
+  },
+  {
     title: "Deaf Link Assistive Tech",
     description: "Innovative speech-to-text application for the hearing impaired. Features real-time transcription, conversation history, and customizable display options.",
     image: "/projectImg/deaflink.png",
     techStack: ["React.js", "Web Speech API", "Firebase", "Redux", "Accessibility Tools"],
     githubLink: "https://github.com/Eklak-Alam/DeafLink",
     liveLink: "https://www.deaflink.co/"
-  },
-  {
-    title: "Balaji Training Portal",
-    description: "Government-certified training platform with course management, certificate generation, and payment gateway integration for vocational education programs.",
-    image: "/projectImg/balaji.png",
-    techStack: ["MERN Stack", "PDF Generation", "Razorpay API", "Admin Dashboard", "Role-Based Access"],
-    githubLink: "https://github.com/Eklak-Alam/Training-Project-With-Certificate-Generate-Frontend-Code",
-    liveLink: "https://balajitraining.in/"
   }
 ];
 

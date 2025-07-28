@@ -8,7 +8,7 @@ import { useTheme } from "../context/ThemeContext";
 const testimonials = [
   {
     id: 1,
-    name: "Rajesh Sharma",
+    name: "Sawrabh ",
     title: "CEO, Shanaya Training",
     quote: "Eklak transformed our online presence completely. His technical expertise is unmatched. The website exceeded all our expectations.",
     rating: 5,
@@ -17,7 +17,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Priya Patel",
+    name: "Sanskar ",
     title: "Founder, Blix Media",
     quote: "Working with Eklak was a game-changer. He understood our vision perfectly and executed it flawlessly with top-notch React skills.",
     rating: 5,
@@ -26,7 +26,7 @@ const testimonials = [
   },
   {
     id: 3,
-    name: "Amit Kumar",
+    name: "Eklak Alam",
     title: "CTO, TechSolutions Inc",
     quote: "The AI background removal tool Eklak built saved us hundreds of hours. His solution was both innovative and reliable.",
     rating: 4,
@@ -35,7 +35,7 @@ const testimonials = [
   },
   {
     id: 4,
-    name: "Neha Gupta",
+    name: "RAHUL MAHAWER",
     title: "Director, Balaji Institute",
     quote: "Exceptional work delivered ahead of schedule with excellent post-launch support. Highly professional throughout the project.",
     rating: 5,
@@ -44,7 +44,7 @@ const testimonials = [
   },
   {
     id: 5,
-    name: "Vikram Singh",
+    name: "Random Guys from networking ",
     title: "Senior Developer",
     quote: "Impressed by Eklak's clean code and architecture decisions. A true professional who delivers quality work consistently.",
     rating: 5,

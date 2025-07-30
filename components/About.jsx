@@ -128,7 +128,7 @@ export function AboutSection() {
               variants={itemVariants}
               style={{ color: colors.textSecondary }}
             >
-              I'm a passionate full-stack developer with expertise in both frontend and backend technologies. With 5+ years of experience, I specialize in building performant, accessible, and visually stunning web applications.
+              I'm a passionate full-stack developer with expertise in both frontend and backend technologies. I specialize in building performant, accessible, and visually stunning web applications.
             </motion.p>
             
             <motion.p 
@@ -146,7 +146,7 @@ export function AboutSection() {
                 <FiAward className="text-xl" />
               </div>
               <div>
-                <h4 className="font-medium" style={{ color: colors.textPrimary }}>20+ Projects</h4>
+                <h4 className="font-medium" style={{ color: colors.textPrimary }}>10+ Projects</h4>
                 <p className="text-sm" style={{ color: colors.textSecondary }}>Delivered successfully</p>
               </div>
             </motion.div>

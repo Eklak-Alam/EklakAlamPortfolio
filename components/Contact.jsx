@@ -14,6 +14,7 @@ import {
 } from "react-icons/fi";
 import { useEffect, useRef } from "react";
 import { useTheme } from "../context/ThemeContext";
+import { FaTelegram } from "react-icons/fa";
 
 export function Contact() {
   const { darkMode } = useTheme();
@@ -45,6 +46,13 @@ export function Contact() {
       url: "https://www.instagram.com/eklak__alam/",
       color: "from-pink-500 via-purple-500 to-purple-600",
       hover: "hover:shadow-purple-500/30"
+    },
+    {
+      name: "Telegram",
+      icon: <FaTelegram className="text-2xl" />,
+      url: "https://t.me/stack_connect",
+      color: "from-blue-500 via-blue-500 to-blue-600",
+      hover: "hover:shadow-blue-500/30"
     }
   ];
 

@@ -1,8 +1,9 @@
 'use client';
 
 import { Github, Linkedin, Mail, ArrowDown, Download, Youtube } from 'lucide-react';
+import { FaTelegram, FaXTwitter } from "react-icons/fa6";
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 const HeroSection = () => {
@@ -16,10 +17,10 @@ const HeroSection = () => {
     "Backend Developer",
     "FullStack Developer",
     "Content Creator",
-    "Generative Ai"
+    "Generative AI Engineer"
   ];
 
-  // Color schemes for both modes
+  // Enhanced color schemes
   const darkColors = {
     background: "#0f172a",
     textPrimary: "#ffffff",
@@ -60,7 +61,7 @@ const HeroSection = () => {
 
   const colors = darkMode ? darkColors : lightColors;
 
-  // Typewriter effect
+  // Enhanced typewriter effect
   useEffect(() => {
     const roleText = roles[currentRole];
     let timeoutId;
@@ -92,13 +93,57 @@ const HeroSection = () => {
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const opacity = useTransform(scrollY, [0, 100], [1, 0.9]);
 
-  // Function to handle scroll to projects
   const scrollToProjects = () => {
     const projectsSection = document.getElementById('projects');
     if (projectsSection) {
       projectsSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Updated social links configuration
+  const socialLinks = [
+    { 
+      icon: <Linkedin className="w-5 h-5" />, 
+      href: "https://www.linkedin.com/in/eklak-alam-40ba632b5/",
+      color: "#0A66C2",
+      name: "LinkedIn",
+      darkIconColor: "#ffffff",
+      lightIconColor: "#0A66C2"
+    },
+    { 
+      icon: <Github className="w-5 h-5" />, 
+      href: "https://github.com/Eklak-Alam",
+      color: darkMode ? "#ffffff" : "#181717", // Dynamic color based on theme
+      name: "GitHub",
+      darkIconColor: "#ffffff",
+      lightIconColor: "#181717"
+    },
+    { 
+      icon: <FaXTwitter className="w-5 h-5" />, 
+      href: "https://x.com/dev_eklak",
+      color: darkMode ? "#ffffff" : "#000000", // Dynamic color based on theme
+      name: "Twitter",
+      darkIconColor: "#ffffff",
+      lightIconColor: "#000000"
+    },
+    {
+      icon: <Youtube className="w-5 h-5" />, 
+      href: "https://www.youtube.com/@eklakalam04",
+      color: "#FF0000",
+      name: "YouTube",
+      darkIconColor: "#FF0000",
+      lightIconColor: "#FF0000"
+    },
+    {
+      icon: <FaTelegram className="w-5 h-5" />, 
+      href: "https://t.me/stack_connect",
+      color: "#0088cc",
+      name: "Telegram",
+      darkIconColor: "#0088cc",
+      lightIconColor: "#0088cc"
+    }
+  ];
+
 
   return (
     <div 
@@ -247,52 +292,47 @@ const HeroSection = () => {
             </motion.button>
           </motion.div>
 
-          {/* Social links - Improved visibility */}
+          {/* Enhanced Social links with consistent layout */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
-            className="flex justify-center space-x-6 pt-12"
+            className="pt-12"
           >
-            {[
-              { 
-                icon: <Linkedin className="w-5 h-5" />, 
-                href: "https://www.linkedin.com/in/eklak-alam-40ba632b5/",
-                hoverColor: "#0A66C2"
-              },
-              { 
-                icon: <Github className="w-5 h-5" />, 
-                href: "https://github.com/Eklak-Alam",
-                hoverColor: "#181717"
-              },
-              { 
-                icon: <Mail className="w-5 h-5" />, 
-                href: "mailto:eklakalam420@gmail.com",
-                hoverColor: "#EA4335"
-              },
-              {
-                icon: <Youtube className="w-5 h-5" />, 
-                href: "https://www.youtube.com/@eklakalam04",
-                hoverColor: "#FF0000"
-              }
-            ].map((social, index) => (
-              <motion.a
-                key={index}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ y: -5, color: social.hoverColor }}
-                whileTap={{ scale: 0.9 }}
-                className="p-4 backdrop-blur-md rounded-xl shadow-sm transition-all duration-300"
-                style={{
-                  backgroundColor: colors.socialBg,
-                  border: `1px solid ${colors.socialBorder}`,
-                  color: colors.socialIcon
-                }}
-              >
-                {social.icon}
-              </motion.a>
-            ))}
+            {/* Updated social links rendering */}
+            <div className="flex flex-wrap justify-center gap-4 max-w-md mx-auto">
+              {socialLinks.map((social, index) => {
+                const iconColor = darkMode ? social.darkIconColor : social.lightIconColor;
+                return (
+                  <motion.a
+                    key={index}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ 
+                      y: -5, 
+                      backgroundColor: `${social.color}20`,
+                      borderColor: social.color,
+                      color: social.color
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                    className="p-3.5 rounded-lg flex items-center justify-center transition-all duration-300"
+                    style={{
+                      backgroundColor: colors.socialBg,
+                      border: `1px solid ${colors.socialBorder}`,
+                      color: iconColor, // Use dynamic icon color
+                      minWidth: '44px'
+                    }}
+                    aria-label={social.name}
+                  >
+                    {React.cloneElement(social.icon, {
+                      className: "w-5 h-5",
+                      color: iconColor // Apply color directly to the icon
+                    })}
+                  </motion.a>
+                )
+              })}
+            </div>
           </motion.div>
         </motion.div>
       </div>

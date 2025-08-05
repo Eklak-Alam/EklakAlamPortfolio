@@ -16,7 +16,7 @@ const projects = [
   },
   {
     title: "Stack Connect",
-    description: "A community-driven platform where developers connect, collaborate, and grow together. Stack Connect enables peer-to-peer help, project collaboration, and open discussions on tech topics including web development, backend, AI, and more.",
+    description: "A community-driven platform where developers  connect, collaborate, and grow together. Stack Connect enables peer-to-peer help, project collaboration, and open discussions on tech topics including web development, backend, AI, and more.",
     image: "/projectImg/stackconnect.jpg",
     techStack: ["Next.js", "Node.js", "Framer Motion", "Data Scrapper", "Tailwind CSS", "etc..."],
     githubLink: "https://github.com/Eklak-Alam/Stack-Connect",

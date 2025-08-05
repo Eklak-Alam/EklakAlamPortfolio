@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import Head from 'next/head';
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata = {
   title: "Eklak Alam | Full Stack Developer & Designer",
@@ -62,6 +63,8 @@ export default function RootLayout({ children }) {
             {children}
           </main>
           <Footer />
+          
+          <Analytics />
           
           {/* Global loading indicator (optional) */}
           <div id="global-loader" className="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">

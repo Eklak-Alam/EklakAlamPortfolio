@@ -3,14 +3,25 @@
 import { Github, Linkedin, Mail, ArrowDown, Download, Youtube } from 'lucide-react';
 import { FaTelegram, FaXTwitter } from "react-icons/fa6";
 import { motion, useScroll, useTransform } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const HeroSection = () => {
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const { darkMode } = useTheme();
+  const heroRef = useRef(null);
+  const titleRef = useRef(null);
+  const particlesRef = useRef([]);
+  const blobRefs = useRef([]);
 
   const roles = [
     "Frontend Developer",
@@ -88,15 +99,127 @@ const HeroSection = () => {
     return () => clearTimeout(timeoutId);
   }, [displayText, isTyping, currentRole]);
 
+  // GSAP Animations
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const ctx = gsap.context(() => {
+      // Animate the title with split text effect
+      gsap.fromTo(".hero-title span", 
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power3.out",
+          delay: 0.5
+        }
+      );
+
+      // Animate the badge
+      gsap.fromTo(".hero-badge",
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.8,
+          ease: "back.out(1.7)",
+          delay: 0.3
+        }
+      );
+
+      // Animate the description
+      gsap.fromTo(".hero-description",
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out",
+          delay: 1.2
+        }
+      );
+
+      // Animate buttons
+      gsap.fromTo(".hero-button",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power2.out",
+          delay: 1.5
+        }
+      );
+
+      // Animate social icons
+      gsap.fromTo(".social-icon",
+        { scale: 0, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "back.out(1.7)",
+          delay: 2
+        }
+      );
+
+      // Animate blobs with GSAP for smoother performance
+      blobRefs.current.forEach((blob, index) => {
+        if (blob) {
+          gsap.to(blob, {
+            y: index % 2 === 0 ? -30 : 30,
+            x: index % 3 === 0 ? -20 : 20,
+            rotation: index % 2 === 0 ? 10 : -10,
+            duration: 10 + index * 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        }
+      });
+
+      // Animate particles with GSAP
+      particlesRef.current.forEach((particle, index) => {
+        if (particle) {
+          gsap.to(particle, {
+            y: (Math.random() - 0.5) * 100,
+            x: (Math.random() - 0.5) * 50,
+            rotation: Math.random() * 360,
+            duration: 10 + Math.random() * 10,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: Math.random() * 2
+          });
+        }
+      });
+
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   // Parallax effects
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const opacity = useTransform(scrollY, [0, 100], [1, 0.9]);
 
   const scrollToProjects = () => {
-    const projectsSection = document.getElementById('projects');
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: 'smooth' });
+    if (typeof window !== 'undefined' && window.lenis) {
+      window.lenis.scrollTo('#projects', {
+        offset: -80,
+        duration: 1.8,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+    } else {
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -113,7 +236,7 @@ const HeroSection = () => {
     { 
       icon: <Github className="w-5 h-5" />, 
       href: "https://github.com/Eklak-Alam",
-      color: darkMode ? "#ffffff" : "#181717", // Dynamic color based on theme
+      color: darkMode ? "#ffffff" : "#181717",
       name: "GitHub",
       darkIconColor: "#ffffff",
       lightIconColor: "#181717"
@@ -121,7 +244,7 @@ const HeroSection = () => {
     { 
       icon: <FaXTwitter className="w-5 h-5" />, 
       href: "https://x.com/dev_eklak",
-      color: darkMode ? "#ffffff" : "#000000", // Dynamic color based on theme
+      color: darkMode ? "#ffffff" : "#000000",
       name: "Twitter",
       darkIconColor: "#ffffff",
       lightIconColor: "#000000"
@@ -144,9 +267,44 @@ const HeroSection = () => {
     }
   ];
 
+  // Create floating particles
+  const createParticles = () => {
+    return [...Array(15)].map((_, i) => (
+      <div
+        key={i}
+        ref={el => particlesRef.current[i] = el}
+        className="absolute rounded-full particle"
+        style={{
+          width: Math.random() * 5 + 2 + 'px',
+          height: Math.random() * 5 + 2 + 'px',
+          top: Math.random() * 100 + '%',
+          left: Math.random() * 100 + '%',
+          opacity: Math.random() * 0.5 + 0.1,
+          backgroundColor: colors.particleBg,
+        }}
+      />
+    ));
+  };
+
+  // Create animated blobs
+  const createBlobs = () => {
+    return [
+      { className: "top-20 left-20 w-80 h-80", color: colors.blobBg1, ref: 0 },
+      { className: "bottom-20 right-20 w-96 h-96", color: colors.blobBg2, ref: 1 },
+      { className: "top-1/3 right-1/3 w-64 h-64", color: colors.blobBg3, ref: 2 }
+    ].map((blob, i) => (
+      <div
+        key={i}
+        ref={el => blobRefs.current[i] = el}
+        className={`absolute rounded-full blur-3xl ${blob.className}`}
+        style={{ backgroundColor: blob.color }}
+      />
+    ));
+  };
 
   return (
     <div 
+      ref={heroRef}
       className="relative py-32 min-h-screen overflow-hidden"
       style={{ backgroundColor: colors.background }}
     >
@@ -155,45 +313,11 @@ const HeroSection = () => {
         style={{ y: y1 }}
         className="absolute inset-0 overflow-hidden"
       >
-        <div 
-          className="absolute top-20 left-20 w-80 h-80 rounded-full blur-3xl animate-float-slow"
-          style={{ backgroundColor: colors.blobBg1 }}
-        />
-        <div 
-          className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl animate-float-medium"
-          style={{ backgroundColor: colors.blobBg2 }}
-        />
-        <div 
-          className="absolute top-1/3 right-1/3 w-64 h-64 rounded-full blur-2xl animate-float-fast"
-          style={{ backgroundColor: colors.blobBg3 }}
-        />
+        {createBlobs()}
       </motion.div>
 
       {/* Floating particles */}
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            width: Math.random() * 5 + 2 + 'px',
-            height: Math.random() * 5 + 2 + 'px',
-            top: Math.random() * 100 + '%',
-            left: Math.random() * 100 + '%',
-            opacity: Math.random() * 0.5 + 0.1,
-            backgroundColor: colors.particleBg,
-          }}
-          animate={{
-            y: [0, (Math.random() - 0.5) * 100],
-            x: [0, (Math.random() - 0.5) * 50],
-          }}
-          transition={{
-            duration: Math.random() * 10 + 10,
-            repeat: Infinity,
-            repeatType: 'reverse',
-            ease: 'linear',
-          }}
-        />
-      ))}
+      {createParticles()}
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
@@ -206,7 +330,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center px-5 py-2.5 backdrop-blur-md rounded-full shadow-lg"
+            className="hero-badge inline-flex items-center px-5 py-2.5 backdrop-blur-md rounded-full shadow-lg"
             style={{
               backgroundColor: colors.badgeBg,
               border: `1px solid ${colors.badgeBorder}`
@@ -223,9 +347,9 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="space-y-6"
+            className="space-y-6 hero-title"
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight overflow-hidden">
               <span className="block" style={{ color: colors.textPrimary }}>Elevating</span>
               <span 
                 className="block bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent"
@@ -248,7 +372,7 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+            className="hero-description text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
             style={{ color: colors.textSecondary }}
           >
             Blending cutting-edge technology with elegant design to create digital products that 
@@ -268,7 +392,7 @@ const HeroSection = () => {
               download="Eklak_Alam_Resume.pdf"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group flex items-center space-x-3 px-8 py-4 text-white rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="hero-button group flex items-center space-x-3 px-8 py-4 text-white rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
               style={{ background: colors.buttonGradient }}
             >
               <Download className="w-5 h-5 group-hover:animate-bounce" />
@@ -280,7 +404,7 @@ const HeroSection = () => {
               onClick={scrollToProjects}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-3 px-8 py-4 rounded-xl font-semibold shadow-sm hover:shadow-lg transition-all duration-300"
+              className="hero-button flex items-center space-x-3 px-8 py-4 rounded-xl font-semibold shadow-sm hover:shadow-lg transition-all duration-300"
               style={{
                 backgroundColor: colors.socialBg,
                 border: `1px solid ${colors.socialBorder}`,
@@ -299,7 +423,6 @@ const HeroSection = () => {
             transition={{ delay: 1.2 }}
             className="pt-12"
           >
-            {/* Updated social links rendering */}
             <div className="flex flex-wrap justify-center gap-4 max-w-md mx-auto">
               {socialLinks.map((social, index) => {
                 const iconColor = darkMode ? social.darkIconColor : social.lightIconColor;
@@ -316,18 +439,18 @@ const HeroSection = () => {
                       color: social.color
                     }}
                     whileTap={{ scale: 0.9 }}
-                    className="p-3.5 rounded-lg flex items-center justify-center transition-all duration-300"
+                    className="social-icon p-3.5 rounded-lg flex items-center justify-center transition-all duration-300"
                     style={{
                       backgroundColor: colors.socialBg,
                       border: `1px solid ${colors.socialBorder}`,
-                      color: iconColor, // Use dynamic icon color
+                      color: iconColor,
                       minWidth: '44px'
                     }}
                     aria-label={social.name}
                   >
                     {React.cloneElement(social.icon, {
                       className: "w-5 h-5",
-                      color: iconColor // Apply color directly to the icon
+                      color: iconColor
                     })}
                   </motion.a>
                 )
@@ -337,23 +460,36 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
+      {/* Scroll indicator */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.5, duration: 1 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
+      >
+        <div className="text-sm mb-2" style={{ color: colors.textSecondary }}>
+          Scroll to explore
+        </div>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+        >
+          <ArrowDown className="w-5 h-5" style={{ color: colors.textSecondary }} />
+        </motion.div>
+      </motion.div>
+
       {/* Animation styles */}
       <style jsx global>{`
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          50% { transform: translateY(-30px) translateX(10px); }
+        .particle {
+          will-change: transform, opacity;
         }
-        @keyframes float-medium {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          50% { transform: translateY(-20px) translateX(-10px); }
+        
+        @media (prefers-reduced-motion: reduce) {
+          .particle, .hero-badge, .hero-title span, .hero-description, .hero-button, .social-icon {
+            animation: none !important;
+            transition: none !important;
+          }
         }
-        @keyframes float-fast {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          50% { transform: translateY(-15px) translateX(5px); }
-        }
-        .animate-float-slow { animation: float-slow 12s ease-in-out infinite; }
-        .animate-float-medium { animation: float-medium 8s ease-in-out infinite; }
-        .animate-float-fast { animation: float-fast 6s ease-in-out infinite; }
       `}</style>
     </div>
   );

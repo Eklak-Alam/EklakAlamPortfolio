@@ -1,3 +1,4 @@
+// app/layout.js
 import { Navbar } from "@/components/Navbar";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
@@ -5,6 +6,7 @@ import Head from 'next/head';
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { Analytics } from "@vercel/analytics/next"
+import SmoothScroll from "@/components/SmoothScroll"; // Import the new component
 
 export const metadata = {
   title: "Eklak Alam | Full Stack Developer & Designer",
@@ -45,7 +47,6 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
 
-        
         {/* Preload important resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -57,12 +58,14 @@ export default function RootLayout({ children }) {
       
       <body className="bg-slate-900 text-slate-100 antialiased">
         <ThemeProvider>
-          <LoadingScreen />
-          <Navbar />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
+          {/* <LoadingScreen /> */}
+          <SmoothScroll> {/* Wrap with SmoothScroll component */}
+            <Navbar />
+            <main className="min-h-screen">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScroll>
           
           <Analytics />
           

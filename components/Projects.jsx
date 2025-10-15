@@ -1,74 +1,19 @@
 "use client";
 
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import { FiGithub, FiExternalLink, FiCode, FiLayers } from "react-icons/fi";
+import { FiGithub, FiExternalLink, FiCode, FiLayers, FiEye } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
-
-const projects = [
-  {
-    title: "Balaji Training Portal",
-    description: "Government-certified training platform with course management, certificate generation, and payment gateway integration for vocational education programs.",
-    image: "/projectImg/balaji.png",
-    techStack: ["MERN Stack", "PDF Generation", "Razorpay API", "Admin Dashboard", "Role-Based Access"],
-    githubLink: "https://github.com/Eklak-Alam/Training-Project-With-Certificate-Generate-Frontend-Code",
-    liveLink: "https://balajitraining.in/"
-  },
-  {
-    title: "Stack Connect",
-    description: "A community-driven platform where developers  connect, collaborate, and grow together. Stack Connect enables peer-to-peer help, project collaboration, and open discussions on tech topics including web development, backend, AI, and more.",
-    image: "/projectImg/stackconnect.jpg",
-    techStack: ["Next.js", "Node.js", "Framer Motion", "Data Scrapper", "Tailwind CSS", "etc..."],
-    githubLink: "https://github.com/Eklak-Alam/Stack-Connect",
-    liveLink: "https://stackconnect.vercel.app/"
-  },
-  {
-    title: "Shanaya Training Institute",
-    description: "A comprehensive learning platform for professional courses. Features course management, student progress tracking, and certification system with secure authentication.",
-    image: "/projectImg/shanayatraining.png",
-    techStack: ["Next.js", "MongoDB", "JWT Auth", "TailwindCSS", "Node.js"],
-    githubLink: "https://github.com/Eklak-Alam/LMS-Learning-management-system-",
-    liveLink: "https://shanayatraining.com/"
-  },
-  {
-    title: "Blix Media Solutions",
-    description: "Corporate website for digital marketing agency featuring service showcases, client portfolios, and lead generation forms with analytics integration.",
-    image: "/projectImg//blixmedia.png",
-    techStack: ["React.js", "GSAP Animations", "Formik", "Google Analytics", "Mailchimp API"],
-    githubLink: "https://github.com/Eklak-Alam/Blix-Media",
-    liveLink: "https://project-psi-ivory-35.vercel.app/"
-  },
-  {
-    title: "Portfolio Website",
-    description: "My personal showcase built with cutting-edge Next.js 14, featuring fluid animations with Framer Motion and sleek TailwindCSS styling. Demonstrates modern web development practices with optimized performance.",
-    image: "/projectImg/eklakportfolio.png",
-    techStack: ["Next.js 14", "Framer Motion", "TailwindCSS", "Three.js", "Aceternity UI"],
-    githubLink: "https://github.com/Eklak-Alam/eklak-portfolio",
-    liveLink: "https://eklak-portfolio.vercel.app/"
-  },
-  {
-    title: "AI Background Remover",
-    description: "Advanced image processing application that automatically removes backgrounds using AI algorithms. Processes high-resolution images in seconds with 98% accuracy.",
-    image: "/projectImg/bgremoval.png",
-    techStack: ["React.js", "Node.js", "TensorFlow.js", "Cloudinary API", "Canvas API"],
-    githubLink: "https://github.com/Eklak-Alam/BGRemoval",
-    liveLink: "https://bg-removal-eklak.vercel.app/"
-  },
-  {
-    title: "Deaf Link Assistive Tech",
-    description: "Innovative speech-to-text application for the hearing impaired. Features real-time transcription, conversation history, and customizable display options.",
-    image: "/projectImg/deaflink.png",
-    techStack: ["React.js", "Web Speech API", "Firebase", "Redux", "Accessibility Tools"],
-    githubLink: "https://github.com/Eklak-Alam/DeafLink",
-    liveLink: "https://www.deaflink.co/"
-  }
-];
+import { allProjects } from "@/constants/projectDetails";
+import ProjectModal from "./ProjectModal";
+import { useState } from "react";
 
 export function Projects() {
   const { darkMode } = useTheme();
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Color schemes for both modes
-  const darkColors = {
+  const colors = darkMode ? {
     background: "#0f172a",
     textPrimary: "#ffffff",
     textSecondary: "#e2e8f0",
@@ -77,9 +22,7 @@ export function Projects() {
     blobColor1: "rgba(124, 58, 237, 0.1)",
     blobColor2: "rgba(37, 99, 235, 0.1)",
     blobColor3: "rgba(16, 185, 129, 0.1)"
-  };
-
-  const lightColors = {
+  } : {
     background: "#ffffff",
     textPrimary: "#0f172a",
     textSecondary: "#334155",
@@ -90,7 +33,15 @@ export function Projects() {
     blobColor3: "rgba(224, 231, 255, 0.5)"
   };
 
-  const colors = darkMode ? darkColors : lightColors;
+  const handleProjectClick = (project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
 
   return (
     <section 
@@ -142,13 +93,15 @@ export function Projects() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {allProjects.map((project, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="cursor-pointer"
+              onClick={() => handleProjectClick(project)}
             >
               <CardContainer className="inter-var h-full">
                 <CardBody 
@@ -158,6 +111,13 @@ export function Projects() {
                     borderColor: colors.cardBorder
                   }}
                 >
+                  {/* View Details Button */}
+                  <div className="absolute top-4 right-4 z-20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                    <button className="p-2 rounded-full bg-black/50 text-white backdrop-blur-sm">
+                      <FiEye className="text-lg" />
+                    </button>
+                  </div>
+
                   <CardItem translateZ="100" className="w-full">
                     <img
                       src={project.image}
@@ -187,7 +147,7 @@ export function Projects() {
 
                   <CardItem translateZ="40" className="mb-4">
                     <div className="flex flex-wrap gap-2">
-                      {project.techStack.map((tech, techIndex) => (
+                      {project.techStack.slice(0, 4).map((tech, techIndex) => (
                         <span
                           key={techIndex}
                           className="px-2.5 py-1 text-xs font-medium rounded-full"
@@ -199,6 +159,17 @@ export function Projects() {
                           {tech}
                         </span>
                       ))}
+                      {project.techStack.length > 4 && (
+                        <span
+                          className="px-2.5 py-1 text-xs font-medium rounded-full"
+                          style={{
+                            backgroundColor: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)",
+                            color: darkMode ? "#93c5fd" : "#3b82f6"
+                          }}
+                        >
+                          +{project.techStack.length - 4} more
+                        </span>
+                      )}
                     </div>
                   </CardItem>
 
@@ -215,6 +186,7 @@ export function Projects() {
                           backgroundColor: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)",
                           color: colors.textPrimary
                         }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <FiGithub className="text-lg" />
                         <span>Code</span>
@@ -232,6 +204,7 @@ export function Projects() {
                           background: "linear-gradient(to right, #2563eb, #10b981)",
                           color: "white"
                         }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <FiExternalLink className="text-lg" />
                         <span>Live Demo</span>
@@ -256,6 +229,13 @@ export function Projects() {
           </p>
         </motion.div>
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal 
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </section>
   );
 }

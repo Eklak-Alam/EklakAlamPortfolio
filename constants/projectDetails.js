@@ -4,37 +4,35 @@ export const projectDetails = {
     description: "Government-certified training platform with course management, certificate generation, and payment gateway integration for vocational education programs.",
     fullDescription: "A comprehensive vocational training platform that enables students to enroll in government-certified courses, manage their learning progress, and receive authenticated certificates upon completion. The platform features a robust admin dashboard for course management, student tracking, and certificate generation with digital signatures.",
     image: "/projectImg/balaji.png",
-    techStack: ["MERN Stack", "PDF Generation", "Razorpay API", "Admin Dashboard", "Role-Based Access"],
+    techStack: ["Java Stack", "PDF Generation", "Admin Dashboard", "Role-Based Access", "Certificate generator"],
     githubLink: "https://github.com/Eklak-Alam/Training-Project-With-Certificate-Generate-Frontend-Code",
     liveLink: "https://balajitraining.in/",
     role: "Full Stack Developer",
-    duration: "6 months",
-    team: "3 developers",
+    duration: "1 months",
+    team: "2 developers",
     status: "Live Production",
     challenges: [
-      "Secure payment gateway integration with Razorpay",
+      "Admin Dashboard for admin to track all pdf, certificates and all users and students",
       "Dynamic PDF certificate generation with digital signatures",
       "Role-based access control for students, instructors, and admins",
       "Real-time progress tracking and analytics"
     ],
     features: [
       "Course enrollment and management",
-      "Payment processing with multiple methods",
       "Automated certificate generation",
       "Admin dashboard with analytics",
       "Student progress tracking",
-      "Email notifications system"
     ],
     technologies: {
       frontend: ["React", "Next.js", "TailwindCSS", "Framer Motion", "Chart.js"],
-      backend: ["Node.js", "Express", "MongoDB", "Mongoose", "JWT"],
-      apis: ["Razorpay API", "PDF-lib", "Nodemailer", "Cloudinary"],
-      tools: ["Git", "VS Code", "Postman", "MongoDB Compass"]
+      backend: ["Java", "Spring Boot", "MYSQL", "Spring Security", "JWT"],
+      apis: ["Canvas", "PDF-lib", "Cloudinary"],
+      tools: ["Git", "VS Code", "Postman", "MYSQL", "Docker", "Hostinger"]
     },
     achievements: [
       "Successfully processed 1000+ student enrollments",
       "Reduced certificate generation time by 80%",
-      "Achieved 99.8% payment success rate"
+      "Manage to make admin dashboard in efficient ways"
     ]
   },
   "Adichr Interior Design": {
@@ -46,9 +44,9 @@ export const projectDetails = {
   githubLink: "https://github.com/Eklak-Alam/Adichr-Interior-Design",
   liveLink: "https://adichrinterior.vercel.app/",
   role: "Full Stack Developer & UI/UX Designer",
-  duration: "3 months",
+  duration: "0.1 months",
   team: "Solo Project",
-  status: "Live",
+  status: "Live Production",
   challenges: [
     "Integrating QR code scanner for store-to-web navigation",
     "Embedding and optimizing before-after video previews",
@@ -65,7 +63,6 @@ export const projectDetails = {
   ],
   technologies: {
     frontend: ["React.js", "Next.js 14", "TailwindCSS", "Framer Motion", "React Icons"],
-    backend: ["Node.js", "Express", "Google Drive API"],
     tools: ["ESLint", "Prettier", "Vercel", "GitHub"],
     integrations: ["Google Drive", "QR Scanner", "Custom Domain Management"]
   },
@@ -85,7 +82,7 @@ export const projectDetails = {
     githubLink: "https://github.com/Eklak-Alam/Stack-Connect",
     liveLink: "https://stackconnect.vercel.app/",
     role: "Full Stack Developer & UI/UX Designer",
-    duration: "4 months",
+    duration: "2 months",
     team: "Solo Project",
     status: "Live",
     challenges: [
@@ -104,9 +101,8 @@ export const projectDetails = {
     ],
     technologies: {
       frontend: ["Next.js 14", "TypeScript", "TailwindCSS", "Framer Motion"],
-      backend: ["Node.js", "Express", "Socket.io", "MongoDB"],
       tools: ["Webpack", "ESLint", "Prettier", "Vercel"],
-      integrations: ["GitHub API", "WebSockets", "JWT Auth"]
+      integrations: ["Youtube Apis", "Libraries", "Frontend Dependencies"]
     },
     achievements: [
       "Built entire platform as solo developer",
@@ -142,7 +138,6 @@ export const projectDetails = {
     ],
     technologies: {
       frontend: ["Next.js", "React", "TailwindCSS", "Context API"],
-      backend: ["Node.js", "Express", "MongoDB", "Mongoose"],
       auth: ["JWT", "Bcrypt", "Cookie-based sessions"],
       media: ["Cloudinary", "Video.js", "FFmpeg"]
     },
@@ -180,8 +175,7 @@ export const projectDetails = {
     ],
     technologies: {
       frontend: ["React", "GSAP", "Framer Motion", "Formik", "Yup"],
-      integrations: ["Google Analytics", "Mailchimp API", "Google Maps"],
-      deployment: ["Vercel", "Cloudflare", "CI/CD"],
+      deployment: ["Vercel", "Git", "Git Hub"],
       tools: ["Figma", "Adobe Creative Suite", "Webpack"]
     },
     achievements: [
@@ -256,9 +250,8 @@ export const projectDetails = {
     ],
     technologies: {
       frontend: ["React", "Canvas API", "File handling", "Drag & Drop"],
-      backend: ["Node.js", "Express", "TensorFlow.js", "Sharp"],
-      ai: ["Computer vision", "Image segmentation", "Machine learning"],
-      cloud: ["Cloudinary API", "AWS S3", "CDN integration"]
+      ai: ["Bg removal apis"],
+      cloud: ["Cloudinary API", "CDN integration", "Vercel"]
     },
     achievements: [
       "Achieved 98% background removal accuracy",
@@ -293,10 +286,9 @@ export const projectDetails = {
       "Offline mode"
     ],
     technologies: {
-      frontend: ["React", "Redux", "Web Speech API", "PWA"],
-      backend: ["Firebase", "Firestore", "Cloud Functions"],
+      frontend: ["React js", "Next js", "Redux", "PWA"],
       accessibility: ["WCAG 2.1", "Screen readers", "Keyboard navigation"],
-      tools: ["Jest", "Cypress", "Lighthouse"]
+      tools: ["Git", "Git Hub", "Vercel"]
     },
     achievements: [
       "Achieved 95% speech recognition accuracy",

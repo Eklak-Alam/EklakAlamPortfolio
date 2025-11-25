@@ -36,7 +36,7 @@ export default function Home() {
 
         {/* Contact Section with visual emphasis */}
         <section id="contact" >
-          <Contact />
+          {/* <Contact /> */}
         </section>
       </main>
     </>

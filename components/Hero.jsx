@@ -278,7 +278,7 @@ buttonHoverGradient: "linear-gradient(to right, #1a1a1a, #0a0a0a)",
   return (
     <div 
       ref={heroRef}
-      className="relative pt-32 lg:pt-24 min-h-screen overflow-hidden"
+      className="relative pt-28 lg:pt-24 min-h-screen overflow-hidden"
       style={{ backgroundColor: colors.background }}
     >
 
@@ -293,7 +293,7 @@ buttonHoverGradient: "linear-gradient(to right, #1a1a1a, #0a0a0a)",
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="hero-badge inline-flex items-center px-5 py-2.5 backdrop-blur-md rounded-full shadow-lg"
+            className="hero-badge inline-flex mb-5 lg:mb-1 items-center px-5 py-2.5 backdrop-blur-md rounded-full shadow-lg"
             style={{
               backgroundColor: colors.badgeBg,
               border: `1px solid ${colors.badgeBorder}`

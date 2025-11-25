@@ -43,7 +43,7 @@ export const projectDetails = {
   techStack: ["React.js", "Next.js", "Framer Motion", "React Icons", "Tailwind CSS", "Google Drive API", "Responsive Design"],
   githubLink: "https://github.com/Eklak-Alam/Adichr-Interior-Design",
   liveLink: "https://adichrinterior.vercel.app/",
-  role: "Full Stack Developer & UI/UX Designer",
+  role: "Full Stack Developer",
   duration: "0.1 months",
   team: "Solo Project",
   status: "Live Production",
@@ -81,7 +81,7 @@ export const projectDetails = {
     techStack: ["Next.js", "Node.js", "Framer Motion", "Data Scrapper", "Tailwind CSS", "Real-time Chat"],
     githubLink: "https://github.com/Eklak-Alam/Stack-Connect",
     liveLink: "https://stackconnect.vercel.app/",
-    role: "Full Stack Developer & UI/UX Designer",
+    role: "Full Stack Developer",
     duration: "2 months",
     team: "Solo Project",
     status: "Live",
@@ -155,7 +155,7 @@ export const projectDetails = {
     techStack: ["React.js", "GSAP Animations", "Formik", "Google Analytics", "Mailchimp API"],
     githubLink: "https://github.com/Eklak-Alam/Blix-Media",
     liveLink: "https://project-psi-ivory-35.vercel.app/",
-    role: "Frontend Developer & Animator",
+    role: "Frontend Developer",
     duration: "3 months",
     team: "Solo Project",
     status: "Live",
@@ -184,81 +184,6 @@ export const projectDetails = {
       "Implemented smooth scroll animations"
     ]
   },
-  "Portfolio Website": {
-    title: "Portfolio Website",
-    description: "My personal showcase built with cutting-edge Next.js 14, featuring fluid animations with Framer Motion and sleek TailwindCSS styling.",
-    fullDescription: "A modern, responsive portfolio website showcasing my skills, projects, and experience. Built with the latest web technologies including Next.js 14, Three.js for 3D elements, and Framer Motion for smooth animations. The portfolio features dark/light theme switching, interactive elements, and optimized performance.",
-    image: "/projectImg/eklakportfolio.png",
-    techStack: ["Next.js 14", "Framer Motion", "TailwindCSS", "Three.js", "Aceternity UI"],
-    githubLink: "https://github.com/Eklak-Alam/eklak-portfolio",
-    liveLink: "https://eklak-portfolio.vercel.app/",
-    role: "Full Stack Developer & Designer",
-    duration: "2 months",
-    team: "Solo Project",
-    status: "Live",
-    challenges: [
-      "Implementing 3D animations with Three.js",
-      "Creating smooth page transitions",
-      "Optimizing for Core Web Vitals",
-      "Building responsive design system"
-    ],
-    features: [
-      "3D interactive elements",
-      "Smooth animations and transitions",
-      "Dark/light theme switching",
-      "Contact form with validation",
-      "Project showcase gallery",
-      "Performance optimized"
-    ],
-    technologies: {
-      frontend: ["Next.js 14", "React", "TypeScript", "TailwindCSS"],
-      animations: ["Framer Motion", "Three.js", "React Three Fiber"],
-      ui: ["Aceternity UI", "Custom components", "CSS Modules"],
-      tools: ["Git", "Vercel", "Google Analytics"]
-    },
-    achievements: [
-      "Achieved 100 Lighthouse performance score",
-      "Implemented complex 3D animations",
-      "Created custom design system"
-    ]
-  },
-  "AI Background Remover": {
-    title: "AI Background Remover",
-    description: "Advanced image processing application that automatically removes backgrounds using AI algorithms. Processes high-resolution images in seconds with 98% accuracy.",
-    fullDescription: "An intelligent background removal tool powered by AI and computer vision algorithms. The application can process high-resolution images in real-time, providing professional-grade background removal with high accuracy. Features batch processing, multiple output formats, and seamless integration with cloud storage.",
-    image: "/projectImg/bgremoval.png",
-    techStack: ["React.js", "Node.js", "TensorFlow.js", "Cloudinary API", "Canvas API"],
-    githubLink: "https://github.com/Eklak-Alam/BGRemoval",
-    liveLink: "https://bg-removal-eklak.vercel.app/",
-    role: "Full Stack Developer & AI Integration",
-    duration: "3 months",
-    team: "Solo Project",
-    status: "Live",
-    challenges: [
-      "Implementing efficient image processing algorithms",
-      "Handling large file uploads",
-      "Optimizing AI model performance",
-      "Creating intuitive user interface"
-    ],
-    features: [
-      "AI-powered background removal",
-      "Batch image processing",
-      "Multiple output formats (PNG, JPG, WebP)",
-      "Real-time preview",
-      "Cloud storage integration",
-      "High-resolution support"
-    ],
-    technologies: {
-      frontend: ["React", "Canvas API", "File handling", "Drag & Drop"],
-      ai: ["Bg removal apis"],
-      cloud: ["Cloudinary API", "CDN integration", "Vercel"]
-    },
-    achievements: [
-      "Achieved 98% background removal accuracy",
-      "Reduced processing time by 70%",
-      "Supported images up to 10MB"
-    ]
-  },
   "Deaf Link Assistive Tech": {
     title: "Deaf Link Assistive Tech",
     description: "Innovative speech-to-text application for the hearing impaired. Features real-time transcription, conversation history, and customizable display options.",
@@ -267,7 +192,7 @@ export const projectDetails = {
     techStack: ["React.js", "Web Speech API", "Firebase", "Redux", "Accessibility Tools"],
     githubLink: "https://github.com/Eklak-Alam/DeafLink",
     liveLink: "https://www.deaflink.co/",
-    role: "Frontend Developer & Accessibility Specialist",
+    role: "Frontend Developer",
     duration: "4 months",
     team: "3 developers",
     status: "Live Production",

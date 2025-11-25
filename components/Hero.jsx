@@ -31,25 +31,33 @@ const HeroSection = () => {
     "Generative AI Engineer"
   ];
 
-  // Enhanced color schemes
-  const darkColors = {
-    background: "#0f172a",
-    textPrimary: "#ffffff",
-    textSecondary: "#e2e8f0",
-    accent: "#38bdf8",
-    badgeBg: "rgba(255, 255, 255, 0.05)",
-    badgeBorder: "rgba(255, 255, 255, 0.1)",
-    buttonGradient: "linear-gradient(to right, #3b82f6, #6366f1)",
-    buttonHoverGradient: "linear-gradient(to right, #60a5fa, #818cf8)",
-    socialBg: "rgba(255, 255, 255, 0.05)",
-    socialBorder: "rgba(255, 255, 255, 0.1)",
-    socialIcon: "#ffffff",
-    socialHover: "#38bdf8",
-    particleBg: "rgba(255, 255, 255, 0.1)",
-    blobBg1: "rgba(59, 130, 246, 0.05)",
-    blobBg2: "rgba(16, 185, 129, 0.05)",
-    blobBg3: "rgba(99, 102, 241, 0.05)"
-  };
+const darkColors = {
+  background: "#000000", // Full black
+  textPrimary: "#ffffff", // White main text
+  textSecondary: "#d1d5db", // Soft gray text (like slate-300)
+
+  accent: "#ffffff", // White accent for minimal modern look (can change if you want)
+
+  badgeBg: "rgba(255, 255, 255, 0.05)", // subtle white fade
+  badgeBorder: "rgba(255, 255, 255, 0.1)",
+
+buttonGradient: "linear-gradient(to right, #111111, #000000)", 
+buttonHoverGradient: "linear-gradient(to right, #1a1a1a, #0a0a0a)",
+
+
+  socialBg: "rgba(255, 255, 255, 0.05)",
+  socialBorder: "rgba(255, 255, 255, 0.1)",
+  socialIcon: "#ffffff", // white icons
+  socialHover: "#d1d5db", // light gray on hover
+
+  particleBg: "rgba(255, 255, 255, 0.08)", // subtle glowing particles
+
+  // blobs become soft grayscale glows
+  blobBg1: "rgba(255, 255, 255, 0.03)",
+  blobBg2: "rgba(255, 255, 255, 0.04)",
+  blobBg3: "rgba(255, 255, 255, 0.02)"
+};
+
 
   const lightColors = {
     background: "#ffffff",
@@ -267,62 +275,17 @@ const HeroSection = () => {
     }
   ];
 
-  // Create floating particles
-  const createParticles = () => {
-    return [...Array(15)].map((_, i) => (
-      <div
-        key={i}
-        ref={el => particlesRef.current[i] = el}
-        className="absolute rounded-full particle"
-        style={{
-          width: Math.random() * 5 + 2 + 'px',
-          height: Math.random() * 5 + 2 + 'px',
-          top: Math.random() * 100 + '%',
-          left: Math.random() * 100 + '%',
-          opacity: Math.random() * 0.5 + 0.1,
-          backgroundColor: colors.particleBg,
-        }}
-      />
-    ));
-  };
-
-  // Create animated blobs
-  const createBlobs = () => {
-    return [
-      { className: "top-20 left-20 w-80 h-80", color: colors.blobBg1, ref: 0 },
-      { className: "bottom-20 right-20 w-96 h-96", color: colors.blobBg2, ref: 1 },
-      { className: "top-1/3 right-1/3 w-64 h-64", color: colors.blobBg3, ref: 2 }
-    ].map((blob, i) => (
-      <div
-        key={i}
-        ref={el => blobRefs.current[i] = el}
-        className={`absolute rounded-full blur-3xl ${blob.className}`}
-        style={{ backgroundColor: blob.color }}
-      />
-    ));
-  };
-
   return (
     <div 
       ref={heroRef}
-      className="relative py-32 min-h-screen overflow-hidden"
+      className="relative pt-32 lg:pt-24 min-h-screen overflow-hidden"
       style={{ backgroundColor: colors.background }}
     >
-      {/* Animated background elements */}
-      <motion.div 
-        style={{ y: y1 }}
-        className="absolute inset-0 overflow-hidden"
-      >
-        {createBlobs()}
-      </motion.div>
-
-      {/* Floating particles */}
-      {createParticles()}
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
         <motion.div 
-          className="max-w-5xl mx-auto space-y-10"
+          className="max-w-5xl mx-auto"
           style={{ opacity }}
         >
           {/* Professional badge */}
@@ -347,7 +310,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="space-y-6 hero-title"
+            className="space-y-3 hero-title"
           >
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight overflow-hidden">
               <span className="block" style={{ color: colors.textPrimary }}>Elevating</span>
@@ -359,7 +322,7 @@ const HeroSection = () => {
             </h1>
             
             {/* Dynamic role */}
-            <div className="h-16 flex items-center justify-center">
+            <div className="h-16 flex items-center justify-center lg:mb-2">
               <h2 className="text-2xl md:text-3xl font-medium" style={{ color: colors.textSecondary }}>
                 <span style={{ color: colors.textPrimary }}>{displayText}</span>
                 <span className="ml-1.5 text-emerald-400 animate-pulse">|</span>
@@ -381,18 +344,14 @@ const HeroSection = () => {
 
           {/* Action buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
           >
             {/* Download Resume Button */}
             <motion.a
               href="/Eklak_Resume.pdf"
               download="Eklak_Alam_Resume.pdf"
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="hero-button group flex items-center space-x-3 px-8 py-4 text-white rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="hero-button cursor-pointer group flex items-center space-x-3 px-8 py-4 text-white rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
               style={{ background: colors.buttonGradient }}
             >
               <Download className="w-5 h-5 group-hover:animate-bounce" />
@@ -402,9 +361,8 @@ const HeroSection = () => {
             {/* See My Work Button */}
             <motion.button
               onClick={scrollToProjects}
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="hero-button flex items-center space-x-3 px-8 py-4 rounded-xl font-semibold shadow-sm hover:shadow-lg transition-all duration-300"
+              className="hero-button flex cursor-pointer items-center space-x-3 px-8 py-4 rounded-xl font-semibold shadow-sm hover:shadow-lg transition-all duration-300"
               style={{
                 backgroundColor: colors.socialBg,
                 border: `1px solid ${colors.socialBorder}`,
@@ -432,13 +390,6 @@ const HeroSection = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ 
-                      y: -5, 
-                      backgroundColor: `${social.color}20`,
-                      borderColor: social.color,
-                      color: social.color
-                    }}
-                    whileTap={{ scale: 0.9 }}
                     className="social-icon p-3.5 rounded-lg flex items-center justify-center transition-all duration-300"
                     style={{
                       backgroundColor: colors.socialBg,
@@ -459,24 +410,6 @@ const HeroSection = () => {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 1 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
-      >
-        <div className="text-sm mb-2" style={{ color: colors.textSecondary }}>
-          Scroll to explore
-        </div>
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          <ArrowDown className="w-5 h-5" style={{ color: colors.textSecondary }} />
-        </motion.div>
-      </motion.div>
 
       {/* Animation styles */}
       <style jsx global>{`

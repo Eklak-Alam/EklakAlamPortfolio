@@ -17,19 +17,20 @@ export function Navbar() {
   const { darkMode, toggleTheme } = useTheme();
 
   // Enhanced color schemes with better contrast
-  const darkColors = {
-    primary: "#3b82f6",  // blue-500
-    secondary: "#10b981", // emerald-500
-    accent: "#8b5cf6",  // violet-500
-    dark: "#1e293b",    // slate-800
-    medium: "#475569",  // slate-600
-    light: "#f8fafc",   // slate-50
-    border: "rgba(255,255,255,0.1)",
-    glass: "rgba(15,23,42,0.85)",
-    text: "#f8fafc",
-    background: "#0f172a", // slate-900
-    highlight: "rgba(255,255,255,0.05)",
-  };
+const darkColors = {
+  primary: "#ffffff",       // White for strong highlights
+  secondary: "#e5e5e5",     // Soft gray for secondary text
+  accent: "#9ca3af",        // Neutral gray accent
+  dark: "#000000",          // Pure black (main dark)
+  medium: "#111111",        // Deep dark gray for cards/navbars
+  light: "#ffffff",         // Pure white
+  border: "rgba(255, 255, 255, 0.08)",  // subtle white border
+  glass: "rgba(0, 0, 0, 0.85)",         // black glass for modals
+  text: "#ffffff",          // white text
+  background: "#000000",    // pure black background
+  highlight: "rgba(255, 255, 255, 0.04)", // hover highlight
+};
+
 
   const lightColors = {
     primary: "#2563eb",  // blue-600
@@ -140,7 +141,7 @@ export function Navbar() {
           mass: 0.5,
           opacity: { duration: 0.3 }    
         }}
-        className="fixed top-6 inset-x-0 z-50 mx-auto w-[90%] max-w-7xl"
+        className="fixed top-6 inset-x-0 z-50 mx-auto w-[92%] lg:w-[76%] max-w-7xl"
       >
         <div className="relative">
           {/* Premium glass background with smoother transitions */}
@@ -155,7 +156,6 @@ export function Navbar() {
             }}
             whileHover={{ 
               backdropFilter: "blur(20px)",
-              backgroundColor: darkMode ? "rgba(15,23,42,0.95)" : "rgba(255,255,255,0.95)"
             }}
             transition={{ 
               duration: 0.3,
@@ -191,7 +191,7 @@ export function Navbar() {
                         passHref
                       >
                         <motion.span
-                          className={`relative px-1 py-2 text-lg font-medium transition-colors ${
+                          className={`relative px-1 py-2 text-[15px] font-medium transition-colors ${
                             pathname === item.href
                               ? darkMode 
                                 ? "text-white" 
@@ -242,7 +242,7 @@ export function Navbar() {
                       scale: 0.9,
                       rotate: 0
                     }}
-                    className="p-2 rounded-full focus:outline-none transition-all"
+                    className="p-2 cursor-pointer rounded-full focus:outline-none transition-all"
                     aria-label={`Switch to ${darkMode ? 'light' : 'dark'} mode`}
                     style={{
                       backgroundColor: darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.03)",

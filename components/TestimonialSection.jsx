@@ -8,7 +8,7 @@ import { useTheme } from "../context/ThemeContext";
 const testimonials = [
   {
     id: 1,
-    name: "Sawrabh ",
+    name: "Sawrabh",
     title: "CEO, Shanaya Training",
     quote: "Eklak transformed our online presence completely. His technical expertise is unmatched. The website exceeded all our expectations.",
     rating: 5,
@@ -17,7 +17,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Sanskar ",
+    name: "Sanskar",
     title: "Founder, Blix Media",
     quote: "Working with Eklak was a game-changer. He understood our vision perfectly and executed it flawlessly with top-notch React skills.",
     rating: 5,
@@ -44,7 +44,7 @@ const testimonials = [
   },
   {
     id: 5,
-    name: "Random Guys from networking ",
+    name: "Random Guys from networking",
     title: "Senior Developer",
     quote: "Impressed by Eklak's clean code and architecture decisions. A true professional who delivers quality work consistently.",
     rating: 5,
@@ -60,31 +60,31 @@ export function TestimonialsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-  // Color schemes for both modes
+  // Pure black & white color scheme
   const darkColors = {
-    background: "#0f172a",
+    background: "#000000",
     textPrimary: "#ffffff",
-    textSecondary: "#e2e8f0",
-    cardBg: "#1e293b",
-    cardBorder: "rgba(255, 255, 255, 0.1)",
-    accentGradient: "from-blue-600 to-indigo-600",
-    quoteText: "#e2e8f0",
+    textSecondary: "#a0a0a0",
+    cardBg: "#111111",
+    cardBorder: "rgba(255, 255, 255, 0.2)",
+    accent: "#3b82f6",
+    quoteText: "#e0e0e0",
     quoteIcon: "#93c5fd",
     ratingText: "#9ca3af",
-    borderColor: "rgba(255, 255, 255, 0.1)"
+    borderColor: "rgba(255, 255, 255, 0.2)"
   };
 
   const lightColors = {
     background: "#ffffff",
-    textPrimary: "#0f172a",
-    textSecondary: "#334155",
-    cardBg: "#f8fafc",
-    cardBorder: "rgba(0, 0, 0, 0.1)",
-    accentGradient: "from-blue-500 to-indigo-500",
-    quoteText: "#334155",
+    textPrimary: "#000000",
+    textSecondary: "#666666",
+    cardBg: "#f8f8f8",
+    cardBorder: "rgba(0, 0, 0, 0.2)",
+    accent: "#2563eb",
+    quoteText: "#333333",
     quoteIcon: "#3b82f6",
     ratingText: "#6b7280",
-    borderColor: "rgba(0, 0, 0, 0.1)"
+    borderColor: "rgba(0, 0, 0, 0.2)"
   };
 
   const colors = darkMode ? darkColors : lightColors;
@@ -105,19 +105,19 @@ export function TestimonialsSection() {
 
   return (
     <section 
-      className="relative py-24 px-4 sm:px-6 overflow-hidden"
+      className="relative py-16 px-4 sm:px-6 overflow-hidden"
       style={{ backgroundColor: colors.background }}
     >
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12">
           <h2 
-            className="text-5xl md:text-6xl font-bold mb-4"
+            className="text-3xl font-bold mb-4"
             style={{ color: colors.textPrimary }}
           >
-            Client <span className={`text-transparent bg-clip-text bg-gradient-to-r ${colors.accentGradient}`}>Testimonials</span>
+            Client Testimonials
           </h2>
           <p 
-            className="text-2xl max-w-4xl mx-auto"
+            className="text-lg max-w-2xl mx-auto"
             style={{ color: colors.textSecondary }}
           >
             Hear what industry leaders say about working with me
@@ -126,10 +126,10 @@ export function TestimonialsSection() {
 
         <div 
           ref={ref}
-          className="relative h-[420px] overflow-hidden"
+          className="relative h-80 overflow-hidden"
         >
           <motion.div
-            className="absolute top-0 left-0 flex gap-8"
+            className="absolute top-0 left-0 flex gap-6"
             animate={controls}
           >
             {displayedTestimonials.map((testimonial, index) => (
@@ -149,18 +149,18 @@ export function TestimonialsSection() {
 function TestimonialCard({ testimonial, colors }) {
   return (
     <div 
-      className="w-[380px] h-[380px] shrink-0 rounded-3xl border p-8 shadow-xl"
+      className="w-80 h-72 shrink-0 rounded-xl border p-6"
       style={{
         backgroundColor: colors.cardBg,
         borderColor: colors.borderColor
       }}
     >
-      <div className="absolute top-8 right-8 flex items-center gap-2">
+      <div className="absolute top-6 right-6 flex items-center gap-2">
         <div className="flex gap-1 text-amber-400">
           {[...Array(5)].map((_, i) => (
             <Star
               key={i} 
-              size={18}
+              size={16}
               className={i < testimonial.rating ? "fill-current" : "text-zinc-300"} 
             />
           ))}
@@ -175,21 +175,21 @@ function TestimonialCard({ testimonial, colors }) {
       
       <div className="relative h-full flex flex-col">
         <Quote 
-          className="absolute top-0 left-0 text-5xl opacity-20" 
+          className="absolute top-0 left-0 text-4xl opacity-20" 
           style={{ color: colors.quoteIcon }}
         />
         
         <p 
-          className="text-lg leading-relaxed mb-6 mt-4"
+          className="text-base leading-relaxed mb-4 mt-2 line-clamp-4"
           style={{ color: colors.quoteText }}
         >
           "{testimonial.quote}"
         </p>
         
-        <div className="mb-6">
+        <div className="mb-4">
           <div 
             className="text-sm font-semibold mb-1"
-            style={{ color: colors.quoteIcon }}
+            style={{ color: colors.accent }}
           >
             {testimonial.project}
           </div>
@@ -197,7 +197,7 @@ function TestimonialCard({ testimonial, colors }) {
             className="text-xs"
             style={{ color: colors.ratingText }}
           >
-            Completed: {testimonial.date}
+            {testimonial.date}
           </div>
         </div>
 
@@ -205,21 +205,21 @@ function TestimonialCard({ testimonial, colors }) {
           className="mt-auto pt-4 border-t"
           style={{ borderColor: colors.borderColor }}
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <div 
-              className="h-14 w-14 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-xl"
+              className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm"
             >
               {testimonial.name.charAt(0)}
             </div>
             <div>
               <div 
-                className="font-medium text-lg"
+                className="font-medium text-base"
                 style={{ color: colors.textPrimary }}
               >
                 {testimonial.name}
               </div>
               <div 
-                className="text-sm"
+                className="text-xs"
                 style={{ color: colors.textSecondary }}
               >
                 {testimonial.title}

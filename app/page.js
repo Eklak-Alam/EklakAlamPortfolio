@@ -20,9 +20,9 @@ export default function Home() {
         </section>
 
         {/* Tech Stack with animated background */}
-        <section id="tech-stack" >
+        {/* <section id="tech-stack" >
           <TechStack />
-        </section>
+        </section> */}
 
         {/* Projects Section with visual separation */}
         <section id="projects">

@@ -3,7 +3,7 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import Lenis from 'lenis';
+import Lenis from '@studio-freight/lenis';
 
 export default function SmoothScroll({ children }) {
   const pathname = usePathname();

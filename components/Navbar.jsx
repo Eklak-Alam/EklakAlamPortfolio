@@ -17,28 +17,27 @@ export function Navbar() {
   const { darkMode, toggleTheme } = useTheme();
 
   // Enhanced color schemes with better contrast
-const darkColors = {
-  primary: "#ffffff",       // White for strong highlights
-  secondary: "#e5e5e5",     // Soft gray for secondary text
-  accent: "#9ca3af",        // Neutral gray accent
-  dark: "#000000",          // Pure black (main dark)
-  medium: "#111111",        // Deep dark gray for cards/navbars
-  light: "#ffffff",         // Pure white
-  border: "rgba(255, 255, 255, 0.08)",  // subtle white border
-  glass: "rgba(0, 0, 0, 0.85)",         // black glass for modals
-  text: "#ffffff",          // white text
-  background: "#000000",    // pure black background
-  highlight: "rgba(255, 255, 255, 0.04)", // hover highlight
-};
-
+  const darkColors = {
+    primary: "#ffffff",
+    secondary: "#e5e5e5",
+    accent: "#9ca3af",
+    dark: "#000000",
+    medium: "#111111",
+    light: "#ffffff",
+    border: "rgba(255, 255, 255, 0.08)",
+    glass: "rgba(0, 0, 0, 0.85)",
+    text: "#ffffff",
+    background: "#000000",
+    highlight: "rgba(255, 255, 255, 0.04)",
+  };
 
   const lightColors = {
-    primary: "#2563eb",  // blue-600
-    secondary: "#059669", // emerald-600
-    accent: "#7c3aed",  // violet-600
-    dark: "#f1f5f9",    // slate-100
-    medium: "#cbd5e1",  // slate-300
-    light: "#0f172a",   // slate-900
+    primary: "#2563eb",
+    secondary: "#059669",
+    accent: "#7c3aed",
+    dark: "#f1f5f9",
+    medium: "#cbd5e1",
+    light: "#0f172a",
     border: "rgba(0,0,0,0.06)",
     glass: "rgba(255,255,255,0.9)",
     text: "#0f172a",
@@ -48,7 +47,29 @@ const darkColors = {
 
   const colors = darkMode ? darkColors : lightColors;
 
-  // Social links with platform-specific colors
+  // Smooth scroll function
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 80; // Adjust this value based on your navbar height
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    setMobileMenuOpen(false);
+  };
+
+  // Handle click on nav items
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const sectionId = href.replace('#', '');
+    scrollToSection(sectionId);
+  };
+
   const socialLinks = [
     { 
       icon: <FiGithub />, 
@@ -95,7 +116,7 @@ const darkColors = {
   const navItems = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
-    { name: "Skills", href: "#techStack" },
+    // { name: "Skills", href: "#techStack" },
     { name: "Projects", href: "#projects" },
     { name: "Testimonials", href: "#testimonials" },
     { name: "Contact", href: "#contact" },
@@ -116,11 +137,6 @@ const darkColors = {
       setIsScrolled(false);
     }
   });
-
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
 
   // Only render client-side to avoid hydration mismatch
   if (!isMounted) return null;
@@ -162,75 +178,62 @@ const darkColors = {
               ease: "easeInOut"
             }}
           >
-            <div className="px-8 py-4">
+            <div className="px-6 sm:px-8 py-4">
               <div className="flex justify-between items-center">
                 {/* Enhanced Animated Logo */}
-                <Link href="/" passHref>
-                  <motion.span
-                    whileHover={{ 
-                      scale: 1.05,
-                      backgroundPosition: "100%"
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-2xl font-bold bg-clip-text text-transparent bg-[length:300%] bg-left hover:bg-right transition-all duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]"
-                    style={{
-                      backgroundImage: `linear-gradient(45deg, ${colors.primary}, ${colors.secondary}, ${colors.accent}, ${colors.primary})`,
-                    }}
-                  >
-                    Eklak Alam
-                  </motion.span>
-                </Link>
+                <motion.span
+                  onClick={() => scrollToSection('home')}
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundPosition: "100%"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-2xl font-bold bg-clip-text text-transparent bg-[length:300%] bg-left hover:bg-right transition-all duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] cursor-pointer"
+                  style={{
+                    backgroundImage: `linear-gradient(45deg, ${colors.primary}, ${colors.secondary}, ${colors.accent}, ${colors.primary})`,
+                  }}
+                >
+                  Eklak Alam
+                </motion.span>
 
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 sm:gap-6">
                   {/* Enhanced Desktop Navigation */}
-                  <div className="hidden lg:flex items-center gap-8">
+                  <div className="hidden lg:flex items-center gap-6">
                     {navItems.map((item) => (
-                      <Link 
-                        key={item.href} 
-                        href={item.href}
-                        passHref
+                      <motion.button
+                        key={item.href}
+                        onClick={(e) => handleNavClick(e, item.href)}
+                        className={`relative cursor-pointer px-1 py-2 text-[15px] font-medium transition-colors ${
+                          pathname === item.href
+                            ? darkMode 
+                              ? "text-white" 
+                              : "text-slate-900"
+                            : darkMode 
+                              ? "text-slate-300 hover:text-white"
+                              : "text-slate-600 hover:text-slate-900"
+                        }`}
                       >
-                        <motion.span
-                          className={`relative px-1 py-2 text-[15px] font-medium transition-colors ${
-                            pathname === item.href
-                              ? darkMode 
-                                ? "text-white" 
-                                : "text-slate-900"
-                              : darkMode 
-                                ? "text-slate-300 hover:text-white"
-                                : "text-slate-600 hover:text-slate-900"
-                          }`}
-                          whileHover={{ 
-                            y: -2,
-                            transition: { type: "spring", stiffness: 400 }
-                          }}
-                          whileTap={{ 
-                            scale: 0.95,
-                            transition: { type: "spring", stiffness: 500 }
-                          }}
-                        >
-                          {item.name}
-                          {pathname === item.href && (
-                            <motion.span
-                              layoutId="nav-underline"
-                              className="absolute left-0 top-full h-[2px] w-full"
-                              style={{
-                                background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-                                boxShadow: `0 2px 8px ${colors.primary}80`
-                              }}
-                              transition={{ 
-                                type: "spring", 
-                                bounce: 0.25, 
-                                duration: 0.6 
-                              }}
-                            />
-                          )}
-                        </motion.span>
-                      </Link>
+                        {item.name}
+                        {pathname === item.href && (
+                          <motion.span
+                            layoutId="nav-underline"
+                            className="absolute left-0 top-full h-[2px] w-full"
+                            style={{
+                              background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                              boxShadow: `0 2px 8px ${colors.primary}80`
+                            }}
+                            transition={{ 
+                              type: "spring", 
+                              bounce: 0.25, 
+                              duration: 0.6 
+                            }}
+                          />
+                        )}
+                      </motion.button>
                     ))}
                   </div>
 
-                  {/* Enhanced Theme Toggle */}
+                  {/* Enhanced Theme Toggle - Hidden on tablet, visible on desktop */}
                   <motion.button
                     onClick={toggleTheme}
                     whileHover={{ 
@@ -242,7 +245,7 @@ const darkColors = {
                       scale: 0.9,
                       rotate: 0
                     }}
-                    className="p-2 cursor-pointer rounded-full focus:outline-none transition-all"
+                    className="hidden lg:flex p-2 cursor-pointer rounded-full focus:outline-none transition-all"
                     aria-label={`Switch to ${darkMode ? 'light' : 'dark'} mode`}
                     style={{
                       backgroundColor: darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.03)",
@@ -264,8 +267,8 @@ const darkColors = {
                     )}
                   </motion.button>
 
-                  {/* Enhanced Social links - desktop */}
-                  <div className="hidden md:flex items-center gap-4">
+                  {/* Enhanced Social links - desktop - Hidden on tablet */}
+                  <div className="hidden xl:flex items-center gap-3">
                     {socialLinks.map((social, index) => (
                       <motion.a
                         key={index}
@@ -289,7 +292,7 @@ const darkColors = {
                     ))}
                   </div>
 
-                  {/* Enhanced Mobile Menu Button */}
+                  {/* Enhanced Mobile Menu Button - Show on tablet and mobile */}
                   <motion.button
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     whileHover={{ 
@@ -300,7 +303,7 @@ const darkColors = {
                       scale: 0.9,
                       rotate: mobileMenuOpen ? 90 : 0
                     }}
-                    className="lg:hidden focus:outline-none p-2 rounded-lg transition-all"
+                    className="lg:hidden flex p-2 focus:outline-none rounded-lg transition-all"
                     aria-label="Toggle menu"
                     style={{
                       backgroundColor: darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.03)",
@@ -360,14 +363,12 @@ const darkColors = {
                 damping: 20
               }}
             >
-            <div className="flex flex-col divide-y divide-white/10 dark:divide-black/10">
-              {navItems.map((item, index) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                >
-                  <motion.div
-                    className={`px-6 py-4 text-base font-medium transition-colors ${
+              <div className="flex flex-col divide-y divide-white/10 dark:divide-black/10">
+                {navItems.map((item, index) => (
+                  <motion.button
+                    key={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`px-6 py-4 text-base font-medium transition-colors text-left w-full ${
                       pathname === item.href
                         ? darkMode
                           ? "bg-white/10 text-white"
@@ -404,10 +405,10 @@ const darkColors = {
                         />
                       )}
                     </div>
-                  </motion.div>
-                </Link>
-              ))}               
-                 {/* Enhanced Theme Toggle - Mobile */}
+                  </motion.button>
+                ))}               
+                
+                {/* Enhanced Theme Toggle - Mobile */}
                 <motion.div 
                   className="px-6 py-4 flex items-center justify-between"
                   initial={{ opacity: 0, x: -20 }}
@@ -459,7 +460,7 @@ const darkColors = {
                 
                 {/* Enhanced Social links - mobile */}
                 <motion.div 
-                  className="flex justify-center gap-6 p-6"
+                  className="flex justify-center gap-4 p-6"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ 

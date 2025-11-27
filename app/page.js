@@ -8,7 +8,7 @@ import { TestimonialsSection } from "@/components/TestimonialSection";
 export default function Home() {
   return (
     <>
-      <main className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <main className="">
         {/* Hero Section with smooth scroll anchor */}
         <section id="home" >
           <HeroSection />
@@ -36,7 +36,7 @@ export default function Home() {
 
         {/* Contact Section with visual emphasis */}
         <section id="contact" >
-          {/* <Contact /> */}
+          <Contact />
         </section>
       </main>
     </>

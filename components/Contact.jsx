@@ -28,7 +28,7 @@ export function Contact() {
     {
       name: "LinkedIn",
       icon: <FiLinkedin className="w-5 h-5" />,
-      url: "https://www.linkedin.com/in/eklak-alam-40ba632b5/",
+      url: "https://www.linkedin.com/in/eklak-alam/",
       color: darkMode ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-700",
       bgColor: darkMode ? "hover:bg-blue-900/30" : "hover:bg-blue-100"
     },
@@ -66,15 +66,15 @@ export function Contact() {
     {
       icon: <FiPhone className="w-5 h-5" />,
       title: "WhatsApp", 
-      value: "+91 XXXXXXXXXX",
-      action: "https://wa.me/XXXXXXXXXX",
+      value: "+91 9473384492",
+      action: "https://wa.me/9473384492",
       color: darkMode ? "text-emerald-400" : "text-emerald-600"
     },
     {
       icon: <FiMapPin className="w-5 h-5" />,
       title: "Location",
       value: "Chapra, Bihar, India",
-      action: "https://maps.google.com",
+      action: "https://maps.app.goo.gl/EUW8rqKbuzySo8cdA",
       color: darkMode ? "text-amber-400" : "text-amber-600"
     }
   ];

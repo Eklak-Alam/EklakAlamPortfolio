@@ -296,7 +296,7 @@ const HeroSection = () => {
           >
             {/* Download Resume Button */}
             <motion.a
-              href="/Eklak_Resume.pdf"
+              href="/EklakResume.pdf"
               download="Eklak_Alam_Resume.pdf"
               className="cursor-pointer group flex items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 text-white rounded-xl font-semibold transition-all duration-300 w-full sm:w-auto"
               style={{

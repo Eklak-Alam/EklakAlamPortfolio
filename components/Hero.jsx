@@ -211,7 +211,7 @@ const HeroSection = () => {
     },
     { 
       icon: <FaXTwitter className="w-5 h-5" />, 
-      href: "https://x.com/dev_eklak",
+      href: "https://x.com/eklak__alam",
       color: darkMode ? "#ffffff" : "#000000",
       name: "Twitter",
       darkIconColor: "#ffffff",

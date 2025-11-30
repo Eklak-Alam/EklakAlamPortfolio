@@ -103,7 +103,7 @@ export function Navbar() {
     },
     {
       icon: <FiTwitter />,
-      url: "https://x.com/dev_eklak",
+      url: "https://x.com/eklak__alam",
       name: "Twitter",
       color: darkMode ? "text-blue-400" : "text-blue-500",
       hoverColor: darkMode ? "hover:text-blue-300" : "hover:text-blue-600",

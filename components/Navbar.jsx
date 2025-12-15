@@ -17,10 +17,12 @@ import {
   FiMail,
   FiSun,
   FiMoon,
+  FiGitlab,
 } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import { useTheme } from "../context/ThemeContext";
 import { FaTelegram } from "react-icons/fa";
+import { Gitlab } from "lucide-react";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -94,6 +96,14 @@ export function Navbar() {
       bgColor: darkMode ? "hover:bg-gray-800/50" : "hover:bg-gray-100/50",
     },
     {
+      icon: <FiGitlab />,
+      url: "https://gitlab.com/eklakalam420",
+      name: "GitLab",
+      color: darkMode ? "text-orange-400" : "text-orange-500",
+      hoverColor: darkMode ? "hover:text-orange-300" : "hover:text-orange-600",
+      bgColor: darkMode ? "hover:bg-orange-900/30" : "hover:bg-orange-100/50",
+    },
+    {
       icon: <FiLinkedin />,
       url: "https://www.linkedin.com/in/eklak-alam-40ba632b5/",
       name: "LinkedIn",
@@ -124,7 +134,7 @@ export function Navbar() {
       color: darkMode ? "text-blue-400" : "text-blue-500",
       hoverColor: darkMode ? "hover:text-blue-300" : "hover:text-blue-600",
       bgColor: darkMode ? "hover:bg-blue-900/30" : "hover:bg-blue-100/50",
-    },
+    }
   ];
 
   const navItems = [
@@ -293,11 +303,6 @@ export function Navbar() {
                         href={social.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{
-                          y: -3,
-                          scale: 1.1,
-                          transition: { type: "spring", stiffness: 500 },
-                        }}
                         whileTap={{
                           scale: 0.9,
                           transition: { type: "spring", stiffness: 500 },

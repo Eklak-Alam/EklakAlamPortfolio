@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FiGitlab } from 'react-icons/fi';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -208,6 +209,14 @@ const HeroSection = () => {
       name: "GitHub",
       darkIconColor: "#ffffff",
       lightIconColor: "#181717"
+    },
+    { 
+      icon: <FiGitlab className="w-5 h-5" />, 
+      href: "https://gitlab.com/eklakalam420",
+      color: darkMode ? "#E85405" : "#E85405",
+      name: "Twitter",
+      darkIconColor: "#E85405",
+      lightIconColor: "#E85405"
     },
     { 
       icon: <FaXTwitter className="w-5 h-5" />, 

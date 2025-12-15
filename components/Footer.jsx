@@ -9,7 +9,8 @@ import {
   FiInstagram,
   FiMail,
   FiYoutube,
-  FiArrowUp
+  FiArrowUp,
+  FiGitlab
 } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
 import { FaTelegram } from "react-icons/fa";
@@ -22,6 +23,11 @@ export function Footer() {
       icon: <FiGithub className="w-4 h-4" />, 
       url: "https://github.com/Eklak-Alam", 
       name: "GitHub"
+    },
+    { 
+      icon: <FiGitlab className="w-4 h-4" />, 
+      url: "https://gitlab.com/eklakalam420", 
+      name: "GitLab"
     },
     { 
       icon: <FiTwitter className="w-4 h-4" />, 

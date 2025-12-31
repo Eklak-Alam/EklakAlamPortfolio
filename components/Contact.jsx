@@ -8,168 +8,248 @@ import {
   FiLinkedin, 
   FiTwitter, 
   FiInstagram,
-  FiMessageSquare,
-  FiMapPin
+  FiMapPin,
+  FiArrowUpRight,
+  FiCopy,
+  FiCheck
 } from "react-icons/fi";
+import { FaTelegramPlane } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
-import { FaTelegram } from "react-icons/fa";
+import { useState } from "react";
 
 export function Contact() {
   const { darkMode } = useTheme();
+  const [copied, setCopied] = useState(null);
+
+  const handleCopy = (text, type) => {
+    navigator.clipboard.writeText(text);
+    setCopied(type);
+    setTimeout(() => setCopied(null), 2000);
+  };
 
   const socialLinks = [
     {
       name: "GitHub",
       icon: <FiGithub className="w-5 h-5" />,
       url: "https://github.com/Eklak-Alam",
-      color: darkMode ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-900",
-      bgColor: darkMode ? "hover:bg-gray-800" : "hover:bg-gray-100"
+      color: "group-hover:text-white",
+      bgColor: "group-hover:bg-black",
+      borderColor: "group-hover:border-black"
     },
     {
       name: "LinkedIn",
       icon: <FiLinkedin className="w-5 h-5" />,
       url: "https://www.linkedin.com/in/eklak-alam/",
-      color: darkMode ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-700",
-      bgColor: darkMode ? "hover:bg-blue-900/30" : "hover:bg-blue-100"
+      color: "group-hover:text-white",
+      bgColor: "group-hover:bg-[#0077b5]",
+      borderColor: "group-hover:border-[#0077b5]"
     },
     {
       name: "Twitter",
       icon: <FiTwitter className="w-5 h-5" />,
       url: "https://x.com/dev_eklak",
-      color: darkMode ? "text-sky-400 hover:text-sky-300" : "text-sky-500 hover:text-sky-600",
-      bgColor: darkMode ? "hover:bg-sky-900/30" : "hover:bg-sky-100"
+      color: "group-hover:text-white",
+      bgColor: "group-hover:bg-[#1DA1F2]",
+      borderColor: "group-hover:border-[#1DA1F2]"
     },
     {
       name: "Instagram",
       icon: <FiInstagram className="w-5 h-5" />,
       url: "https://www.instagram.com/eklak__alam/",
-      color: darkMode ? "text-pink-400 hover:text-pink-300" : "text-pink-500 hover:text-pink-600",
-      bgColor: darkMode ? "hover:bg-pink-900/30" : "hover:bg-pink-100"
+      color: "group-hover:text-white",
+      bgColor: "group-hover:bg-pink-600",
+      borderColor: "group-hover:border-pink-600"
     },
     {
       name: "Telegram",
-      icon: <FaTelegram className="w-5 h-5" />,
+      icon: <FaTelegramPlane className="w-5 h-5" />,
       url: "https://t.me/stack_connect",
-      color: darkMode ? "text-blue-400 hover:text-blue-300" : "text-blue-500 hover:text-blue-600",
-      bgColor: darkMode ? "hover:bg-blue-900/30" : "hover:bg-blue-100"
+      color: "group-hover:text-white",
+      bgColor: "group-hover:bg-[#0088cc]",
+      borderColor: "group-hover:border-[#0088cc]"
     }
   ];
 
   const contactMethods = [
     {
+      id: "email",
       icon: <FiMail className="w-5 h-5" />,
       title: "Email",
       value: "eklakalam420@gmail.com",
       action: "mailto:eklakalam420@gmail.com",
-      color: darkMode ? "text-blue-400" : "text-blue-600"
+      bgClass: "bg-blue-500/10 text-blue-600 dark:text-blue-400"
     },
     {
+      id: "phone",
       icon: <FiPhone className="w-5 h-5" />,
       title: "WhatsApp", 
       value: "+91 9473384492",
       action: "https://wa.me/9473384492",
-      color: darkMode ? "text-emerald-400" : "text-emerald-600"
+      bgClass: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
     },
     {
+      id: "location",
       icon: <FiMapPin className="w-5 h-5" />,
       title: "Location",
       value: "Chapra, Bihar, India",
-      action: "https://maps.app.goo.gl/EUW8rqKbuzySo8cdA",
-      color: darkMode ? "text-amber-400" : "text-amber-600"
+      action: "https://maps.google.com/?q=Chapra,Bihar,India",
+      bgClass: "bg-amber-500/10 text-amber-600 dark:text-amber-400"
     }
   ];
 
   return (
     <section 
       id="contact" 
-      className={`py-16 px-4 sm:px-6 ${darkMode ? "bg-black" : "bg-white"}`}
+      // FIX: w-full, max-w-[100vw], and overflow-x-hidden prevents mobile scrolling issues
+      className={`w-full max-w-[100vw] overflow-x-hidden py-20 px-4 sm:px-6 lg:px-8 relative ${
+        darkMode ? "bg-black text-white" : "bg-white text-gray-900"
+      }`}
     >
-      <div className="max-w-4xl mx-auto">
+      {/* Background Decor */}
+      <div className={`absolute inset-0 opacity-[0.03] pointer-events-none ${
+         darkMode 
+           ? "bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" 
+           : "bg-[linear-gradient(to_right,#00000012_1px,transparent_1px),linear-gradient(to_bottom,#00000012_1px,transparent_1px)] bg-[size:24px_24px]"
+      }`} />
+
+      <div className="max-w-5xl mx-auto relative z-10">
+        
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
         >
-          <h2 className={`text-3xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
-            Get In Touch
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+            Let's <span className={darkMode ? "text-gray-400" : "text-gray-500"}>Connect</span>
           </h2>
-          <p className={`text-lg max-w-2xl mx-auto ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-            Let's discuss your project and build something amazing together
+          <p className={`text-base md:text-lg max-w-2xl mx-auto ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+            Have a project in mind or just want to chat? Feel free to reach out. I'm always open to discussing new projects and opportunities.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Social Links - Clean Icons Only */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+          
+          {/* Left Column: Direct Contact Cards */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-5"
           >
-            <h3 className={`text-xl font-semibold mb-6 ${darkMode ? "text-white" : "text-gray-900"}`}>
-              Connect With Me
+            <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+              Contact Details
+              <span className={`h-px flex-1 ml-4 ${darkMode ? "bg-gray-800" : "bg-gray-200"}`}></span>
             </h3>
-            
-            <div className="space-y-3">
-              {socialLinks.map((link, index) => (
-                <motion.a
-                  key={index}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex items-center gap-4 p-3 rounded-lg border transition-all ${link.color} ${link.bgColor} ${
-                    darkMode ? "border-gray-800" : "border-gray-200"
-                  }`}
-                >
-                  <div className={`p-2 rounded-lg ${darkMode ? "bg-black" : "bg-gray-100"}`}>
-                    {link.icon}
-                  </div>
-                  <span className="font-medium">{link.name}</span>
-                </motion.a>
-              ))}
-            </div>
+
+            {contactMethods.map((method) => (
+              <div 
+                key={method.id}
+                className={`group relative flex items-center gap-4 p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+                  darkMode 
+                    ? "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700 hover:shadow-neutral-900/50" 
+                    : "bg-white border-gray-100 hover:border-gray-200 hover:shadow-xl"
+                }`}
+              >
+                <div className={`p-3.5 rounded-xl transition-transform group-hover:scale-110 ${method.bgClass}`}>
+                  {method.icon}
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <p className={`text-sm font-medium mb-0.5 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                    {method.title}
+                  </p>
+                  <p className={`font-semibold text-base truncate ${darkMode ? "text-gray-100" : "text-gray-900"}`}>
+                    {method.value}
+                  </p>
+                </div>
+
+                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {/* Action Button (Mail/Call/Map) */}
+                  <a
+                    href={method.action}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`p-2 rounded-lg transition-colors ${
+                      darkMode ? "hover:bg-neutral-800 text-gray-400 hover:text-white" : "hover:bg-gray-100 text-gray-500 hover:text-black"
+                    }`}
+                    title={`Open ${method.title}`}
+                  >
+                    <FiArrowUpRight className="w-5 h-5" />
+                  </a>
+                  
+                  {/* Copy Button (Only for Email/Phone) */}
+                  {method.id !== 'location' && (
+                    <button
+                      onClick={() => handleCopy(method.value, method.id)}
+                      className={`p-2 rounded-lg transition-colors ${
+                        darkMode ? "hover:bg-neutral-800 text-gray-400 hover:text-white" : "hover:bg-gray-100 text-gray-500 hover:text-black"
+                      }`}
+                      title="Copy to clipboard"
+                    >
+                      {copied === method.id ? <FiCheck className="w-5 h-5 text-green-500" /> : <FiCopy className="w-5 h-5" />}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
           </motion.div>
 
-          {/* Direct Contact */}
+          {/* Right Column: Social Links Grid */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <h3 className={`text-xl font-semibold mb-6 ${darkMode ? "text-white" : "text-gray-900"}`}>
-              Direct Contact
+             <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+              Social Profiles
+              <span className={`h-px flex-1 ml-4 ${darkMode ? "bg-gray-800" : "bg-gray-200"}`}></span>
             </h3>
-            
-            <div className="space-y-4">
-              {contactMethods.map((method, index) => (
-                <motion.a
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {socialLinks.map((link, index) => (
+                <a
                   key={index}
-                  href={method.action}
+                  href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex items-center gap-4 p-4 rounded-lg border transition-all ${
+                  className={`group flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 ${
                     darkMode 
-                      ? "bg-black border-gray-800" 
-                      : "bg-gray-50 border-gray-200"
-                  }`}
+                      ? "bg-neutral-900/30 border-neutral-800 text-gray-300" 
+                      : "bg-gray-50 border-gray-200 text-gray-700"
+                  } ${link.bgColor} ${link.borderColor} ${link.color}`}
                 >
-                  <div className={`p-2 rounded-lg ${method.color} ${
-                    darkMode ? "bg-gray-800" : "bg-white"
-                  }`}>
-                    {method.icon}
+                  <div className={`transition-transform duration-300 group-hover:scale-110`}>
+                    {link.icon}
                   </div>
-                  <div className="flex-1">
-                    <div className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                      {method.title}
-                    </div>
-                    <div className={`font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>
-                      {method.value}
-                    </div>
-                  </div>
-                </motion.a>
+                  <span className="font-medium">{link.name}</span>
+                  <FiArrowUpRight className="w-4 h-4 ml-auto opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                </a>
               ))}
             </div>
+
+            {/* Optional: Resume Download CTA */}
+            <div className={`mt-8 p-6 rounded-2xl border text-center ${
+                darkMode ? "bg-neutral-900 border-neutral-800" : "bg-gray-50 border-gray-200"
+            }`}>
+                <p className={`text-sm mb-4 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+                    Prefer a traditional resume?
+                </p>
+                <a 
+                    href="/EklakResume.pdf" // Replace with actual path
+                    download
+                    className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-transform hover:scale-105 active:scale-95 ${
+                        darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white hover:bg-gray-800"
+                    }`}
+                >
+                    Download Resume
+                </a>
+            </div>
+
           </motion.div>
         </div>
       </div>

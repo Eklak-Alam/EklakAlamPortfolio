@@ -1,4 +1,97 @@
 export const projectDetails = {
+  "Gaprio – The AI Brain for Your Enterprise": {
+    title: "Gaprio – The AI Brain for Your Enterprise",
+    description: "An enterprise-grade AI workflow orchestration platform that connects multiple business tools into a single intelligent, agent-driven operating system.",
+    fullDescription: "Gaprio is an advanced enterprise collaboration and automation platform designed to act as the central nervous system for modern organizations. It integrates tools like Slack, Jira, Asana, Google Workspace, Microsoft 365, ClickUp, Miro, and Zoho into one intelligent layer powered by agentic AI. Gaprio understands intent, retrieves context, plans workflows, and executes multi-step operations securely and at scale.",
+    image: "/projectImg/gaprio.png",
+    techStack: [
+      "Agentic AI Platform",
+      "Enterprise Workflow Engine",
+      "Multi-Tool Integrations",
+      "AI Orchestration Layer",
+      "Cloud-Native Architecture"
+    ],
+    githubLink: "https://github.com/Eklak-Alam",
+    liveLink: "https://gaprio.in/",
+    role: "Full Stack Developer (Frontend, Backend, Cloud & DevOps)",
+    duration: "Ongoing",
+    team: "4 Developers (Cross-functional)",
+    status: "Under Active Development",
+    challenges: [
+      "Designing a scalable AI-driven workflow orchestration system",
+      "Integrating multiple enterprise tools with bi-directional APIs",
+      "Building secure authentication, authorization, and data isolation",
+      "Developing intelligent agents with planning and execution layers",
+      "Managing cloud infrastructure and low-latency performance"
+    ],
+    features: [
+      "Agentic AI core for task planning and execution",
+      "Deep integrations with enterprise tools (Slack, Jira, Asana, etc.)",
+      "Context-aware workflow automation",
+      "Unified enterprise dashboard",
+      "Enterprise-grade security and access control",
+      "Real-time monitoring and analytics"
+    ],
+    technologies: {
+      frontend: ["Next.js", "React", "TailwindCSS", "Framer Motion"],
+      backend: ["Node.js", "Express.js", "Rust (Core Engine)"],
+      ai_ml: ["Ollama", "LLM Agents", "Vector Databases"],
+      cloud: ["AWS", "Docker", "Cloudflare", "CI/CD Pipelines"],
+      tools: ["Git", "GitHub", "Postman", "Linux", "VS Code"]
+    },
+    achievements: [
+      "Built core frontend architecture for an enterprise AI platform",
+      "Contributed to intelligent workflow orchestration system",
+      "Implemented secure cloud and DevOps pipelines",
+      "Collaborated with multi-disciplinary teams on AI-driven product design"
+    ]
+  },  
+  "GogalEdu LMS Platform": {
+    title: "GogalEdu LMS Platform",
+    description: "A full-scale Learning Management System (LMS) built for an offline coaching institute transitioning to online education, enabling secure course sales, video-based learning, and complete admin control.",
+    fullDescription: "GogalEdu is a production-grade LMS platform designed to help an offline education institute scale its teaching business online. The system allows instructors to sell courses, manage students, track learning progress, conduct quizzes, and securely stream video content. The platform includes a powerful admin dashboard for managing users, courses, transactions, and access control, with strong focus on video security and cloud-based protection.",
+    image: "/projectImg/gogaledu.png",
+    techStack: [
+      "Next.js LMS",
+      "Secure Video Streaming",
+      "Admin Dashboard",
+      "Role-Based Access",
+      "Payment & Enrollment System"
+    ],
+    githubLink: "https://github.com/Eklak-Alam",
+    liveLink: "https://gogaledu.com/",
+    role: "Full Stack Developer (DevOps & Cloud)",
+    duration: "3 months",
+    team: "Solo Developer",
+    status: "Live Production",
+    challenges: [
+      "End-to-end frontend and backend architecture from scratch",
+      "Deploying application on Hostinger VPS with Cloudflare integration",
+      "Implementing secure video streaming to prevent downloads and sharing",
+      "Building scalable admin and student dashboards",
+      "Ensuring mobile responsiveness and performance optimization"
+    ],
+    features: [
+      "Course creation and enrollment system",
+      "Secure video-based learning",
+      "Quiz and progress tracking",
+      "Admin dashboard with user & transaction management",
+      "User banning and course access control",
+      "Email notifications via SMTP"
+    ],
+    technologies: {
+      frontend: ["Next.js", "React", "TailwindCSS", "Framer Motion", "React Icons"],
+      backend: ["Node.js", "Express.js", "MySQL", "JWT Authentication"],
+      cloud: ["Cloudflare", "Hostinger VPS", "Docker"],
+      tools: ["Git", "GitHub", "Vercel", "Postman", "VS Code"]
+    },
+    achievements: [
+      "Successfully designed and delivered complete LMS UI architecture",
+      "Built fully responsive admin and student dashboards",
+      "Implemented cloud-level video security using Cloudflare",
+      "Managed backend, database, deployment, and DevOps independently"
+    ]
+  },
   "Balaji Training Portal": {
     title: "Balaji Training Portal",
     description: "Government-certified training platform with course management, certificate generation, and payment gateway integration for vocational education programs.",

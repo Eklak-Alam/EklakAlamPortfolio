@@ -41,7 +41,7 @@ export function Projects() {
     <section
       id="projects"
       // FIX 1: Added w-full, max-w-[100vw], and overflow-x-hidden to strictly contain the layout
-      className={`w-full max-w-[100vw] overflow-x-hidden py-20 px-4 sm:px-6 lg:px-8 relative ${
+      className={`w-full max-w-[100vw] overflow-x-hidden pb-14 pt-10 px-4 sm:px-6 lg:px-8 relative ${
         darkMode ? "bg-black text-white" : "bg-white text-gray-900"
       }`}
     >

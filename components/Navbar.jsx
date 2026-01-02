@@ -6,531 +6,276 @@ import {
   useMotionValueEvent,
   AnimatePresence,
 } from "framer-motion";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   FiMenu,
   FiX,
   FiGithub,
-  FiLinkedin,
-  FiTwitter,
   FiMail,
   FiSun,
   FiMoon,
-  FiGitlab,
+  FiMessageSquare,
 } from "react-icons/fi";
+import { SiX } from "react-icons/si";
 import { usePathname } from "next/navigation";
 import { useTheme } from "../context/ThemeContext";
-import { FaTelegram } from "react-icons/fa";
-import { Gitlab } from "lucide-react";
+import { FaLinkedinIn } from "react-icons/fa";
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false); // Controls hide/show
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  
   const { scrollY } = useScroll();
   const pathname = usePathname();
   const { darkMode, toggleTheme } = useTheme();
 
-  // Enhanced color schemes with better contrast
-  const darkColors = {
-    primary: "#ffffff",
-    secondary: "#e5e5e5",
-    accent: "#9ca3af",
-    dark: "#000000",
-    medium: "#111111",
-    light: "#ffffff",
-    border: "rgba(255, 255, 255, 0.08)",
-    glass: "rgba(0, 0, 0, 0.85)",
-    text: "#ffffff",
-    background: "#000000",
-    highlight: "rgba(255, 255, 255, 0.04)",
-  };
+  // --- Configuration ---
+  const navItems = [
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Projects", href: "#projects" },
+    { name: "Contact", href: "#contact" },
+  ];
 
-  const lightColors = {
-    primary: "#2563eb",
-    secondary: "#059669",
-    accent: "#7c3aed",
-    dark: "#f1f5f9",
-    medium: "#cbd5e1",
-    light: "#0f172a",
-    border: "rgba(0,0,0,0.06)",
-    glass: "rgba(255,255,255,0.9)",
-    text: "#0f172a",
-    background: "#ffffff",
-    highlight: "rgba(0,0,0,0.03)",
-  };
+  const socialLinks = [
+    { icon: <FiGithub size={18} />, url: "https://github.com/Eklak-Alam", name: "GitHub" },
+    { icon: <FaLinkedinIn size={18} />, url: "https://www.linkedin.com/in/eklak-alam/", name: "LinkedIn" },
+    { icon: <SiX size={18} />, url: "https://x.com/dev_eklak", name: "Twitter" },
+    { icon: <FiMail size={18} />, url: "mailto:eklakalam420@gmail.com", name: "Email" },
+  ];
 
-  const colors = darkMode ? darkColors : lightColors;
+  // --- Colors & Styles ---
+  const colors = darkMode
+    ? {
+        glass: "rgba(20, 20, 20, 0.8)",
+        border: "rgba(255, 255, 255, 0.1)",
+        textMain: "#e5e5e5",      // Main Text (Soft White)
+        textHover: "#ffffff",     // Hover Text (Pure White)
+        bgHover: "rgba(255, 255, 255, 0.1)", // Subtle Hover Bg
+        activeBg: "rgba(255, 255, 255, 0.15)",
+      }
+    : {
+        glass: "rgba(255, 255, 255, 0.9)",
+        border: "rgba(0, 0, 0, 0.08)",
+        textMain: "#525252",      // Main Text (Neutral 600)
+        textHover: "#000000",     // Hover Text (Black)
+        bgHover: "rgba(0, 0, 0, 0.05)", // Subtle Hover Bg
+        activeBg: "rgba(0, 0, 0, 0.08)",
+      };
 
-  // Smooth scroll function
+  // --- Logic ---
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 80; // Adjust this value based on your navbar height
+      const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
     }
     setMobileMenuOpen(false);
   };
 
-  // Handle click on nav items
   const handleNavClick = (e, href) => {
     e.preventDefault();
-    const sectionId = href.replace("#", "");
-    scrollToSection(sectionId);
+    scrollToSection(href.replace("#", ""));
   };
 
-  const socialLinks = [
-    {
-      icon: <FiGithub />,
-      url: "https://github.com/Eklak-Alam",
-      name: "GitHub",
-      color: darkMode ? "text-gray-300" : "text-gray-700",
-      hoverColor: darkMode ? "hover:text-white" : "hover:text-gray-900",
-      bgColor: darkMode ? "hover:bg-gray-800/50" : "hover:bg-gray-100/50",
-    },
-    {
-      icon: <FiGitlab />,
-      url: "https://gitlab.com/eklakalam420",
-      name: "GitLab",
-      color: darkMode ? "text-orange-400" : "text-orange-500",
-      hoverColor: darkMode ? "hover:text-orange-300" : "hover:text-orange-600",
-      bgColor: darkMode ? "hover:bg-orange-900/30" : "hover:bg-orange-100/50",
-    },
-    {
-      icon: <FiLinkedin />,
-      url: "https://www.linkedin.com/in/eklak-alam-40ba632b5/",
-      name: "LinkedIn",
-      color: darkMode ? "text-blue-400" : "text-blue-600",
-      hoverColor: darkMode ? "hover:text-blue-300" : "hover:text-blue-700",
-      bgColor: darkMode ? "hover:bg-blue-900/30" : "hover:bg-blue-100/50",
-    },
-    {
-      icon: <FiTwitter />,
-      url: "https://x.com/eklak__alam",
-      name: "Twitter",
-      color: darkMode ? "text-blue-400" : "text-blue-500",
-      hoverColor: darkMode ? "hover:text-blue-300" : "hover:text-blue-600",
-      bgColor: darkMode ? "hover:bg-blue-900/30" : "hover:bg-blue-100/50",
-    },
-    {
-      icon: <FiMail />,
-      url: "mailto:eklakalam420@gmail.com",
-      name: "Email",
-      color: darkMode ? "text-amber-400" : "text-amber-600",
-      hoverColor: darkMode ? "hover:text-amber-300" : "hover:text-amber-700",
-      bgColor: darkMode ? "hover:bg-amber-900/20" : "hover:bg-amber-100/50",
-    },
-    {
-      icon: <FaTelegram />,
-      url: "https://t.me/stack_connect",
-      name: "Telegram",
-      color: darkMode ? "text-blue-400" : "text-blue-500",
-      hoverColor: darkMode ? "hover:text-blue-300" : "hover:text-blue-600",
-      bgColor: darkMode ? "hover:bg-blue-900/30" : "hover:bg-blue-100/50",
-    }
-  ];
+  useEffect(() => { setIsMounted(true); }, []);
 
-  const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    // { name: "Skills", href: "#techStack" },
-    { name: "Projects", href: "#projects" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Contact", href: "#contact" },
-  ];
-
-  // Set mounted state to avoid hydration errors
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Enhanced scroll behavior with smoother transitions
+  // --- Scroll Visibility Logic ---
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
-    if (latest > previous && latest > 30) {
-      setIsScrolled(true);
-      if (mobileMenuOpen) setMobileMenuOpen(false);
-    } else if (latest < previous || latest <= 30) {
-      setIsScrolled(false);
+    // If scrolling DOWN and passed 150px -> Hide
+    if (latest > previous && latest > 150) {
+      setHidden(true);
+    } else {
+      // If scrolling UP -> Show
+      setHidden(false);
     }
   });
 
-  // Only render client-side to avoid hydration mismatch
   if (!isMounted) return null;
 
   return (
     <>
-      {/* Desktop Navbar */}
+      {/* --- DESKTOP NAVBAR --- */}
       <motion.nav
-        initial={{ y: -100, opacity: 0 }}
-        animate={{
-          y: isScrolled ? -100 : 0,
-          opacity: 1,
+        variants={{
+          visible: { y: 0 },
+          hidden: { y: -150 }, // Moves up 150px to completely clear the screen
         }}
-        transition={{
-          type: "spring",
-          damping: 20,
-          stiffness: 300,
-          mass: 0.5,
-          opacity: { duration: 0.3 },
-        }}
-        className="fixed top-6 inset-x-0 z-50 mx-auto w-[92%] lg:w-[76%] max-w-7xl"
+        animate={hidden ? "hidden" : "visible"}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none"
       >
-        <div className="relative">
-          {/* Premium glass background with smoother transitions */}
-          <motion.div
-            className="backdrop-blur-xl rounded-xl shadow-2xl"
-            style={{
-              backgroundColor: colors.glass,
-              border: `1px solid ${colors.border}`,
-              boxShadow: darkMode
-                ? "0 8px 32px rgba(0,0,0,0.25)"
-                : "0 8px 32px rgba(0,0,0,0.1)",
-            }}
-            whileHover={{
-              backdropFilter: "blur(20px)",
-            }}
-            transition={{
-              duration: 0.3,
-              ease: "easeInOut",
-            }}
+        <motion.div
+          layout
+          onHoverStart={() => setIsHovered(true)}
+          onHoverEnd={() => setIsHovered(false)}
+          className="pointer-events-auto backdrop-blur-xl rounded-full shadow-2xl flex items-center p-2 px-5 md:px-6 gap-4 md:gap-6"
+          style={{
+            backgroundColor: colors.glass,
+            border: `1px solid ${colors.border}`,
+          }}
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        >
+          
+          {/* 1. Logo (Clean Font) */}
+          <div 
+            onClick={() => scrollToSection("home")}
+            className="cursor-pointer"
           >
-            <div className="px-6 sm:px-8 py-4">
-              <div className="flex justify-between items-center">
-                {/* Enhanced Animated Logo */}
-                <motion.span
-                  onClick={() => scrollToSection("home")}
-                  whileHover={{
-                    scale: 1.05,
-                    backgroundPosition: "100%",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-2xl font-bold bg-clip-text text-transparent bg-[length:300%] bg-left hover:bg-right transition-all duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] cursor-pointer"
-                  style={{
-                    color: colors.text, // uses white in dark, dark in light
-                  }}
-                >
-                  Eklak Alam
-                </motion.span>
+            <span 
+              className="font-sans font-bold text-xl tracking-tight whitespace-nowrap" 
+              style={{ color: darkMode ? "#fff" : "#000" }} // Always pure black or white for logo
+            >
+              Eklak Alam
+            </span>
+          </div>
 
-                <div className="flex items-center gap-4 sm:gap-6">
-                  {/* Enhanced Desktop Navigation */}
-                  <div className="hidden lg:flex items-center gap-6">
-                    {navItems.map((item) => (
-                      <motion.button
-                        key={item.href}
-                        onClick={(e) => handleNavClick(e, item.href)}
-                        className={`relative cursor-pointer px-1 py-2 text-[15px] font-medium transition-colors ${
-                          pathname === item.href
-                            ? darkMode
-                              ? "text-white"
-                              : "text-slate-900"
-                            : darkMode
-                            ? "text-slate-300 hover:text-white"
-                            : "text-slate-600 hover:text-slate-900"
-                        }`}
-                      >
-                        {item.name}
-                        {pathname === item.href && (
-                          <motion.span
-                            layoutId="nav-underline"
-                            className="absolute left-0 top-full h-[2px] w-full"
-                            style={{
-                              background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-                              boxShadow: `0 2px 8px ${colors.primary}80`,
-                            }}
-                            transition={{
-                              type: "spring",
-                              bounce: 0.25,
-                              duration: 0.6,
-                            }}
-                          />
-                        )}
-                      </motion.button>
-                    ))}
-                  </div>
+          {/* 2. Navigation Links (Desktop) */}
+          <div className="hidden lg:flex items-center gap-1">
+            {navItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300"
+                style={{ 
+                  color: pathname === item.href ? (darkMode ? "#fff" : "#000") : colors.textMain,
+                  backgroundColor: pathname === item.href ? colors.activeBg : "transparent",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = colors.textHover;
+                  e.currentTarget.style.backgroundColor = colors.bgHover;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = pathname === item.href ? (darkMode ? "#fff" : "#000") : colors.textMain;
+                  e.currentTarget.style.backgroundColor = pathname === item.href ? colors.activeBg : "transparent";
+                }}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
 
-                  {/* Enhanced Theme Toggle - Hidden on tablet, visible on desktop */}
-                  <motion.button
-                    onClick={toggleTheme}
-                    whileHover={{
-                      scale: 1.1,
-                      rotate: 15,
-                      backgroundColor: darkMode
-                        ? "rgba(255,255,255,0.15)"
-                        : "rgba(0,0,0,0.05)",
-                    }}
-                    whileTap={{
-                      scale: 0.9,
-                      rotate: 0,
-                    }}
-                    className="hidden lg:flex p-2 cursor-pointer rounded-full focus:outline-none transition-all"
-                    aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
-                    style={{
-                      backgroundColor: darkMode
-                        ? "rgba(255,255,255,0.1)"
-                        : "rgba(0,0,0,0.03)",
-                      color: darkMode ? "#f8fafc" : "#0f172a",
-                      boxShadow: darkMode
-                        ? "0 2px 8px rgba(255,255,255,0.1)"
-                        : "0 2px 8px rgba(0,0,0,0.05)",
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 15,
-                    }}
+          {/* 3. Right Actions */}
+          <div className="flex items-center gap-3">
+            
+            {/* Divider */}
+            <div className="hidden lg:block w-px h-5 bg-gray-500/20"></div>
+
+            {/* Social Icons (Expand on Hover) */}
+            <div className="hidden lg:flex overflow-hidden">
+              <motion.div
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ 
+                  width: isHovered ? "auto" : 0, 
+                  opacity: isHovered ? 1 : 0 
+                }}
+                className="flex items-center gap-1"
+              >
+                {socialLinks.map((social, idx) => (
+                  <a
+                    key={idx}
+                    href={social.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2 rounded-full transition-colors"
+                    style={{ color: colors.textMain }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = colors.textHover}
+                    onMouseLeave={(e) => e.currentTarget.style.color = colors.textMain}
+                    title={social.name}
                   >
-                    {darkMode ? (
-                      <FiSun size={20} className="text-yellow-400" />
-                    ) : (
-                      <FiMoon size={20} className="text-slate-800" />
-                    )}
-                  </motion.button>
-
-                  {/* Enhanced Social links - desktop - Hidden on tablet */}
-                  <div className="hidden xl:flex items-center gap-3">
-                    {socialLinks.map((social, index) => (
-                      <motion.a
-                        key={index}
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileTap={{
-                          scale: 0.9,
-                          transition: { type: "spring", stiffness: 500 },
-                        }}
-                        className={`p-2 rounded-lg cursor-pointer transition-all ${social.color} ${social.hoverColor} ${social.bgColor}`}
-                        aria-label={social.name}
-                      >
-                        {social.icon}
-                      </motion.a>
-                    ))}
-                  </div>
-
-                  {/* Enhanced Mobile Menu Button - Show on tablet and mobile */}
-                  <motion.button
-                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    whileHover={{
-                      scale: 1.1,
-                      backgroundColor: darkMode
-                        ? "rgba(255,255,255,0.15)"
-                        : "rgba(0,0,0,0.05)",
-                    }}
-                    whileTap={{
-                      scale: 0.9,
-                      rotate: mobileMenuOpen ? 90 : 0,
-                    }}
-                    className="lg:hidden flex p-2 focus:outline-none rounded-lg transition-all"
-                    aria-label="Toggle menu"
-                    style={{
-                      backgroundColor: darkMode
-                        ? "rgba(255,255,255,0.1)"
-                        : "rgba(0,0,0,0.03)",
-                      color: darkMode ? "#f8fafc" : "#0f172a",
-                      boxShadow: darkMode
-                        ? "0 2px 8px rgba(255,255,255,0.1)"
-                        : "0 2px 8px rgba(0,0,0,0.05)",
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 15,
-                    }}
-                  >
-                    {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-                  </motion.button>
-                </div>
-              </div>
+                    {social.icon}
+                  </a>
+                ))}
+              </motion.div>
             </div>
-          </motion.div>
-        </div>
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+              style={{ color: colors.textMain }}
+              title="Toggle Theme"
+            >
+              {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
+            </button>
+
+            {/* Chat Button (Monochrome) */}
+            <a
+              href="https://wa.me/919473384492"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-transform hover:scale-105 active:scale-95 ${
+                darkMode 
+                  ? "bg-white text-black hover:bg-gray-200" 
+                  : "bg-black text-white hover:bg-gray-800"
+              }`}
+            >
+              <span className="hidden sm:inline">Let's Chat</span>
+              <span className="sm:hidden"><FiMessageSquare size={18} /></span>
+            </a>
+
+            {/* Mobile Menu Trigger */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-full transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+              style={{ color: colors.textMain }}
+            >
+              {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
+          </div>
+
+        </motion.div>
       </motion.nav>
 
-      {/* Premium Mobile Menu with smoother animations */}
+      {/* --- MOBILE MENU --- */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{
-              duration: 0.3,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="fixed top-28 inset-x-0 z-40 mx-auto w-[90%] max-w-7xl"
-            key="mobile-menu"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed top-24 left-4 right-4 z-40 mx-auto max-w-sm"
           >
-            <motion.div
-              className="backdrop-blur-xl rounded-xl shadow-2xl overflow-hidden"
-              style={{
-                backgroundColor: colors.glass,
-                border: `1px solid ${colors.border}`,
-                boxShadow: darkMode
-                  ? "0 8px 32px rgba(0,0,0,0.3)"
-                  : "0 8px 32px rgba(0,0,0,0.1)",
-              }}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 20,
-              }}
+            <div 
+              className="backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden p-2"
+              style={{ backgroundColor: colors.glass, border: `1px solid ${colors.border}` }}
             >
-              <div className="flex flex-col divide-y divide-white/10 dark:divide-black/10">
-                {navItems.map((item, index) => (
-                  <motion.button
+              <div className="flex flex-col">
+                {navItems.map((item) => (
+                  <button
                     key={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className={`px-6 py-4 text-base font-medium transition-colors text-left w-full ${
-                      pathname === item.href
-                        ? darkMode
-                          ? "bg-white/10 text-white"
-                          : "bg-black/10 text-slate-900"
-                        : darkMode
-                        ? "text-slate-300 hover:bg-white/5 hover:text-white"
-                        : "text-slate-600 hover:bg-black/5 hover:text-slate-900"
-                    }`}
-                    whileTap={{ scale: 0.98 }}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{
-                      delay: 0.05 * index,
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 15,
+                    className="px-4 py-3 rounded-xl text-left text-sm font-medium transition-colors"
+                    style={{ 
+                        color: pathname === item.href ? (darkMode ? "#fff" : "#000") : colors.textMain,
+                        backgroundColor: pathname === item.href ? colors.activeBg : "transparent"
                     }}
                   >
-                    <div className="flex items-center justify-between">
-                      {item.name}
-                      {pathname === item.href && (
-                        <motion.div
-                          layoutId="mobile-nav-indicator"
-                          className="w-2 h-2 rounded-full"
-                          style={{
-                            background: `linear-gradient(45deg, ${colors.primary}, ${colors.secondary})`,
-                            boxShadow: `0 0 8px ${colors.primary}80`,
-                          }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 15,
-                          }}
-                        />
-                      )}
-                    </div>
-                  </motion.button>
+                    {item.name}
+                  </button>
                 ))}
-
-                {/* Enhanced Theme Toggle - Mobile */}
-                <motion.div
-                  className="px-6 py-4 flex items-center justify-between"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    delay: 0.05 * navItems.length,
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 15,
-                  }}
-                >
-                  <span
-                    className={`text-base font-medium ${
-                      darkMode ? "text-slate-300" : "text-slate-600"
-                    }`}
-                  >
-                    {darkMode ? "Light Mode" : "Dark Mode"}
-                  </span>
-                  <motion.button
-                    onClick={toggleTheme}
-                    whileHover={{
-                      scale: 1.05,
-                      backgroundColor: darkMode
-                        ? "rgba(255,255,255,0.15)"
-                        : "rgba(0,0,0,0.05)",
-                    }}
-                    whileTap={{
-                      scale: 0.95,
-                      rotate: 15,
-                    }}
-                    className="p-2 rounded-full transition-all"
-                    aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
-                    style={{
-                      backgroundColor: darkMode
-                        ? "rgba(255,255,255,0.1)"
-                        : "rgba(0,0,0,0.03)",
-                      color: darkMode ? "#f8fafc" : "#0f172a",
-                      boxShadow: darkMode
-                        ? "0 2px 6px rgba(255,255,255,0.1)"
-                        : "0 2px 8px rgba(0,0,0,0.05)",
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 15,
-                    }}
-                  >
-                    {darkMode ? (
-                      <FiSun size={20} className="text-yellow-400" />
-                    ) : (
-                      <FiMoon size={20} className="text-slate-800" />
-                    )}
-                  </motion.button>
-                </motion.div>
-
-                {/* Enhanced Social links - mobile */}
-                <motion.div
-                  className="flex justify-center gap-4 p-6"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    delay: 0.05 * (navItems.length + 1),
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 15,
-                  }}
-                >
-                  {socialLinks.map((social, index) => (
-                    <motion.a
-                      key={index}
+                
+                {/* Mobile Socials */}
+                <div className="flex justify-between px-4 py-3 mt-1 border-t border-gray-500/10">
+                   {socialLinks.map((social, idx) => (
+                    <a
+                      key={idx}
                       href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{
-                        y: -3,
-                        scale: 1.1,
-                        transition: { type: "spring", stiffness: 500 },
-                      }}
-                      whileTap={{
-                        scale: 0.9,
-                        transition: { type: "spring", stiffness: 500 },
-                      }}
-                      className={`p-3 rounded-lg transition-all ${social.color} ${social.hoverColor} ${social.bgColor}`}
-                      aria-label={social.name}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{
-                        delay: 0.1 * index,
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 15,
-                      }}
+                      className="p-2 rounded-full transition-colors"
+                      style={{ color: colors.textMain }}
                     >
                       {social.icon}
-                    </motion.a>
-                  ))}
-                </motion.div>
+                    </a>
+                   ))}
+                </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

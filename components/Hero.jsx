@@ -1,13 +1,14 @@
 'use client';
 
-import { Github, Linkedin, Download, ArrowDown, Youtube } from 'lucide-react';
-import { FaTelegram, FaXTwitter } from "react-icons/fa6";
+import { Github, Download, ArrowDown, Youtube } from 'lucide-react';
+import { FaXTwitter } from "react-icons/fa6";
 import { motion, useScroll, useTransform } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FiGitlab } from 'react-icons/fi';
+import { FaLinkedinIn } from 'react-icons/fa';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -136,7 +137,7 @@ const HeroSection = () => {
 
   const socialLinks = [
     { 
-      icon: <Linkedin className="w-5 h-5" />, 
+      icon: <FaLinkedinIn className="w-5 h-5" />, 
       href: "https://www.linkedin.com/in/eklak-alam-40ba632b5/",
       name: "LinkedIn",
       darkIconColor: "#ffffff",

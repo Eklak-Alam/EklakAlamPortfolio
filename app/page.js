@@ -31,7 +31,7 @@ export default function Home() {
 
         {/* Testimonials with subtle background */}
         <section id="testimonials" >
-          <TestimonialsSection />
+          {/* <TestimonialsSection /> */}
         </section>
 
         {/* Contact Section with visual emphasis */}

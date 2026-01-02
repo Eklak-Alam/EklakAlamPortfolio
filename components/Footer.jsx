@@ -14,6 +14,8 @@ import {
 } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
 import { FaTelegram } from "react-icons/fa";
+import { SiX } from "react-icons/si";
+import { FaLinkedinIn } from "react-icons/fa6";
 
 export function Footer() {
   const { darkMode } = useTheme();
@@ -25,17 +27,12 @@ export function Footer() {
       name: "GitHub"
     },
     { 
-      icon: <FiGitlab className="w-4 h-4" />, 
-      url: "https://gitlab.com/eklakalam420", 
-      name: "GitLab"
-    },
-    { 
-      icon: <FiTwitter className="w-4 h-4" />, 
+      icon: <SiX className="w-4 h-4" />, 
       url: "https://x.com/dev_eklak", 
       name: "Twitter"
     },
     { 
-      icon: <FiLinkedin className="w-4 h-4" />, 
+      icon: <FaLinkedinIn className="w-4 h-4" />, 
       url: "https://www.linkedin.com/in/eklak-alam-40ba632b5/", 
       name: "LinkedIn"
     },

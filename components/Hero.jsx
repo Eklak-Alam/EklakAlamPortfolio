@@ -1,300 +1,208 @@
 'use client';
 
-import { Github, Download, ArrowDown, Youtube } from 'lucide-react';
-import { FaXTwitter } from "react-icons/fa6";
-import { motion, useScroll, useTransform } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
-import { useTheme } from '../context/ThemeContext';
+import React, { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FiGitlab } from 'react-icons/fi';
-import { FaLinkedinIn } from 'react-icons/fa';
+import { useTheme } from '../context/ThemeContext';
 
-// Register GSAP plugins
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+// Icons
+import { Github, Download, ArrowDown, Youtube } from 'lucide-react';
+import { FaXTwitter, FaAws, FaDocker, FaLinkedinIn, FaNodeJs } from "react-icons/fa6";
+import { SiKubernetes, SiTerraform, SiAnsible, SiJenkins, SiSpringboot, SiNextdotjs, SiTypescript, SiHtml5, SiCss3, SiJavascript, SiReact, SiSpring, SiHibernate, SiJsonwebtokens, SiNodedotjs, SiExpress, SiFastapi, SiPython, SiMysql, SiDocker, SiGithub, SiLangchain } from "react-icons/si";
+import { FiGitlab } from 'react-icons/fi';
+import { FaJava } from 'react-icons/fa';
 
 const HeroSection = () => {
-  const [currentRole, setCurrentRole] = useState(0);
-  const [displayText, setDisplayText] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
   const { darkMode } = useTheme();
   const heroRef = useRef(null);
-
-  const roles = [
-    "Frontend Developer",
-    "Backend Developer",
-    "FullStack Developer",
-    "Content Creator",
-    "Generative AI Engineer"
-  ];
-
-  const darkColors = {
-    background: "#000000",
-    textPrimary: "#ffffff",
-    textSecondary: "#d1d5db",
-    accent: "#ffffff",
-    badgeBg: "rgba(255, 255, 255, 0.05)",
-    badgeBorder: "rgba(255, 255, 255, 0.1)",
-    socialBg: "rgba(255, 255, 255, 0.05)",
-    socialBorder: "rgba(255, 255, 255, 0.1)",
+  
+  // 1. Theme Configuration
+  const themeStyles = darkMode ? {
+    bg: "bg-[#030303]",
+    textMain: "text-white",
+    textMuted: "text-neutral-400",
+    grid: "bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]",
+    badgeBg: "bg-emerald-950/30 border-emerald-500/30 text-emerald-400",
+    // Button Styles (Dark)
+    btnPrimary: "bg-white text-black hover:bg-neutral-200 border-transparent",
+    btnSecondary: "bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-white/20",
+    gradientText: "from-white via-neutral-200 to-neutral-400",
+    accentGradient: "from-emerald-600 to-teal-600",
+    mask: "from-[#030303] to-transparent",
+    socialBorder: "border-white/10 bg-white/5"
+  } : {
+    bg: "bg-white",
+    textMain: "text-neutral-900",
+    textMuted: "text-neutral-600",
+    grid: "bg-[linear-gradient(to_right,#0000000a_1px,transparent_1px),linear-gradient(to_bottom,#0000000a_1px,transparent_1px)]",
+    badgeBg: "bg-emerald-50/50 border-emerald-200 text-emerald-700",
+    // Button Styles (Light)
+    btnPrimary: "bg-neutral-900 text-white hover:bg-neutral-800 border-transparent",
+    btnSecondary: "bg-neutral-100 text-neutral-900 border-neutral-200 hover:bg-neutral-200",
+    gradientText: "from-neutral-900 via-neutral-700 to-neutral-500",
+    accentGradient: "from-emerald-600 to-teal-600",
+    mask: "from-white to-transparent",
+    socialBorder: "border-black/5 bg-black/5"
   };
 
-  const lightColors = {
-    background: "#ffffff",
-    textPrimary: "#000000",
-    textSecondary: "#374151",
-    accent: "#000000",
-    badgeBg: "rgba(0, 0, 0, 0.05)",
-    badgeBorder: "rgba(0, 0, 0, 0.1)",
-    socialBg: "rgba(0, 0, 0, 0.05)",
-    socialBorder: "rgba(0, 0, 0, 0.1)",
-  };
 
-  const colors = darkMode ? darkColors : lightColors;
+const techStack = [
+  // 🌐 Frontend
+  { name: "HTML", Icon: SiHtml5, color: "text-orange-500", category: "Frontend" },
+  { name: "CSS", Icon: SiCss3, color: "text-blue-500", category: "Frontend" },
+  { name: "JavaScript", Icon: SiJavascript, color: "text-yellow-400", category: "Frontend" },
+  { name: "React.js", Icon: SiReact, color: "text-cyan-400", category: "Frontend" },
+  { name: "Next.js", Icon: SiNextdotjs, color: darkMode ? "text-white" : "text-black", category: "Frontend" },
+  { name: "TypeScript", Icon: SiTypescript, color: "text-[#3178C6]", category: "Frontend" },
 
-  // Enhanced typewriter effect
-  useEffect(() => {
-    const roleText = roles[currentRole];
-    let timeoutId;
+  // 🧠 Backend
+  { name: "Java", Icon: FaJava, color: "text-red-500", category: "Backend" },
+  { name: "Spring", Icon: SiSpring, color: "text-green-500", category: "Backend" },
+  { name: "Spring Boot", Icon: SiSpringboot, color: "text-[#6DB33F]", category: "Backend" },
+  { name: "Hibernate", Icon: SiHibernate, color: "text-yellow-600", category: "Backend" },
+  { name: "JWT", Icon: SiJsonwebtokens, color: "text-pink-500", category: "Backend" },
+  { name: "Node.js", Icon: SiNodedotjs, color: "text-[#339933]", category: "Backend" },
+  { name: "Express.js", Icon: SiExpress, color: darkMode ? "text-white" : "text-black", category: "Backend" },
+  { name: "FastAPI", Icon: SiFastapi, color: "text-teal-400", category: "Backend" },
+  { name: "Python", Icon: SiPython, color: "text-yellow-300", category: "Backend" },
 
-    if (isTyping) {
-      if (displayText.length < roleText.length) {
-        timeoutId = setTimeout(() => {
-          setDisplayText(roleText.slice(0, displayText.length + 1));
-        }, 120);
-      } else {
-        timeoutId = setTimeout(() => setIsTyping(false), 1500);
-      }
-    } else {
-      if (displayText.length > 0) {
-        timeoutId = setTimeout(() => {
-          setDisplayText(displayText.slice(0, -1));
-        }, 60);
-      } else {
-        setCurrentRole((prev) => (prev + 1) % roles.length);
-        setIsTyping(true);
-      }
-    }
+  // 🗄️ Database
+  { name: "MySQL", Icon: SiMysql, color: "text-blue-600", category: "Database" },
 
-    return () => clearTimeout(timeoutId);
-  }, [displayText, isTyping, currentRole]);
+  // ☁️ Cloud & DevOps
+  { name: "AWS", Icon: FaAws, color: "text-[#FF9900]", category: "Cloud" },
+  { name: "Docker", Icon: SiDocker, color: "text-[#2496ED]", category: "DevOps" },
+  { name: "GitHub", Icon: SiGithub, color: darkMode ? "text-white" : "text-black", category: "DevOps" },
+  { name: "Jenkins", Icon: SiJenkins, color: "text-[#D24939]", category: "DevOps" },
+  { name: "Kubernetes", Icon: SiKubernetes, color: "text-[#326CE5]", category: "DevOps" },
+  { name: "Terraform", Icon: SiTerraform, color: "text-[#7B42BC]", category: "DevOps" },
+  { name: "Ansible", Icon: SiAnsible, color: "text-[#EE0000]", category: "DevOps" },
+
+  // 🤖 AI / LLM
+  { name: "LangChain", Icon: SiLangchain, color: "text-purple-400", category: "AI" },
+];
 
   // GSAP Animations
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     const ctx = gsap.context(() => {
-      // Add classes in JSX to target these animations
-      gsap.fromTo(".hero-title span", 
-        { y: 100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out", delay: 0.5 }
-      );
+      const tl = gsap.timeline();
 
-      gsap.fromTo(".hero-badge",
-        { scale: 0.8, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)", delay: 0.3 }
-      );
-
-      gsap.fromTo(".hero-description",
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 1.2 }
-      );
-
-      gsap.fromTo(".hero-button",
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 1.5 }
-      );
-
-      gsap.fromTo(".social-icon",
-        { scale: 0, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1, ease: "back.out(1.7)", delay: 2 }
-      );
-
+      tl.fromTo(".hero-badge", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" })
+        .fromTo(".hero-title-1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.3")
+        .fromTo(".hero-title-2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
+        .fromTo(".hero-desc", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, "-=0.5")
+        .fromTo(".tech-marquee", { opacity: 0 }, { opacity: 1, duration: 1 }, "-=0.3")
+        .fromTo(".hero-btn", { y: 20, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.6")
+        .fromTo(".hero-social", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.5)" }, "-=0.4");
     }, heroRef);
-
     return () => ctx.revert();
   }, []);
-
-  const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 100], [1, 0.9]);
-
-  const scrollToProjects = () => {
-    if (typeof window !== 'undefined' && window.lenis) {
-      window.lenis.scrollTo('#projects', {
-        offset: -80,
-        duration: 1.8,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      });
-    } else {
-      const projectsSection = document.getElementById('projects');
-      if (projectsSection) {
-        projectsSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
-  const socialLinks = [
-    { 
-      icon: <FaLinkedinIn className="w-5 h-5" />, 
-      href: "https://www.linkedin.com/in/eklak-alam-40ba632b5/",
-      name: "LinkedIn",
-      darkIconColor: "#ffffff",
-      lightIconColor: "#0A66C2"
-    },
-    { 
-      icon: <Github className="w-5 h-5" />, 
-      href: "https://github.com/Eklak-Alam",
-      name: "GitHub",
-      darkIconColor: "#ffffff",
-      lightIconColor: "#181717"
-    },
-    { 
-      icon: <FiGitlab className="w-5 h-5" />, 
-      href: "https://gitlab.com/eklakalam420",
-      name: "GitLab",
-      darkIconColor: "#E85405",
-      lightIconColor: "#E85405"
-    },
-    { 
-      icon: <FaXTwitter className="w-5 h-5" />, 
-      href: "https://x.com/eklak__alam",
-      name: "Twitter",
-      darkIconColor: "#ffffff",
-      lightIconColor: "#000000"
-    },
-    {
-      icon: <Youtube className="w-5 h-5" />, 
-      href: "https://www.youtube.com/@eklakalam04",
-      name: "YouTube",
-      darkIconColor: "#FF0000",
-      lightIconColor: "#FF0000"
-    }
-  ];
 
   return (
     <div 
       ref={heroRef}
-      // CHANGED: Added max-w-[100vw] and overflow-x-hidden to strict viewport limits
-      className="relative w-full max-w-[100vw] overflow-x-hidden pt-28"
-      style={{ backgroundColor: colors.background }}
+      className={`relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden ${themeStyles.bg} transition-colors duration-500`}
     >
-      {/* Main content */}
-      {/* CHANGED: Ensure internal container doesn't force width beyond 100% */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full h-auto px-4 sm:px-6 lg:px-8 text-center max-w-full">
-        <motion.div 
-          className="w-full max-w-4xl mx-auto py-8"
-          style={{ opacity }}
-        >
-          {/* Professional badge */}
-          <div className="hero-badge inline-flex mb-4 lg:mb-2 items-center px-4 py-2 backdrop-blur-md rounded-full shadow-lg"
-            style={{
-              backgroundColor: colors.badgeBg,
-              border: `1px solid ${colors.badgeBorder}`
-            }}
-          >
-            <div className="w-2 h-2 bg-emerald-400 rounded-full mr-2" />
-            <span className="text-xs sm:text-sm font-medium" style={{ color: colors.textSecondary }}>
-              Available for select projects
+      {/* Main Content */}
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-5 flex flex-col items-center text-center">
+        
+        {/* A. SYSTEM STATUS BADGE */}
+        <div className={`hero-badge mb-8 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border backdrop-blur-md shadow-lg ${themeStyles.badgeBg}`}>
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span className="font-mono text-[10px] sm:text-xs font-bold tracking-widest uppercase">
+              Available for Work
+          </span>
+        </div>
+
+        {/* B. MAIN HEADLINE */}
+        <h1 className="flex flex-col gap-2 mb-6 sm:mb-8 font-bold tracking-tight leading-[1.1]">
+          <span className={`hero-title-1 text-4xl sm:text-6xl md:text-7xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b ${themeStyles.gradientText}`}>
+            Designing Systems
+          </span>
+          <span className="hero-title-2 relative inline-block text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
+            <span className={`bg-clip-text text-transparent bg-gradient-to-r ${themeStyles.accentGradient}`}>
+              That Scale Beyond Code
             </span>
-          </div>
+          </span>
+        </h1>
 
-          {/* Main headline */}
-          <div className="hero-title space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight overflow-hidden break-words">
-              <span className="block" style={{ color: colors.textPrimary }}>Elevating</span>
-              <span className="block" style={{ color: colors.textPrimary }}>
-                Digital Experiences
-              </span>
-            </h1>
-            
-            {/* Dynamic role */}
-            <div className="h-12 sm:h-16 flex items-center justify-center mb-2 sm:mb-4">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-medium px-2" style={{ color: colors.textSecondary }}>
-                <span style={{ color: colors.textPrimary }}>{displayText}</span>
-                <span className="ml-1.5 text-emerald-400 animate-pulse">|</span>
-              </h2>
-            </div>
-          </div>
+        {/* C. DESCRIPTION */}
+        <p className={`hero-desc text-base sm:text-xl md:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed font-medium ${themeStyles.textMuted}`}>
+          Cloud Architect & Full-Stack Engineer specializing in scalable web apps and production-ready infrastructure.
+        </p>
 
-          {/* Description */}
-          <p
-            className="hero-description text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-4 mb-6 sm:mb-8"
-            style={{ color: colors.textSecondary }}
+        {/* D. TECH STACK MARQUEE */}
+        <div className="tech-marquee relative w-full max-w-4xl mb-12 overflow-hidden">
+            <div className={`absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r ${themeStyles.mask}`}></div>
+            <div className={`absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l ${themeStyles.mask}`}></div>
+
+            <motion.div 
+                className="flex items-center gap-12 sm:gap-20 w-max"
+                animate={{ x: "-50%" }}
+                transition={{ repeat: Infinity, ease: "linear", duration: 35 }}
+            >
+                {[...techStack, ...techStack].map((tech, idx) => (
+                    <div key={idx} className="flex flex-col items-center justify-center">
+                        <tech.Icon className={`text-3xl sm:text-4xl ${tech.color}`} />
+                    </div>
+                ))}
+            </motion.div>
+        </div>
+
+        {/* E. ACTION BUTTONS (Optimized for Mobile) */}
+        {/* Using Grid for perfect side-by-side on mobile, Flex on Desktop */}
+        <div className="hero-btn grid grid-cols-2 sm:flex sm:flex-row gap-3 sm:gap-5 w-full max-w-md sm:max-w-none justify-center items-center mb-12">
+          
+          <a
+            href="/EklakResume.pdf"
+            download
+            className={`group relative flex items-center justify-center gap-2 px-4 py-3 sm:px-8 sm:py-4 rounded-xl font-bold overflow-hidden transition-all active:scale-95 shadow-xl ${themeStyles.btnPrimary}`}
           >
-            Blending cutting-edge technology with elegant design to create digital products that 
-            captivate users and drive measurable results.
-          </p>
+            <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="text-xs sm:text-base">Resume</span>
+          </a>
+          
+          <button
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            className={`group flex items-center justify-center gap-2 px-4 py-3 sm:px-8 sm:py-4 rounded-xl font-bold transition-all active:scale-95 border ${themeStyles.btnSecondary}`}
+          >
+             <span className="text-xs sm:text-base">Architecture</span>
+             <ArrowDown className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-y-1 transition-transform" />
+          </button>
 
-          {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-4 sm:pt-6 px-4">
-            <a
-              href="/EklakResume.pdf"
-              download="Eklak_Alam_Resume.pdf"
-              className="hero-button cursor-pointer group flex items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 text-white rounded-xl font-semibold transition-all duration-300 w-full sm:w-auto"
-              style={{
-                backgroundColor: colors.socialBg,
-                border: `1px solid ${colors.socialBorder}`,
-                color: colors.textPrimary
-              }}
-            >
-              <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-sm sm:text-base">Download Resume</span>
-            </a>
-            
-            <button
-              onClick={scrollToProjects}
-              className="hero-button flex cursor-pointer items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold shadow-sm hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
-              style={{
-                backgroundColor: colors.socialBg,
-                border: `1px solid ${colors.socialBorder}`,
-                color: colors.textPrimary
-              }}
-            >
-              <span className="text-sm sm:text-base">Explore Work</span>
-              <ArrowDown className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-          </div>
+        </div>
 
-          {/* Social links */}
-          <div className="pt-8 sm:pt-12 px-4">
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-md mx-auto">
-              {socialLinks.map((social, index) => {
-                const iconColor = darkMode ? social.darkIconColor : social.lightIconColor;
-                return (
-                  <a
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="social-icon p-3 rounded-lg flex items-center justify-center transition-all duration-300"
-                    style={{
-                      backgroundColor: colors.socialBg,
-                      border: `1px solid ${colors.socialBorder}`,
-                      color: iconColor,
-                      minWidth: '44px',
-                      minHeight: '44px'
-                    }}
-                    aria-label={social.name}
-                  >
-                    {React.cloneElement(social.icon, {
-                      className: "w-4 h-4 sm:w-5 sm:h-5",
-                      color: iconColor
-                    })}
-                  </a>
-                )
-              })}
+        {/* F. SOCIAL FOOTER (The "Dock" Look) */}
+        <div className="hero-social">
+            <div className={`inline-flex items-center gap-3 sm:gap-4 px-6 py-3 rounded-2xl ${themeStyles.socialBorder}`}>
+                {[
+                    { Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/eklak-alam-40ba632b5/" },
+                    { Icon: Github, href: "https://github.com/Eklak-Alam" },
+                    { Icon: FiGitlab, href: "https://gitlab.com/eklakalam420" },
+                    { Icon: FaXTwitter, href: "https://x.com/eklak__alam" },
+                    { Icon: Youtube, href: "https://www.youtube.com/@eklakalam04" }
+                ].map((link, idx) => (
+                    <a 
+                        key={idx} 
+                        href={link.href}
+                        target="_blank"
+                        className={`group relative p-2 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-500/10`}
+                    >
+                        <link.Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${themeStyles.textMuted} group-hover:text-emerald-500 transition-colors`} />
+                    </a>
+                ))}
             </div>
-          </div>
-        </motion.div>
+        </div>
+
       </div>
 
-      <style jsx global>{`
-        /* Minimal Reset for Overflow */
-        html, body {
-          max-width: 100vw;
-          overflow-x: hidden;
+      <style jsx>{`
+        .bg-radial-gradient {
+            background: radial-gradient(circle at center, transparent 0%, var(--tw-gradient-to) 100%);
         }
       `}</style>
     </div>

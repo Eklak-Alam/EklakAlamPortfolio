@@ -1,5 +1,6 @@
 import { AboutSection } from "@/components/About";
 import { Contact } from "@/components/Contact";
+import { DevOpsProjects } from "@/components/DevOpsProjects";
 import HeroSection from "@/components/Hero";
 import { Projects } from "@/components/Projects";
 import { TechStack } from "@/components/TechStack";
@@ -27,6 +28,7 @@ export default function Home() {
         {/* Projects Section with visual separation */}
         <section id="projects">
           <Projects />
+          <DevOpsProjects />
         </section>
 
         {/* Testimonials with subtle background */}

@@ -2,7 +2,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* globals.css */
+/* =========================================
+   1. LENIS SMOOTH SCROLL (Preserved)
+   ========================================= */
 html.lenis {
   height: auto;
 }
@@ -23,11 +25,15 @@ html.lenis {
   pointer-events: none;
 }
 
+/* =========================================
+   2. THEME CONFIGURATION (Tailwind v4)
+   ========================================= */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -61,26 +67,30 @@ html.lenis {
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* =========================================
+   3. COLOR PALETTE (Refined for Depth)
+   ========================================= */
 :root {
   --radius: 0.625rem;
+  /* Light Mode: Clean White */
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.12 0.01 240); /* Slightly cooler black */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.12 0.01 240);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.12 0.01 240);
+  --primary: oklch(0.20 0.02 240);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.20 0.02 240);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.55 0 0);
+  --accent: oklch(0.96 0 0);
+  --accent-foreground: oklch(0.20 0.02 240);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.70 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -97,22 +107,23 @@ html.lenis {
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Dark Mode: "Deep Obsidian" (Richer than standard gray) */
+  --background: oklch(0.10 0.01 240); /* Deep cool black */
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.14 0.01 240);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.14 0.01 240);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.92 0 0);
+  --primary-foreground: oklch(0.12 0.01 240);
+  --secondary: oklch(0.20 0.01 240);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.20 0.01 240);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.20 0.01 240);
+  --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(1 0 0 / 12%); /* Slightly more visible border */
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
@@ -135,6 +146,118 @@ html.lenis {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
+}
+
+/* =========================================
+   4. PREMIUM FLOATING SCROLLBAR
+   ========================================= */
+
+/* Base settings */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/* Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px; /* Slimmer for modern look */
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  margin-block: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46; /* Default gray for unstyled context */
+  border-radius: 100vh; /* Pill shape */
+  
+  /* The Gradient Trick */
+  background: linear-gradient(
+    180deg, 
+    #34d399 0%,   /* Emerald 400 */
+    #059669 100%  /* Emerald 600 */
+  );
+  
+  /* Floating Effect: Adds transparency around the scrollbar */
+  border: 1px solid transparent; 
+  background-clip: content-box;
+  
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg, 
+    #6ee7b7 0%,   /* Emerald 300 (Brighter on hover) */
+    #10b981 100%  /* Emerald 500 */
+  );
+  cursor: grab;
+}
+
+/* Dark Mode Adjustment for Scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg, 
+    #10b981 0%,   /* Emerald 500 */
+    #065f46 100%  /* Emerald 800 */
+  );
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg, 
+    #34d399 0%,   /* Emerald 400 */
+    #059669 100%  /* Emerald 600 */
+  );
+}
+
+
+/* =========================================
+   5. HIGH-FIDELITY TEXT SELECTION
+   ========================================= */
+
+/* Light Mode Selection */
+::selection {
+  background-color: rgba(16, 185, 129, 0.2); /* Soft Emerald */
+  color: #064e3b; /* Deep Green Text */
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #064e3b;
+}
+
+/* Dark Mode Selection (Cyber/Neon Feel) */
+.dark ::selection {
+  background-color: rgba(52, 211, 153, 0.25); /* Glowing Emerald tint */
+  color: #ffffff; /* Pure White text for max contrast */
+  text-shadow: 0 0 8px rgba(52, 211, 153, 0.4); /* Subtle text glow */
+}
+
+.dark ::-moz-selection {
+  background-color: rgba(52, 211, 153, 0.3);
+  color: #ffffff;
+}
+
+/* =========================================
+   6. UTILITY TWEAKS
+   ========================================= */
+   
+/* Smooth image loading */
+img {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
 }

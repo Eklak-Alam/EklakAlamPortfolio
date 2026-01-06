@@ -2,15 +2,14 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  FiMail, FiPhone, FiGithub, FiInstagram,
-  FiMapPin, FiArrowUpRight, FiCopy, FiCheck, FiSend, FiLoader, 
-  FiChevronDown
+  FiMail, FiPhone, FiGithub, FiMapPin, FiArrowUpRight, 
+  FiCopy, FiCheck, FiSend, FiLoader, FiChevronDown, FiTwitter 
 } from "react-icons/fi";
-import { SiX } from "react-icons/si";
-import { FaLinkedinIn, FaTelegramPlane } from "react-icons/fa";
+import { FaLinkedinIn, FaTelegramPlane, FaInstagram } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { useState } from "react";
 import emailjs from '@emailjs/browser';
+import { TerminalSquare, MessageSquare } from "lucide-react";
 
 // --- Global Style to Fix Autofill Background Color ---
 const AutofillStyle = () => (
@@ -46,6 +45,33 @@ export function Contact() {
     subject: "Collaboration",
     message: ""
   });
+
+  // Theme Config (Monochrome Luxury)
+  const themeStyles = darkMode ? {
+    bg: "bg-[#050505]",
+    textMain: "text-white",
+    textSub: "text-neutral-400",
+    textDim: "text-neutral-500",
+    cardBg: "bg-[#0A0A0A]",
+    cardBorder: "border-white/10",
+    inputBg: "bg-[#0f0f0f]",
+    inputBorder: "border-white/5",
+    focusBorder: "focus:border-white/30",
+    divider: "border-white/10",
+    grid: "bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)]"
+  } : {
+    bg: "bg-white",
+    textMain: "text-neutral-900",
+    textSub: "text-neutral-600",
+    textDim: "text-neutral-400",
+    cardBg: "bg-white",
+    cardBorder: "border-black/5",
+    inputBg: "bg-neutral-50",
+    inputBorder: "border-neutral-200",
+    focusBorder: "focus:border-black/20",
+    divider: "border-neutral-100",
+    grid: "bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)]"
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -86,93 +112,100 @@ export function Contact() {
     }
   };
 
-  // --- Configuration ---
   const socialLinks = [
     { name: "GitHub", icon: <FiGithub className="w-5 h-5" />, url: "https://github.com/Eklak-Alam" },
     { name: "LinkedIn", icon: <FaLinkedinIn className="w-5 h-5" />, url: "https://www.linkedin.com/in/eklak-alam/" },
-    { name: "Twitter", icon: <SiX className="w-5 h-5" />, url: "https://x.com/dev_eklak" },
-    { name: "Instagram", icon: <FiInstagram className="w-5 h-5" />, url: "https://www.instagram.com/eklak__alam/" },
+    { name: "Twitter", icon: <FiTwitter className="w-5 h-5" />, url: "https://x.com/dev_eklak" },
+    { name: "Instagram", icon: <FaInstagram className="w-5 h-5" />, url: "https://www.instagram.com/eklak__alam/" },
     { name: "Telegram", icon: <FaTelegramPlane className="w-5 h-5" />, url: "https://t.me/stack_connect" }
   ];
 
   const contactMethods = [
-    { id: "email", icon: <FiMail className="w-5 h-5 md:w-6 md:h-6" />, title: "Email", value: "eklakalam420@gmail.com", action: "mailto:eklakalam420@gmail.com" },
-    { id: "phone", icon: <FiPhone className="w-5 h-5 md:w-6 md:h-6" />, title: "WhatsApp", value: "+91 9473384492", action: "https://wa.me/9473384492" },
-    { id: "location", icon: <FiMapPin className="w-5 h-5 md:w-6 md:h-6" />, title: "Location", value: "Chapra, Bihar, India", action: "https://maps.google.com/?q=Chapra,Bihar,India" }
+    { id: "email", icon: <FiMail className="w-5 h-5" />, title: "Email", value: "eklakalam420@gmail.com", action: "mailto:eklakalam420@gmail.com" },
+    { id: "phone", icon: <FiPhone className="w-5 h-5" />, title: "WhatsApp", value: "+91 9473384492", action: "https://wa.me/9473384492" },
+    { id: "location", icon: <FiMapPin className="w-5 h-5" />, title: "Location", value: "Chapra, Bihar, India", action: "https://maps.google.com/?q=Chapra,Bihar,India" }
   ];
 
   const subjects = ["Collaboration", "Freelance Project", "Job Opportunity", "General Inquiry", "Just saying Hi"];
 
-  // --- Theme Constants ---
-  const sectionBg = darkMode ? "bg-black" : "bg-[#F9FAFB]";
-  const textColor = darkMode ? "text-gray-400" : "text-gray-500";
-  const headingColor = darkMode ? "text-white" : "text-gray-900";
-  
-  // Input Styles
-  const inputBg = darkMode ? "bg-[#161616]" : "bg-white";
-  const inputBorder = darkMode ? "border-zinc-800" : "border-gray-200";
-  const inputText = darkMode ? "text-white placeholder:text-zinc-600" : "text-black placeholder:text-gray-400";
-  const focusRing = darkMode ? "focus:border-zinc-600 focus:ring-0" : "focus:border-gray-400 focus:ring-0";
-
-  // Card Styles
-  const cardBg = darkMode ? "bg-[#111]" : "bg-white";
-  const cardBorder = darkMode ? "border-zinc-800" : "border-gray-100";
-  const iconBg = darkMode ? "bg-[#1A1A1A] text-white" : "bg-gray-50 text-black";
-
   return (
     <section 
       id="contact" 
-      className={`w-full max-w-[100vw] overflow-x-hidden py-12 md:py-24 px-4 sm:px-6 lg:px-8 relative ${sectionBg}`}
+      className={`w-full relative overflow-hidden py-24 px-4 sm:px-6 lg:px-8 ${themeStyles.bg} transition-colors duration-500`}
     >
       <AutofillStyle />
 
-      <div className="max-w-6xl mx-auto">
+      {/* 1. BACKGROUND LAYERS */}
+      <div className="max-w-[1400px] mx-auto relative z-10">
         
-        {/* Header - Compact on mobile */}
-        <div className="text-center mb-10 md:mb-16 space-y-3">
-          <h2 className={`text-3xl md:text-5xl font-bold tracking-tight ${headingColor}`}>
-            Get in Touch
-          </h2>
-          <p className={`text-sm md:text-lg max-w-xl mx-auto ${textColor}`}>
-            Ready to start your next project? Let's connect.
-          </p>
-        </div>
+        {/* 2. SECTION HEADER (Terminal Style) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
+        >
+          <div>
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-4 ${themeStyles.cardBorder} ${darkMode ? 'bg-white/5' : 'bg-black/5'}`}>
+               <TerminalSquare className={`w-4 h-4 ${themeStyles.textSub}`} />
+               <span className={`text-xs font-mono font-bold tracking-wider uppercase ${themeStyles.textSub}`}>
+                 /contact-me
+               </span>
+            </div>
+            
+            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] ${themeStyles.textMain}`}>
+              Let's Build Something
+            </h2>
+          </div>
+          
+          <div className="md:text-right max-w-md">
+             <p className={`text-base md:text-lg ${themeStyles.textSub} leading-relaxed`}>
+               Have a project in mind? Let's discuss how we can engineer a robust solution for your needs.
+             </p>
+          </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           
           {/* LEFT COLUMN: Contact Details */}
-          <div className="flex flex-col gap-8 order-1">
-            
+          <motion.div 
+             initial={{ opacity: 0, x: -30 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             className="flex flex-col gap-10 order-2 lg:order-1"
+          >
             {/* Contact Cards */}
-            <div className="space-y-3 md:space-y-4">
-              <h3 className={`text-lg font-semibold ${headingColor}`}>Contact Information</h3>
+            <div className="space-y-4">
+              <h3 className={`text-sm font-mono font-bold uppercase tracking-widest mb-6 ${themeStyles.textDim}`}>// Coordinates</h3>
               
               {contactMethods.map((method) => (
                 <div 
                   key={method.id} 
-                  className={`flex items-center gap-4 p-4 rounded-2xl border ${cardBg} ${cardBorder}`}
+                  className={`group flex items-center gap-5 p-5 rounded-xl border transition-all duration-300 hover:-translate-y-1 
+                    ${themeStyles.cardBg} ${themeStyles.cardBorder} hover:border-white/20`}
                 >
-                  <div className={`p-3 rounded-xl flex-shrink-0 ${iconBg}`}>
+                  <div className={`p-3 rounded-lg flex-shrink-0 border ${themeStyles.cardBorder} ${darkMode ? 'bg-white/5' : 'bg-black/5'}`}>
                     {method.icon}
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <p className={`text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5 ${textColor}`}>
+                    <p className={`text-[10px] font-mono font-bold uppercase tracking-wider mb-1 ${themeStyles.textDim}`}>
                       {method.title}
                     </p>
-                    <p className={`font-medium text-[13px] md:text-base break-words ${headingColor}`}>
+                    <p className={`font-medium text-base break-words ${themeStyles.textMain}`}>
                       {method.value}
                     </p>
                   </div>
                   
                   {/* Actions */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
                     {method.id !== 'location' && (
                       <button 
                         onClick={() => handleCopy(method.value, method.id)} 
-                        className={`p-2 rounded-lg ${darkMode ? "bg-[#1A1A1A] text-gray-400" : "bg-gray-50 text-gray-500"}`}
+                        className={`p-2 rounded-md hover:bg-white/10 transition-colors ${themeStyles.textSub}`}
+                        title="Copy"
                       >
-                        {copied === method.id ? <FiCheck className="w-4 h-4 md:w-5 md:h-5 text-green-500" /> : <FiCopy className="w-4 h-4 md:w-5 md:h-5" />}
+                        {copied === method.id ? <FiCheck className="w-4 h-4 text-emerald-500" /> : <FiCopy className="w-4 h-4" />}
                       </button>
                     )}
                     
@@ -180,18 +213,19 @@ export function Contact() {
                       href={method.action} 
                       target="_blank" 
                       rel="noreferrer" 
-                      className={`p-2 rounded-lg ${darkMode ? "bg-[#1A1A1A] text-gray-400" : "bg-gray-50 text-gray-500"}`}
+                      className={`p-2 rounded-md hover:bg-white/10 transition-colors ${themeStyles.textSub}`}
+                      title="Open"
                     >
-                      <FiArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
+                      <FiArrowUpRight className="w-4 h-4" />
                     </a>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Social Icons */}
+            {/* Social Icons (Dock Style) */}
             <div>
-              <h3 className={`text-lg font-semibold mb-4 ${headingColor}`}>Social Profiles</h3>
+              <h3 className={`text-sm font-mono font-bold uppercase tracking-widest mb-6 ${themeStyles.textDim}`}>// Social Uplink</h3>
               <div className="flex flex-wrap gap-3">
                 {socialLinks.map((link, idx) => (
                   <a 
@@ -199,41 +233,52 @@ export function Contact() {
                     href={link.url} 
                     target="_blank" 
                     rel="noreferrer" 
-                    className={`p-3 md:p-4 rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${cardBg} ${cardBorder} ${headingColor} ${darkMode ? "hover:border-zinc-700" : "hover:border-gray-300"}`}
+                    className={`p-3.5 rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg 
+                      ${themeStyles.cardBg} ${themeStyles.cardBorder} ${themeStyles.textMain} hover:bg-white/10`}
                   >
                     {link.icon}
                   </a>
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* RIGHT COLUMN: Form */}
-          <div className="order-2">
-            <div className={`p-5 md:p-8 rounded-3xl border ${cardBg} ${cardBorder}`}>
+          {/* RIGHT COLUMN: The Form */}
+          <motion.div 
+             initial={{ opacity: 0, x: 30 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             className="order-1 lg:order-2"
+          >
+            <div className={`p-6 md:p-10 rounded-2xl border relative overflow-hidden ${themeStyles.cardBg} ${themeStyles.cardBorder}`}>
               
+              {/* Decorative HUD Lines */}
+              <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/10 to-transparent`}></div>
+              <div className={`absolute top-5 right-5 w-2 h-2 border-t border-r ${themeStyles.divider}`}></div>
+              <div className={`absolute bottom-5 left-5 w-2 h-2 border-b border-l ${themeStyles.divider}`}></div>
+
               <AnimatePresence mode="wait">
                 {status === "success" ? (
                   // Success State
                   <motion.div 
                     key="success"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
-                    className="py-10 flex flex-col items-center justify-center text-center space-y-6"
+                    className="py-16 flex flex-col items-center justify-center text-center space-y-6"
                   >
-                    <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
-                      <FiCheck className="w-8 h-8 text-green-500" />
+                    <div className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                      <FiCheck className="w-10 h-10 text-emerald-500" />
                     </div>
                     <div>
-                      <h3 className={`text-xl md:text-2xl font-bold mb-2 ${headingColor}`}>Message Sent</h3>
-                      <p className={`text-sm md:text-base ${textColor}`}>I will get back to you within 24 hours.</p>
+                      <h3 className={`text-2xl font-bold mb-2 ${themeStyles.textMain}`}>Transmission Received</h3>
+                      <p className={`text-base ${themeStyles.textSub}`}>I'll decode your message and respond within 24 hours.</p>
                     </div>
                     <button 
                       onClick={() => setStatus("idle")}
-                      className={`mt-4 px-8 py-3 rounded-xl text-sm font-semibold ${darkMode ? "bg-white text-black" : "bg-black text-white"}`}
+                      className={`mt-6 px-8 py-3 rounded-lg text-sm font-bold uppercase tracking-wider ${darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white hover:bg-gray-800"}`}
                     >
-                      Send Another
+                      New Message
                     </button>
                   </motion.div>
                 ) : (
@@ -241,93 +286,93 @@ export function Contact() {
                   <motion.form 
                     key="form"
                     onSubmit={handleSubmit} 
-                    className="space-y-4" // Tighter vertical spacing on mobile
+                    className="space-y-6"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <div className="mb-4 md:mb-6">
-                      <h3 className={`text-xl md:text-2xl font-bold ${headingColor}`}>Send a Message</h3>
+                    <div className="flex items-center gap-3 mb-6">
+                        <MessageSquare className={`w-5 h-5 ${themeStyles.textDim}`} />
+                        <h3 className={`text-xl font-bold ${themeStyles.textMain}`}>Send a Transmission</h3>
                     </div>
 
-                    {/* Row 1: Name & Phone (2 Cols on Desktop, Stacked on Mobile) */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <label className={`text-[10px] md:text-xs font-bold uppercase tracking-wider ml-1 ${textColor}`}>Name</label>
+                    {/* Inputs Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                        <label className={`text-[10px] font-mono font-bold uppercase tracking-wider ${themeStyles.textDim}`}>Name</label>
                         <input 
                           type="text" name="name" required
                           value={formData.name} onChange={handleInputChange}
-                          className={`w-full px-4 py-2.5 md:py-3 text-sm md:text-base rounded-xl border outline-none transition-colors ${inputBg} ${inputBorder} ${inputText} ${focusRing}`}
+                          className={`w-full px-4 py-3 rounded-lg border outline-none transition-all duration-300 font-medium 
+                            ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.textMain} ${themeStyles.focusBorder}`}
                           placeholder="John Doe"
                         />
                       </div>
-                      <div className="space-y-1.5">
-                        <label className={`text-[10px] md:text-xs font-bold uppercase tracking-wider ml-1 ${textColor}`}>Phone</label>
+                      <div className="space-y-2">
+                        <label className={`text-[10px] font-mono font-bold uppercase tracking-wider ${themeStyles.textDim}`}>Phone</label>
                         <input 
                           type="tel" name="phone" 
                           value={formData.phone} onChange={handleInputChange}
-                          className={`w-full px-4 py-2.5 md:py-3 text-sm md:text-base rounded-xl border outline-none transition-colors ${inputBg} ${inputBorder} ${inputText} ${focusRing}`}
+                          className={`w-full px-4 py-3 rounded-lg border outline-none transition-all duration-300 font-medium 
+                            ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.textMain} ${themeStyles.focusBorder}`}
                           placeholder="+91..."
                         />
                       </div>
                     </div>
 
-                    {/* Row 2: Email & Subject (2 Cols on Desktop, Stacked on Mobile) */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <label className={`text-[10px] md:text-xs font-bold uppercase tracking-wider ml-1 ${textColor}`}>Email</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                        <label className={`text-[10px] font-mono font-bold uppercase tracking-wider ${themeStyles.textDim}`}>Email</label>
                         <input 
                           type="email" name="email" required
                           value={formData.email} onChange={handleInputChange}
-                          className={`w-full px-4 py-2.5 md:py-3 text-sm md:text-base rounded-xl border outline-none transition-colors ${inputBg} ${inputBorder} ${inputText} ${focusRing}`}
+                          className={`w-full px-4 py-3 rounded-lg border outline-none transition-all duration-300 font-medium 
+                            ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.textMain} ${themeStyles.focusBorder}`}
                           placeholder="john@example.com"
                         />
                       </div>
-                      <div className="space-y-1.5">
-                        <label className={`text-[10px] md:text-xs font-bold uppercase tracking-wider ml-1 ${textColor}`}>Subject</label>
+                      <div className="space-y-2">
+                        <label className={`text-[10px] font-mono font-bold uppercase tracking-wider ${themeStyles.textDim}`}>Subject</label>
                         <div className="relative">
                           <select 
                             name="subject" 
                             value={formData.subject} 
                             onChange={handleInputChange}
-                            className={`w-full px-4 py-2.5 md:py-3 text-sm md:text-base rounded-xl border outline-none appearance-none cursor-pointer transition-colors ${inputBg} ${inputBorder} ${inputText} ${focusRing}`}
+                            className={`w-full px-4 py-3 rounded-lg border outline-none appearance-none cursor-pointer transition-all duration-300 font-medium 
+                              ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.textMain} ${themeStyles.focusBorder}`}
                           >
-                            {subjects.map(sub => <option key={sub} value={sub} className={darkMode ? "bg-[#111]" : "bg-white"}>{sub}</option>)}
+                            {subjects.map(sub => <option key={sub} value={sub} className="bg-black text-white">{sub}</option>)}
                           </select>
-                          <FiChevronDown className={`absolute right-4 top-3 md:top-3.5 pointer-events-none ${textColor}`} />
+                          <FiChevronDown className={`absolute right-4 top-4 pointer-events-none ${themeStyles.textSub}`} />
                         </div>
                       </div>
                     </div>
 
-                    {/* Message Area */}
-                    <div className="space-y-1.5">
-                      <label className={`text-[10px] md:text-xs font-bold uppercase tracking-wider ml-1 ${textColor}`}>Message</label>
+                    <div className="space-y-2">
+                      <label className={`text-[10px] font-mono font-bold uppercase tracking-wider ${themeStyles.textDim}`}>Message</label>
                       <textarea 
                         name="message" required 
-                        rows="3" 
+                        rows="4" 
                         value={formData.message} onChange={handleInputChange}
-                        className={`w-full px-4 py-2.5 md:py-3 text-sm md:text-base rounded-xl border outline-none min-h-[100px] resize-y transition-colors ${inputBg} ${inputBorder} ${inputText} ${focusRing}`}
-                        placeholder="Tell me about your project..."
+                        className={`w-full px-4 py-3 rounded-lg border outline-none min-h-[120px] resize-y transition-all duration-300 font-medium 
+                          ${themeStyles.inputBg} ${themeStyles.inputBorder} ${themeStyles.textMain} ${themeStyles.focusBorder}`}
+                        placeholder="Project details, timeline, or just a hello..."
                       />
                     </div>
 
-                    {/* Button - Compact & Easy to See */}
+                    {/* Submit Button */}
                     <button 
                       type="submit" 
                       disabled={status === "loading"}
-                      className={`w-full py-3 md:py-4 rounded-xl font-bold flex items-center justify-center gap-2 mt-2 transition-transform active:scale-95
+                      className={`w-full py-4 rounded-lg font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 mt-4 transition-all active:scale-[0.98]
                         ${status === "loading" ? "opacity-70 cursor-not-allowed" : ""}
-                        ${darkMode ? "bg-white text-black" : "bg-black text-white"}
+                        ${darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white hover:bg-gray-800"}
                       `}
                     >
                       {status === "loading" ? (
-                        <>
-                          <FiLoader className="animate-spin" /> Sending...
-                        </>
+                        <> <FiLoader className="animate-spin" /> Processing... </>
                       ) : (
-                        <>
-                          Send Message <FiSend />
-                        </>
+                        <> Send Message <FiSend /> </>
                       )}
                     </button>
                   </motion.form>
@@ -335,7 +380,7 @@ export function Contact() {
               </AnimatePresence>
 
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>

@@ -48,38 +48,38 @@ const HeroSection = () => {
 
 const techStack = [
   // 🌐 Frontend
-  { name: "HTML", Icon: SiHtml5, color: "text-orange-500", category: "Frontend" },
-  { name: "CSS", Icon: SiCss3, color: "text-blue-500", category: "Frontend" },
-  { name: "JavaScript", Icon: SiJavascript, color: "text-yellow-400", category: "Frontend" },
-  { name: "React.js", Icon: SiReact, color: "text-cyan-400", category: "Frontend" },
-  { name: "Next.js", Icon: SiNextdotjs, color: darkMode ? "text-white" : "text-black", category: "Frontend" },
-  { name: "TypeScript", Icon: SiTypescript, color: "text-[#3178C6]", category: "Frontend" },
-
+  { name: "JavaScript", Icon: SiJavascript, color: "text-[#F7DF1E]", category: "Frontend" }, // JS Yellow
+  { name: "Python", Icon: SiPython, color: "text-[#3776AB]", category: "Backend" },      // Python Blue
+  { name: "Spring", Icon: SiSpring, color: "text-[#6DB33F]", category: "Backend" },      // Spring Green
+  { name: "Express.js", Icon: SiExpress, color: darkMode ? "text-white" : "text-black", category: "Backend" }, // Monochrome
+  { name: "Terraform", Icon: SiTerraform, color: "text-[#7B42BC]", category: "DevOps" },  // Terraform Purple
+  { name: "TypeScript", Icon: SiTypescript, color: "text-[#3178C6]", category: "Frontend" }, // TS Blue
+  
   // 🧠 Backend
-  { name: "Java", Icon: FaJava, color: "text-red-500", category: "Backend" },
-  { name: "Spring", Icon: SiSpring, color: "text-green-500", category: "Backend" },
+  { name: "Java", Icon: FaJava, color: "text-[#007396]", category: "Backend" },          // Java Blue
+  { name: "HTML", Icon: SiHtml5, color: "text-[#E34F26]", category: "Frontend" },        // HTML Orange
+  { name: "Ansible", Icon: SiAnsible, color: "text-[#EE0000]", category: "DevOps" },      // Ansible Red
+  { name: "CSS", Icon: SiCss3, color: "text-[#1572B6]", category: "Frontend" },          // CSS Blue
+  { name: "React.js", Icon: SiReact, color: "text-[#61DAFB]", category: "Frontend" },    // React Cyan
+  { name: "GitHub", Icon: SiGithub, color: darkMode ? "text-white" : "text-black", category: "DevOps" }, // Official
+  { name: "FastAPI", Icon: SiFastapi, color: "text-[#009688]", category: "Backend" },    // FastAPI Teal
   { name: "Spring Boot", Icon: SiSpringboot, color: "text-[#6DB33F]", category: "Backend" },
-  { name: "Hibernate", Icon: SiHibernate, color: "text-yellow-600", category: "Backend" },
-  { name: "JWT", Icon: SiJsonwebtokens, color: "text-pink-500", category: "Backend" },
-  { name: "Node.js", Icon: SiNodedotjs, color: "text-[#339933]", category: "Backend" },
-  { name: "Express.js", Icon: SiExpress, color: darkMode ? "text-white" : "text-black", category: "Backend" },
-  { name: "FastAPI", Icon: SiFastapi, color: "text-teal-400", category: "Backend" },
-  { name: "Python", Icon: SiPython, color: "text-yellow-300", category: "Backend" },
-
+  { name: "Kubernetes", Icon: SiKubernetes, color: "text-[#326CE5]", category: "DevOps" },// K8s Blue
+  { name: "Hibernate", Icon: SiHibernate, color: "text-[#59666C]", category: "Backend" }, // Hibernate Gray
+  { name: "JWT", Icon: SiJsonwebtokens, color: "text-[#D63AFF]", category: "Backend" },   // JWT Purple
+  { name: "Node.js", Icon: SiNodedotjs, color: "text-[#339933]", category: "Backend" },   // Node Green
+  
+  { name: "AWS", Icon: FaAws, color: "text-[#FF9900]", category: "Cloud" },               // AWS Orange
   // 🗄️ Database
-  { name: "MySQL", Icon: SiMysql, color: "text-blue-600", category: "Database" },
+  { name: "MySQL", Icon: SiMysql, color: "text-[#4479A1]", category: "Database" },        // MySQL Blue
 
   // ☁️ Cloud & DevOps
-  { name: "AWS", Icon: FaAws, color: "text-[#FF9900]", category: "Cloud" },
-  { name: "Docker", Icon: SiDocker, color: "text-[#2496ED]", category: "DevOps" },
-  { name: "GitHub", Icon: SiGithub, color: darkMode ? "text-white" : "text-black", category: "DevOps" },
-  { name: "Jenkins", Icon: SiJenkins, color: "text-[#D24939]", category: "DevOps" },
-  { name: "Kubernetes", Icon: SiKubernetes, color: "text-[#326CE5]", category: "DevOps" },
-  { name: "Terraform", Icon: SiTerraform, color: "text-[#7B42BC]", category: "DevOps" },
-  { name: "Ansible", Icon: SiAnsible, color: "text-[#EE0000]", category: "DevOps" },
+  { name: "Docker", Icon: SiDocker, color: "text-[#2496ED]", category: "DevOps" },        // Docker Blue
+  { name: "Next.js", Icon: SiNextdotjs, color: darkMode ? "text-white" : "text-black", category: "Frontend" }, // Official
+  { name: "Jenkins", Icon: SiJenkins, color: "text-[#D24939]", category: "DevOps" },      // Jenkins Red
 
   // 🤖 AI / LLM
-  { name: "LangChain", Icon: SiLangchain, color: "text-purple-400", category: "AI" },
+  { name: "LangChain", Icon: SiLangchain, color: "text-[#7C3AED]", category: "AI" },      // LangChain Purple
 ];
 
   // GSAP Animations
@@ -102,10 +102,10 @@ const techStack = [
   return (
     <div 
       ref={heroRef}
-      className={`relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden ${themeStyles.bg} transition-colors duration-500`}
+      className={`relative w-full flex flex-col items-center justify-center overflow-hidden ${themeStyles.bg} transition-colors duration-500`}
     >
       {/* Main Content */}
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-5 flex flex-col items-center text-center">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 lg:pt-32 lg:pb-5 flex flex-col items-center text-center">
         
         {/* A. SYSTEM STATUS BADGE */}
         <div className={`hero-badge mb-8 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border backdrop-blur-md shadow-lg ${themeStyles.badgeBg}`}>

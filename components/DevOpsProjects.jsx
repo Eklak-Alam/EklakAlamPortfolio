@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import { allDevOpsProjects } from "@/constants/devopsProjects"; 
 import { 
-  Terminal, Server, Cloud, X, ChevronRight
+  Terminal, Server, Cloud, X, ChevronRight, Plus
 } from "lucide-react";
 
 // --- 1. DETAIL MODAL ---
@@ -133,6 +133,14 @@ export function DevOpsProjects() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // --- LOAD MORE STATE ---
+  const [visibleCount, setVisibleCount] = useState(2); // Start with 2
+  const increment = 2; // Load 2 more on click
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + increment);
+  };
+
   // MONOCHROMATIC THEME CONFIGURATION
   const themeStyles = darkMode ? {
     // DARK MODE (Strict Black/Gray/White)
@@ -142,7 +150,6 @@ export function DevOpsProjects() {
     textDim: "text-neutral-600",
     cardBg: "bg-[#09090b]", // Zinc-950
     cardBorder: "border-white/10",
-    // White glow on hover, no color
     cardHover: "hover:border-white/25 hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)]", 
     badgeBg: "bg-white/5 text-neutral-300 border-white/10",
     terminalHeader: "bg-[#000000] border-white/10",
@@ -150,6 +157,7 @@ export function DevOpsProjects() {
     dotColor: "bg-white",
     timelineDot: "bg-white",
     timelineLine: "border-neutral-800",
+    btnBg: "bg-neutral-800 hover:bg-neutral-700 text-white border-neutral-700", // Button style
     grid: "bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)]"
   } : {
     // LIGHT MODE (Clean Industrial Gray)
@@ -166,6 +174,7 @@ export function DevOpsProjects() {
     dotColor: "bg-neutral-900",
     timelineDot: "bg-neutral-900",
     timelineLine: "border-neutral-300",
+    btnBg: "bg-neutral-100 hover:bg-neutral-200 text-neutral-900 border-neutral-200", // Button style
     grid: "bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)]"
   };
 
@@ -209,9 +218,9 @@ export function DevOpsProjects() {
           </div>
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {allDevOpsProjects.map((project, index) => (
+        {/* Projects Grid  */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12">
+          {allDevOpsProjects.slice(0, visibleCount).map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
@@ -223,14 +232,14 @@ export function DevOpsProjects() {
             >
               {/* Terminal Tab Header */}
               <div className={`px-4 sm:px-6 py-3 flex items-center justify-between border-b ${themeStyles.terminalHeader}`}>
-                {/* Traffic Lights - Desaturated for Monochrome Look */}
+                {/* Traffic Lights */}
                 <div className="flex gap-1.5">
                   <div className={`w-2.5 h-2.5 rounded-full ${darkMode ? 'bg-neutral-600' : 'bg-neutral-300'}`} />
                   <div className={`w-2.5 h-2.5 rounded-full ${darkMode ? 'bg-neutral-700' : 'bg-neutral-400'}`} />
                   <div className={`w-2.5 h-2.5 rounded-full ${darkMode ? 'bg-neutral-800' : 'bg-neutral-500'}`} />
                 </div>
                 <div className={`text-[10px] font-mono opacity-70 ${themeStyles.textDim}`}>
-                  bash ~ {project.slug.substring(0, 20)}...
+                  bash ~ {project.slug?.substring(0, 20)}...
                 </div>
               </div>
 
@@ -270,6 +279,25 @@ export function DevOpsProjects() {
             </motion.div>
           ))}
         </div>
+
+        {/* LOAD MORE BUTTON */}
+        {visibleCount < allDevOpsProjects.length && (
+          <div className="flex justify-center w-full">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleLoadMore}
+              className={`
+                group relative flex items-center gap-2 px-8 py-3 rounded-full 
+                font-mono font-medium text-xs tracking-wider uppercase transition-all duration-300 border
+                ${themeStyles.btnBg}
+              `}
+            >
+              <span>{`> Load_More_Architectures`}</span>
+              <Plus className="w-4 h-4" />
+            </motion.button>
+          </div>
+        )}
 
       </div>
 

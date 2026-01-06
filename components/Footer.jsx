@@ -111,7 +111,6 @@ export function Footer() {
                     href={link.href}
                     className={`text-sm flex items-center gap-2 group transition-colors ${themeStyles.textSub} ${themeStyles.hoverText}`}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-current opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     {link.name}
                   </Link>
                 </li>
@@ -150,7 +149,6 @@ export function Footer() {
              <p className={`text-xs ${themeStyles.textSub}`}>
                © {new Date().getFullYear()} Eklak Alam. All rights reserved.
              </p>
-             <span className={`hidden md:block w-1 h-1 rounded-full ${themeStyles.textDim} bg-current`}></span>
           </div>
           
           {/* Back to Top Button */}
@@ -158,7 +156,7 @@ export function Footer() {
             onClick={scrollToTop}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${themeStyles.buttonBg}`}
+            className={`flex items-center cursor-pointer gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${themeStyles.buttonBg}`}
           >
             Top <FiArrowUp className="w-3 h-3" />
           </motion.button>

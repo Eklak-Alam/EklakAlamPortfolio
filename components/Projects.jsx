@@ -3,19 +3,23 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
-import { allProjects } from "@/constants/projectDetails"; // Ensure this points to your NEW data structure
+import { allProjects } from "@/constants/projectDetails";
 import ProjectModal from "./ProjectModal";
 
 // Icons
-import { FiGithub, FiExternalLink, FiArrowRight } from "react-icons/fi";
-import { Layers, FolderGit2, Activity, Server } from "lucide-react";
+import { FiGithub, FiExternalLink, FiArrowRight, FiPlus } from "react-icons/fi";
+import { Layers } from "lucide-react";
 
 export function Projects() {
   const { darkMode } = useTheme();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // --- LOAD MORE LOGIC ---
+  const [visibleCount, setVisibleCount] = useState(3); // Start with 3
+  const increment = 2; // Load 2 more on click
 
-  // 1. Theme Config (Clean Monochrome + Gradient Text)
+  // 1. Theme Config
   const themeStyles = darkMode ? {
     bg: "bg-[#050505]",
     textMain: "text-white",
@@ -23,12 +27,9 @@ export function Projects() {
     textDim: "text-neutral-500",
     cardBg: "bg-[#0A0A0A]",
     cardBorder: "border-white/10",
-    // Dark Mode Hover: Subtle Glow
     cardHover: "hover:border-white/20 hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.05)]", 
     badgeBg: "bg-white/5 text-neutral-300 border-white/10",
-    statusLive: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    statusDev: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    textGradient: "from-white via-neutral-200 to-neutral-400", 
+    btnBg: "bg-neutral-800 hover:bg-neutral-700 text-white border-neutral-700",
   } : {
     bg: "bg-white",
     textMain: "text-neutral-900",
@@ -38,9 +39,7 @@ export function Projects() {
     cardBorder: "border-black/5",
     cardHover: "hover:border-black/10 hover:shadow-2xl",
     badgeBg: "bg-black/5 text-neutral-700 border-black/10",
-    statusLive: "bg-emerald-100 text-emerald-700 border-emerald-200",
-    statusDev: "bg-amber-100 text-amber-700 border-amber-200",
-    textGradient: "from-neutral-900 via-neutral-700 to-neutral-500",
+    btnBg: "bg-neutral-100 hover:bg-neutral-200 text-neutral-900 border-neutral-200",
   };
 
   const handleProjectClick = (project) => {
@@ -53,16 +52,18 @@ export function Projects() {
     setTimeout(() => setSelectedProject(null), 300); 
   };
 
-  // Helper: Flatten the nested techStack object into a single array for preview
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + increment);
+  };
+
+  // Helper: Flatten stack
   const getPreviewStack = (techStack) => {
-    if (Array.isArray(techStack)) return techStack; // Fallback for old data
+    if (Array.isArray(techStack)) return techStack;
     const list = [];
-    // Prioritize core technologies
     if (techStack.frontend) list.push(...techStack.frontend);
     if (techStack.backend) list.push(...techStack.backend);
     if (techStack.ai) list.push(...techStack.ai);
     if (techStack.cloud) list.push(...techStack.cloud);
-    // Return top 5 unique tags
     return [...new Set(list)].slice(0, 5); 
   };
 
@@ -73,7 +74,7 @@ export function Projects() {
     >
       <div className="max-w-[1400px] mx-auto relative z-10">
         
-        {/* 2. SECTION HEADER (Terminal Style) */}
+        {/* 2. SECTION HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -101,10 +102,9 @@ export function Projects() {
         </motion.div>
 
         {/* 3. PROJECTS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {allProjects.map((project, index) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {allProjects.slice(0, visibleCount).map((project, index) => {
             const previewStack = getPreviewStack(project.techStack);
-            const isLive = project.status?.toLowerCase().includes("live");
 
             return (
               <motion.div
@@ -120,15 +120,12 @@ export function Projects() {
                 
                 {/* A. Image "Window" */}
                 <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-inherit">
-
                    <img
-                     src={project.coverImage || project.image} // Fallback for safety
+                     src={project.coverImage || project.image}
                      alt={project.title}
                      className="w-full h-full object-cover"
                      loading="lazy"
                    />
-                   
-                   {/* Dark Overlay on Hover */}
                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                 </div>
 
@@ -137,17 +134,16 @@ export function Projects() {
                   
                   {/* Title & Icons */}
                   <div className="flex justify-between items-start mb-3">
-                     <div className="flex flex-col gap-1">
-                        <h3 className={`text-xl font-bold tracking-tight ${themeStyles.textMain}`}>
-                            {project.title}
-                        </h3>
-                        {/* Tagline (New Field) */}
-                        {project.tagline && (
-                          <span className={`text-xs font-mono font-medium ${themeStyles.textDim} uppercase tracking-wide`}>
-                            {project.tagline}
-                          </span>
-                        )}
-                     </div>
+                      <div className="flex flex-col gap-1">
+                         <h3 className={`text-xl font-bold tracking-tight ${themeStyles.textMain}`}>
+                             {project.title}
+                         </h3>
+                         {project.tagline && (
+                           <span className={`text-xs font-mono font-medium ${themeStyles.textDim} uppercase tracking-wide`}>
+                             {project.tagline}
+                           </span>
+                         )}
+                      </div>
                   </div>
 
                   {/* Description */}
@@ -157,22 +153,21 @@ export function Projects() {
 
                   {/* Tech Stack Chips */}
                   <div className="mt-auto pt-4 border-t border-dashed" style={{ borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>
-                     <div className="flex flex-wrap gap-2">
-                       {previewStack.map((tech, i) => (
-                         <span
-                           key={i}
-                           className={`text-[10px] px-2.5 py-1 rounded border font-mono font-medium tracking-tight transition-colors 
-                             ${themeStyles.badgeBg}`}
-                         >
-                            {tech}
-                         </span>
-                       ))}
-                       {/* "View Case Study" Hint */}
-                       <div className="ml-auto flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <span className={`text-[10px] font-bold ${themeStyles.textMain}`}>VIEW</span>
-                          <FiArrowRight className={`w-3 h-3 ${themeStyles.textMain}`} />
-                       </div>
-                     </div>
+                      <div className="flex flex-wrap gap-2">
+                        {previewStack.map((tech, i) => (
+                          <span
+                            key={i}
+                            className={`text-[10px] px-2.5 py-1 rounded border font-mono font-medium tracking-tight transition-colors 
+                              ${themeStyles.badgeBg}`}
+                          >
+                             {tech}
+                          </span>
+                        ))}
+                        <div className="ml-auto flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <span className={`text-[10px] font-bold ${themeStyles.textMain}`}>VIEW</span>
+                           <FiArrowRight className={`w-3 h-3 ${themeStyles.textMain}`} />
+                        </div>
+                      </div>
                   </div>
 
                 </div>
@@ -181,9 +176,28 @@ export function Projects() {
           })}
         </div>
 
+        {/* 4. LOAD MORE BUTTON */}
+        {visibleCount < allProjects.length && (
+          <div className="flex justify-center w-full">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleLoadMore}
+              className={`
+                group relative flex items-center gap-2 px-8 py-3 rounded-full 
+                font-medium text-sm transition-all duration-300 border
+                ${themeStyles.btnBg}
+              `}
+            >
+              <span>Load More Works</span>
+              <FiPlus className="w-4 h-4 transition-transform group-hover:rotate-90" />
+            </motion.button>
+          </div>
+        )}
+
       </div>
 
-      {/* 4. MODAL */}
+      {/* 5. MODAL */}
       <AnimatePresence>
         {isModalOpen && (
             <ProjectModal

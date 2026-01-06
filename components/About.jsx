@@ -64,9 +64,11 @@ export function AboutSection() {
   ];
 
   const stats = [
-    { label: "Experience", value: "1+ Years" },
-    { label: "Projects", value: "10+ Shipped" },
+    { label: "Years Building", value: "1" },
+    { label: "Clients Served", value: "5" },
+    { label: "Projects Shipped", value: "10+" },
   ];
+
 
   return (
     <section id="about" className={`pt-20 px-4 sm:px-6 relative overflow-hidden ${themeStyles.bg} transition-colors duration-500`}>
@@ -112,7 +114,7 @@ export function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className={`flex flex-wrap justify-center gap-8 sm:gap-16 mt-10 pt-10 border-t ${themeStyles.statsBorder}`}
+            className={`grid grid-cols-3 sm:grid-cols-3 justify-center gap-8 sm:gap-16 mt-10 pt-5 border-t ${themeStyles.statsBorder}`}
           >
             {stats.map((stat, i) => (
               <div key={i} className="text-center">

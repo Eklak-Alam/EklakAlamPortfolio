@@ -64,9 +64,8 @@ export function AboutSection() {
   ];
 
   const stats = [
-    { label: "Experience", value: "3+ Years" },
-    { label: "Projects", value: "15+ Shipped" },
-    { label: "Commitment", value: "100%" },
+    { label: "Experience", value: "1+ Years" },
+    { label: "Projects", value: "10+ Shipped" },
   ];
 
   return (

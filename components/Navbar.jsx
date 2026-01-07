@@ -6,7 +6,7 @@ import {
   useMotionValueEvent,
   AnimatePresence,
 } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react"; // Added useRef
 import {
   FiMenu,
   FiX,
@@ -22,10 +22,14 @@ import { useTheme } from "../context/ThemeContext";
 import { FaLinkedinIn } from "react-icons/fa";
 
 export function Navbar() {
-  const [hidden, setHidden] = useState(false); // Controls hide/show
+  const [hidden, setHidden] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  
+  // --- Refs for Click Outside Logic ---
+  const navRef = useRef(null);  // Ref for the main top bar
+  const menuRef = useRef(null); // Ref for the mobile dropdown
   
   const { scrollY } = useScroll();
   const pathname = usePathname();
@@ -51,17 +55,17 @@ export function Navbar() {
     ? {
         glass: "rgba(20, 20, 20, 0.8)",
         border: "rgba(255, 255, 255, 0.1)",
-        textMain: "#e5e5e5",      // Main Text (Soft White)
-        textHover: "#ffffff",     // Hover Text (Pure White)
-        bgHover: "rgba(255, 255, 255, 0.1)", // Subtle Hover Bg
+        textMain: "#e5e5e5",
+        textHover: "#ffffff",
+        bgHover: "rgba(255, 255, 255, 0.1)",
         activeBg: "rgba(255, 255, 255, 0.15)",
       }
     : {
         glass: "rgba(255, 255, 255, 0.9)",
         border: "rgba(0, 0, 0, 0.08)",
-        textMain: "#525252",      // Main Text (Neutral 600)
-        textHover: "#000000",     // Hover Text (Black)
-        bgHover: "rgba(0, 0, 0, 0.05)", // Subtle Hover Bg
+        textMain: "#525252",
+        textHover: "#000000",
+        bgHover: "rgba(0, 0, 0, 0.05)",
         activeBg: "rgba(0, 0, 0, 0.08)",
       };
 
@@ -84,14 +88,39 @@ export function Navbar() {
 
   useEffect(() => { setIsMounted(true); }, []);
 
-  // --- Scroll Visibility Logic ---
+  // --- 1. Close Menu on Click Outside ---
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If menu is closed, do nothing
+      if (!mobileMenuOpen) return;
+
+      // Check if click is inside Top Nav OR Mobile Menu
+      const clickedInsideNav = navRef.current?.contains(event.target);
+      const clickedInsideMenu = menuRef.current?.contains(event.target);
+
+      // If clicked outside both, close the menu
+      if (!clickedInsideNav && !clickedInsideMenu) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside); // For mobile touch
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
+
+  // --- 2. Close Menu on Scroll ---
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
-    // If scrolling DOWN and passed 150px -> Hide
     if (latest > previous && latest > 150) {
       setHidden(true);
+      setMobileMenuOpen(false); // <--- FORCE CLOSE ON SCROLL DOWN
     } else {
-      // If scrolling UP -> Show
       setHidden(false);
     }
   });
@@ -102,9 +131,10 @@ export function Navbar() {
     <>
       {/* --- DESKTOP NAVBAR --- */}
       <motion.nav
+        ref={navRef} // <--- Attached Ref Here
         variants={{
           visible: { y: 0 },
-          hidden: { y: -150 }, // Moves up 150px to completely clear the screen
+          hidden: { y: -150 },
         }}
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.35, ease: "easeInOut" }}
@@ -114,7 +144,8 @@ export function Navbar() {
           layout
           onHoverStart={() => setIsHovered(true)}
           onHoverEnd={() => setIsHovered(false)}
-          className="pointer-events-auto backdrop-blur-xl rounded-full shadow-2xl flex items-center p-2 px-5 md:px-6 gap-4 md:gap-6"
+          // Keeps your previous wide mobile fix
+          className="pointer-events-auto backdrop-blur-xl rounded-full shadow-2xl flex items-center justify-between md:justify-start p-2 px-5 md:px-6 gap-4 md:gap-6 w-[95%] max-w-md md:w-auto md:max-w-none"
           style={{
             backgroundColor: colors.glass,
             border: `1px solid ${colors.border}`,
@@ -122,20 +153,20 @@ export function Navbar() {
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
         >
           
-          {/* 1. Logo (Clean Font) */}
+          {/* Logo */}
           <div 
             onClick={() => scrollToSection("home")}
             className="cursor-pointer"
           >
             <span 
               className="font-sans font-bold text-xl tracking-tight whitespace-nowrap" 
-              style={{ color: darkMode ? "#fff" : "#000" }} // Always pure black or white for logo
+              style={{ color: darkMode ? "#fff" : "#000" }}
             >
               Eklak Alam
             </span>
           </div>
 
-          {/* 2. Navigation Links (Desktop) */}
+          {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <button
@@ -160,13 +191,11 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* 3. Right Actions */}
+          {/* Right Actions */}
           <div className="flex items-center gap-3">
-            
-            {/* Divider */}
             <div className="hidden lg:block w-px h-5 bg-gray-500/20"></div>
 
-            {/* Social Icons (Expand on Hover) */}
+            {/* Socials Desktop */}
             <div className="hidden lg:flex overflow-hidden">
               <motion.div
                 initial={{ width: 0, opacity: 0 }}
@@ -186,7 +215,6 @@ export function Navbar() {
                     style={{ color: colors.textMain }}
                     onMouseEnter={(e) => e.currentTarget.style.color = colors.textHover}
                     onMouseLeave={(e) => e.currentTarget.style.color = colors.textMain}
-                    title={social.name}
                   >
                     {social.icon}
                   </a>
@@ -194,17 +222,14 @@ export function Navbar() {
               </motion.div>
             </div>
 
-            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+              className="p-2 rounded-full cursor-pointer transition-colors hover:bg-black/5 dark:hover:bg-white/10"
               style={{ color: colors.textMain }}
-              title="Toggle Theme"
             >
               {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
             </button>
 
-            {/* Chat Button (Monochrome) */}
             <a
               href="https://wa.me/919473384492"
               target="_blank"
@@ -236,6 +261,7 @@ export function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
+            ref={menuRef} // <--- Attached Ref Here
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -261,7 +287,6 @@ export function Navbar() {
                   </button>
                 ))}
                 
-                {/* Mobile Socials */}
                 <div className="flex justify-between px-4 py-3 mt-1 border-t border-gray-500/10">
                    {socialLinks.map((social, idx) => (
                     <a

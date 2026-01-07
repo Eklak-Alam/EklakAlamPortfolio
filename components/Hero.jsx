@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { useTheme } from '../context/ThemeContext';
 
 // Icons
-import { Github, Download, ArrowDown, Youtube } from 'lucide-react';
+import { Github, Download, ArrowDown, Youtube, X, ExternalLink } from 'lucide-react';
 import { FaXTwitter, FaAws, FaDocker, FaLinkedinIn, FaNodeJs } from "react-icons/fa6";
 import { SiKubernetes, SiTerraform, SiAnsible, SiJenkins, SiSpringboot, SiNextdotjs, SiTypescript, SiHtml5, SiCss3, SiJavascript, SiReact, SiSpring, SiHibernate, SiJsonwebtokens, SiNodedotjs, SiExpress, SiFastapi, SiPython, SiMysql, SiDocker, SiGithub, SiLangchain } from "react-icons/si";
 import { FiGitlab } from 'react-icons/fi';
@@ -16,9 +16,12 @@ const HeroSection = () => {
   const { darkMode } = useTheme();
   const heroRef = useRef(null);
   
+  // State for Resume Preview Modal
+  const [showResume, setShowResume] = useState(false);
+  
   // 1. Theme Configuration
   const themeStyles = darkMode ? {
-    bg: "bg-[#030303]",
+    bg: "bg-[#050505]",
     textMain: "text-white",
     textMuted: "text-neutral-400",
     grid: "bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]",
@@ -29,7 +32,8 @@ const HeroSection = () => {
     gradientText: "from-white via-neutral-200 to-neutral-400",
     accentGradient: "from-emerald-600 to-teal-600",
     mask: "from-[#030303] to-transparent",
-    socialBorder: "border-white/10 bg-white/5"
+    socialBorder: "border-white/10 bg-white/5",
+    modalBg: "bg-[#0a0a0a]"
   } : {
     bg: "bg-white",
     textMain: "text-neutral-900",
@@ -42,45 +46,45 @@ const HeroSection = () => {
     gradientText: "from-neutral-900 via-neutral-700 to-neutral-500",
     accentGradient: "from-emerald-600 to-teal-600",
     mask: "from-white to-transparent",
-    socialBorder: "border-black/5 bg-black/5"
+    socialBorder: "border-black/5 bg-black/5",
+    modalBg: "bg-white"
   };
 
+  const techStack = [
+    // 🌐 Frontend
+    { name: "JavaScript", Icon: SiJavascript, color: "text-[#F7DF1E]", category: "Frontend" }, 
+    { name: "Python", Icon: SiPython, color: "text-[#3776AB]", category: "Backend" },      
+    { name: "Spring", Icon: SiSpring, color: "text-[#6DB33F]", category: "Backend" },      
+    { name: "Express.js", Icon: SiExpress, color: darkMode ? "text-white" : "text-black", category: "Backend" },
+    { name: "Terraform", Icon: SiTerraform, color: "text-[#7B42BC]", category: "DevOps" },  
+    { name: "TypeScript", Icon: SiTypescript, color: "text-[#3178C6]", category: "Frontend" }, 
+    
+    // 🧠 Backend
+    { name: "Java", Icon: FaJava, color: "text-[#007396]", category: "Backend" },          
+    { name: "HTML", Icon: SiHtml5, color: "text-[#E34F26]", category: "Frontend" },        
+    { name: "Ansible", Icon: SiAnsible, color: "text-[#EE0000]", category: "DevOps" },      
+    { name: "CSS", Icon: SiCss3, color: "text-[#1572B6]", category: "Frontend" },          
+    { name: "React.js", Icon: SiReact, color: "text-[#61DAFB]", category: "Frontend" },    
+    { name: "GitHub", Icon: SiGithub, color: darkMode ? "text-white" : "text-black", category: "DevOps" },
+    { name: "FastAPI", Icon: SiFastapi, color: "text-[#009688]", category: "Backend" },    
+    { name: "Spring Boot", Icon: SiSpringboot, color: "text-[#6DB33F]", category: "Backend" },
+    { name: "Kubernetes", Icon: SiKubernetes, color: "text-[#326CE5]", category: "DevOps" },
+    { name: "Hibernate", Icon: SiHibernate, color: "text-[#59666C]", category: "Backend" }, 
+    { name: "JWT", Icon: SiJsonwebtokens, color: "text-[#D63AFF]", category: "Backend" },   
+    { name: "Node.js", Icon: SiNodedotjs, color: "text-[#339933]", category: "Backend" },   
+    
+    { name: "AWS", Icon: FaAws, color: "text-[#FF9900]", category: "Cloud" },               
+    // 🗄️ Database
+    { name: "MySQL", Icon: SiMysql, color: "text-[#4479A1]", category: "Database" },        
 
-const techStack = [
-  // 🌐 Frontend
-  { name: "JavaScript", Icon: SiJavascript, color: "text-[#F7DF1E]", category: "Frontend" }, // JS Yellow
-  { name: "Python", Icon: SiPython, color: "text-[#3776AB]", category: "Backend" },      // Python Blue
-  { name: "Spring", Icon: SiSpring, color: "text-[#6DB33F]", category: "Backend" },      // Spring Green
-  { name: "Express.js", Icon: SiExpress, color: darkMode ? "text-white" : "text-black", category: "Backend" }, // Monochrome
-  { name: "Terraform", Icon: SiTerraform, color: "text-[#7B42BC]", category: "DevOps" },  // Terraform Purple
-  { name: "TypeScript", Icon: SiTypescript, color: "text-[#3178C6]", category: "Frontend" }, // TS Blue
-  
-  // 🧠 Backend
-  { name: "Java", Icon: FaJava, color: "text-[#007396]", category: "Backend" },          // Java Blue
-  { name: "HTML", Icon: SiHtml5, color: "text-[#E34F26]", category: "Frontend" },        // HTML Orange
-  { name: "Ansible", Icon: SiAnsible, color: "text-[#EE0000]", category: "DevOps" },      // Ansible Red
-  { name: "CSS", Icon: SiCss3, color: "text-[#1572B6]", category: "Frontend" },          // CSS Blue
-  { name: "React.js", Icon: SiReact, color: "text-[#61DAFB]", category: "Frontend" },    // React Cyan
-  { name: "GitHub", Icon: SiGithub, color: darkMode ? "text-white" : "text-black", category: "DevOps" }, // Official
-  { name: "FastAPI", Icon: SiFastapi, color: "text-[#009688]", category: "Backend" },    // FastAPI Teal
-  { name: "Spring Boot", Icon: SiSpringboot, color: "text-[#6DB33F]", category: "Backend" },
-  { name: "Kubernetes", Icon: SiKubernetes, color: "text-[#326CE5]", category: "DevOps" },// K8s Blue
-  { name: "Hibernate", Icon: SiHibernate, color: "text-[#59666C]", category: "Backend" }, // Hibernate Gray
-  { name: "JWT", Icon: SiJsonwebtokens, color: "text-[#D63AFF]", category: "Backend" },   // JWT Purple
-  { name: "Node.js", Icon: SiNodedotjs, color: "text-[#339933]", category: "Backend" },   // Node Green
-  
-  { name: "AWS", Icon: FaAws, color: "text-[#FF9900]", category: "Cloud" },               // AWS Orange
-  // 🗄️ Database
-  { name: "MySQL", Icon: SiMysql, color: "text-[#4479A1]", category: "Database" },        // MySQL Blue
+    // ☁️ Cloud & DevOps
+    { name: "Docker", Icon: SiDocker, color: "text-[#2496ED]", category: "DevOps" },        
+    { name: "Next.js", Icon: SiNextdotjs, color: darkMode ? "text-white" : "text-black", category: "Frontend" },
+    { name: "Jenkins", Icon: SiJenkins, color: "text-[#D24939]", category: "DevOps" },      
 
-  // ☁️ Cloud & DevOps
-  { name: "Docker", Icon: SiDocker, color: "text-[#2496ED]", category: "DevOps" },        // Docker Blue
-  { name: "Next.js", Icon: SiNextdotjs, color: darkMode ? "text-white" : "text-black", category: "Frontend" }, // Official
-  { name: "Jenkins", Icon: SiJenkins, color: "text-[#D24939]", category: "DevOps" },      // Jenkins Red
-
-  // 🤖 AI / LLM
-  { name: "LangChain", Icon: SiLangchain, color: "text-[#7C3AED]", category: "AI" },      // LangChain Purple
-];
+    // 🤖 AI / LLM
+    { name: "LangChain", Icon: SiLangchain, color: "text-[#7C3AED]", category: "AI" },      
+  ];
 
   // GSAP Animations
   useEffect(() => {
@@ -98,6 +102,15 @@ const techStack = [
     }, heroRef);
     return () => ctx.revert();
   }, []);
+
+  // Prevent scrolling when modal is open
+  useEffect(() => {
+    if (showResume) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [showResume]);
 
   return (
     <div 
@@ -153,18 +166,17 @@ const techStack = [
             </motion.div>
         </div>
 
-        {/* E. ACTION BUTTONS (Optimized for Mobile) */}
-        {/* Using Grid for perfect side-by-side on mobile, Flex on Desktop */}
+        {/* E. ACTION BUTTONS (MODIFIED) */}
         <div className="hero-btn grid grid-cols-2 sm:flex sm:flex-row gap-3 sm:gap-5 w-full max-w-md sm:max-w-none justify-center items-center mb-12">
           
-          <a
-            href="/EklakResume.pdf"
-            download
+          {/* Resume Button - Now Triggers Modal */}
+          <button
+            onClick={() => setShowResume(true)}
             className={`group relative flex items-center justify-center gap-2 px-4 py-3 sm:px-8 sm:py-4 rounded-xl font-bold overflow-hidden transition-all active:scale-95 shadow-xl ${themeStyles.btnPrimary}`}
           >
-            <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+            <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-xs sm:text-base">Resume</span>
-          </a>
+          </button>
           
           <button
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
@@ -176,7 +188,7 @@ const techStack = [
 
         </div>
 
-        {/* F. SOCIAL FOOTER (The "Dock" Look) */}
+        {/* F. SOCIAL FOOTER */}
         <div className="hero-social">
             <div className={`inline-flex items-center gap-3 sm:gap-4 px-6 py-3 rounded-2xl ${themeStyles.socialBorder}`}>
                 {[
@@ -199,6 +211,69 @@ const techStack = [
         </div>
 
       </div>
+
+      {/* ===========================================
+        RESUME PREVIEW MODAL
+        ===========================================
+      */}
+      <AnimatePresence>
+        {showResume && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
+          >
+            {/* Backdrop Blur */}
+            <div 
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setShowResume(false)}
+            ></div>
+
+            {/* Modal Content */}
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className={`relative w-full max-w-5xl h-[85vh] sm:h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-white/10 ${themeStyles.modalBg}`}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between px-4 py-3 sm:px-6 border-b border-white/10 bg-neutral-900/5">
+                <h3 className={`font-semibold text-lg ${themeStyles.textMain}`}>
+                  Eklak Resume
+                </h3>
+                <div className="flex items-center gap-2">
+                  {/* Download Button inside Modal */}
+                  <a 
+                    href="/EklakResume.pdf" 
+                    download="Eklak_Resume.pdf"
+                    className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm font-medium bg-emerald-600 text-white hover:bg-emerald-700 transition-colors"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span className="hidden sm:inline">Download PDF</span>
+                  </a>
+                  {/* Close Button */}
+                  <button 
+                    onClick={() => setShowResume(false)}
+                    className="px-2 py-1.5 rounded-lg transition-colors bg-neutral-300 text-neutral-600 hover:text-neutral-800 cursor-pointer"
+                  >
+                    <X className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </button>
+                </div>
+              </div>
+
+              {/* PDF Viewer (Iframe) */}
+              <div className="flex-1 w-full bg-neutral-100">
+                <iframe 
+                  src="/EklakResume.pdf#toolbar=0" 
+                  className="w-full h-full"
+                  title="Resume PDF"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style jsx>{`
         .bg-radial-gradient {

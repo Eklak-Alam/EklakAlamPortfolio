@@ -6,113 +6,137 @@ import { useTheme } from "../context/ThemeContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Register GSAP plugin
+// Register GSAP ScrollTrigger
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// --- DATA: Simplified for Physics World ---
-const techItems = [
-  { name: "React", category: "Frontend", img: "https://cdn.worldvectorlogo.com/logos/react-2.svg" },
-  { name: "Next.js", category: "Frontend", img: "https://cdn.worldvectorlogo.com/logos/nextjs-2.svg" },
-  { name: "JS", category: "Lang", img: "https://cdn.worldvectorlogo.com/logos/javascript-1.svg" },
-  { name: "Tailwind", category: "Frontend", img: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg" },
-  { name: "Framer", category: "Frontend", img: "https://cdn.worldvectorlogo.com/logos/framer-motion.svg" },
-  { name: "Java", category: "Backend", img: "https://cdn.worldvectorlogo.com/logos/java-4.svg" },
-  { name: "Spring", category: "Backend", img: "https://cdn.worldvectorlogo.com/logos/spring-3.svg" },
-  { name: "MySQL", category: "DB", img: "https://cdn.worldvectorlogo.com/logos/mysql-6.svg" },
-  { name: "Redis", category: "DB", img: "https://cdn.worldvectorlogo.com/logos/redis.svg" },
-  { name: "Docker", category: "DevOps", img: "https://cdn.worldvectorlogo.com/logos/docker.svg" },
-  { name: "Git", category: "DevOps", img: "https://cdn.worldvectorlogo.com/logos/git-icon.svg" },
-  { name: "GitHub", category: "DevOps", img: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg" },
-  { name: "AWS", category: "Cloud", img: "https://cdn.worldvectorlogo.com/logos/aws-2.svg" },
-  { name: "Python", category: "AI", img: "https://cdn.worldvectorlogo.com/logos/python-5.svg" },
-  { name: "FastAPI", category: "AI", img: "https://cdn.worldvectorlogo.com/logos/fastapi.svg" },
-  { name: "Figma", category: "Tool", img: "https://cdn.worldvectorlogo.com/logos/figma-1.svg" },
-  { name: "VS Code", category: "Tool", img: "https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg" },
+// --- CONFIGURATION ---
+const CONFIG = {
+  iconSize: 26, // Radius of the icons (approx 52px width)
+  restitution: 0.6, // Bounciness (0 to 1)
+  friction: 0.1, // Slide friction
+  wallThickness: 200, // Thick walls to prevent tunneling
+};
+
+// High-quality reliable SVGs
+const TECH_ITEMS = [
+  { name: "React", img: "https://cdn.worldvectorlogo.com/logos/react-2.svg" },
+  { name: "Next.js", img: "https://cdn.worldvectorlogo.com/logos/next-js.svg" },
+  { name: "JavaScript", img: "https://cdn.worldvectorlogo.com/logos/logo-javascript.svg" },
+  { name: "TypeScript", img: "https://cdn.worldvectorlogo.com/logos/typescript.svg" },
+  { name: "Tailwind", img: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg" },
+  { name: "Framer", img: "https://cdn.worldvectorlogo.com/logos/framer-motion.svg" },
+  { name: "Node.js", img: "https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg" },
+  { name: "Java", img: "https://cdn.worldvectorlogo.com/logos/java-4.svg" },
+  { name: "Spring", img: "https://cdn.worldvectorlogo.com/logos/spring-3.svg" },
+  { name: "Docker", img: "https://cdn.worldvectorlogo.com/logos/docker.svg" },
+  { name: "Kubernetes", img: "https://cdn.worldvectorlogo.com/logos/kubernetes.svg" },
+  { name: "AWS", img: "https://cdn.worldvectorlogo.com/logos/aws-2.svg" },
+  { name: "Git", img: "https://cdn.worldvectorlogo.com/logos/git-icon.svg" },
+  { name: "Python", img: "https://cdn.worldvectorlogo.com/logos/python-5.svg" },
+  { name: "Linux", img: "https://cdn.worldvectorlogo.com/logos/linux-tux.svg" },
 ];
 
 export function TechStack() {
   const sceneRef = useRef(null);
   const containerRef = useRef(null);
+  const engineRef = useRef(null);
   const { darkMode } = useTheme();
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  // --- THEME COLORS ---
-  const themeColors = {
-    bg: darkMode ? "#0f172a" : "#ffffff",
-    wall: darkMode ? "#334155" : "#e2e8f0",
-    text: darkMode ? "#ffffff" : "#0f172a",
-    subText: darkMode ? "#94a3b8" : "#64748b",
+  // Theme Colors
+  const colors = {
+    bg: darkMode ? "#050505" : "#ffffff", // Matches your footer/hero
+    text: darkMode ? "#ffffff" : "#000000",
+    border: darkMode ? "#262626" : "#e5e5e5",
   };
 
   useEffect(() => {
-    // 1. Setup Matter.js
+    // 1. SETUP MATTER.JS
     const Engine = Matter.Engine,
       Render = Matter.Render,
       World = Matter.World,
       Bodies = Matter.Bodies,
       Mouse = Matter.Mouse,
       MouseConstraint = Matter.MouseConstraint,
+      Runner = Matter.Runner,
       Composite = Matter.Composite;
 
     const engine = Engine.create();
+    const world = engine.world;
+    engineRef.current = engine;
+
+    const width = sceneRef.current.clientWidth;
+    const height = 500; // Fixed height
+
+    // 2. SETUP RENDERER
     const render = Render.create({
       element: sceneRef.current,
       engine: engine,
       options: {
-        width: sceneRef.current.clientWidth,
-        height: 600, // Fixed height for the playground
+        width,
+        height,
+        background: "transparent", // Handle bg via CSS for instant theme switch
         wireframes: false,
-        background: "transparent",
-        pixelRatio: typeof window !== 'undefined' ? window.devicePixelRatio : 1
+        pixelRatio: window.devicePixelRatio || 1,
       },
     });
 
-    // 2. Create Boundaries (Walls)
-    const wallOptions = { 
-      isStatic: true, 
-      render: { fillStyle: themeColors.wall, visible: true } 
+    // 3. CREATE WALLS
+    const createWalls = (w, h) => {
+      const wallOpts = { 
+        isStatic: true, 
+        render: { visible: false } // Invisible walls
+      };
+      return [
+        Bodies.rectangle(w / 2, h + CONFIG.wallThickness / 2, w, CONFIG.wallThickness, wallOpts), // Floor
+        Bodies.rectangle(w / 2, -CONFIG.wallThickness * 2, w, CONFIG.wallThickness, wallOpts), // Ceiling
+        Bodies.rectangle(-CONFIG.wallThickness / 2, h / 2, CONFIG.wallThickness, h * 2, wallOpts), // Left
+        Bodies.rectangle(w + CONFIG.wallThickness / 2, h / 2, CONFIG.wallThickness, h * 2, wallOpts), // Right
+      ];
     };
     
-    const width = sceneRef.current.clientWidth;
-    const height = 600;
-    const wallThick = 60;
+    let walls = createWalls(width, height);
+    World.add(world, walls);
 
-    const walls = [
-      Bodies.rectangle(width / 2, height + wallThick / 2 - 10, width, wallThick, wallOptions), // Floor
-      Bodies.rectangle(width / 2, -wallThick * 2, width, wallThick, wallOptions), // Ceiling (high up)
-      Bodies.rectangle(-wallThick / 2, height / 2, wallThick, height * 2, wallOptions), // Left
-      Bodies.rectangle(width + wallThick / 2, height / 2, wallThick, height * 2, wallOptions), // Right
-    ];
+    // 4. ADD ICONS (THE SAFE WAY)
+    TECH_ITEMS.forEach((tech, index) => {
+      const img = new Image();
+      img.src = tech.img;
 
-    World.add(engine.world, walls);
-
-    // 3. Create Tech Icons (Circles)
-    const techBodies = techItems.map((tech) => {
-      // Random position
-      const x = Math.random() * (width - 100) + 50;
-      const y = Math.random() * -500 - 100; // Start above screen
-      const size = 35; // Radius
-
-      return Bodies.circle(x, y, size, {
-        restitution: 0.9, // Bounciness (0-1)
-        friction: 0.005,
-        density: 0.04,
-        render: {
-          sprite: {
-            texture: tech.img,
-            xScale: (size * 2) / 80, // Scaling image to fit circle (assuming ~80px avg logo)
-            yScale: (size * 2) / 80,
-          },
-        },
-      });
+      // Only add to world once image loads to prevent "broken state" crash
+      img.onload = () => {
+        const x = Math.random() * (width - 100) + 50;
+        const y = -Math.random() * 500 - 100; // Start above screen
+        
+        // Calculate scale (fit image into circle)
+        const scale = (CONFIG.iconSize * 2) / Math.max(img.width, img.height);
+        
+        const body = Bodies.circle(x, y, CONFIG.iconSize, {
+          restitution: CONFIG.restitution,
+          friction: CONFIG.friction,
+          render: {
+            sprite: {
+              texture: tech.img,
+              xScale: scale * 0.8, // 80% of circle
+              yScale: scale * 0.8,
+            }
+          }
+        });
+        
+        // Stagger the addition for a "raining" effect
+        setTimeout(() => {
+          World.add(world, body);
+        }, index * 100);
+      };
     });
 
-    World.add(engine.world, techBodies);
-
-    // 4. Add Mouse Interaction
+    // 5. MOUSE CONTROL (DRAGGING)
     const mouse = Mouse.create(render.canvas);
+    // Disable scrolling when interacting with canvas
+    mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
+    mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
       constraint: {
@@ -120,106 +144,112 @@ export function TechStack() {
         render: { visible: false },
       },
     });
-
-    World.add(engine.world, mouseConstraint);
-
-    // Keep the mouse in sync with scrolling
+    World.add(world, mouseConstraint);
     render.mouse = mouse;
 
-    // 5. Run the Engine
-    Matter.Runner.run(engine);
+    // 6. RUN ENGINE
+    const runner = Runner.create();
+    Runner.run(runner, engine);
     Render.run(render);
 
-    // 6. GSAP Entrance Animation (Text)
+    // 7. GSAP ENTRANCE (Reveal Animation)
     gsap.fromTo(
-      ".tech-title",
+      containerRef.current,
       { opacity: 0, y: 50 },
       {
         opacity: 1,
         y: 0,
-        duration: 1,
+        duration: 1.2,
         ease: "power3.out",
-        scrollTrigger: { trigger: containerRef.current, start: "top 80%" },
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+        },
       }
     );
 
-    setIsLoaded(true);
-
-    // 7. Cleanup & Resize Handling
+    // 8. RESIZE HANDLER
     const handleResize = () => {
-      render.canvas.width = sceneRef.current.clientWidth;
-      render.canvas.height = 600;
+      if (!sceneRef.current) return;
+      const newWidth = sceneRef.current.clientWidth;
       
-      // Reposition walls
-      Matter.Body.setPosition(walls[0], { x: sceneRef.current.clientWidth / 2, y: 600 + wallThick / 2 - 10 });
-      Matter.Body.setPosition(walls[1], { x: sceneRef.current.clientWidth / 2, y: -wallThick * 2 });
-      Matter.Body.setPosition(walls[2], { x: -wallThick / 2, y: 300 });
-      Matter.Body.setPosition(walls[3], { x: sceneRef.current.clientWidth + wallThick / 2, y: 300 });
+      render.canvas.width = newWidth;
+      render.canvas.height = height;
+      
+      // Update walls
+      Composite.remove(world, walls);
+      walls = createWalls(newWidth, height);
+      World.add(world, walls);
     };
 
     window.addEventListener("resize", handleResize);
 
+    // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
       Render.stop(render);
-      World.clear(engine.world);
+      Runner.stop(runner);
+      World.clear(world);
       Engine.clear(engine);
       render.canvas.remove();
       render.canvas = null;
-      render.context = null;
-      render.textures = {};
     };
-  }, [darkMode]); // Re-run if theme changes to update background/wall colors
+  }, []);
 
   return (
     <section 
       ref={containerRef}
-      className="relative w-full py-20 overflow-hidden transition-colors duration-500"
-      style={{ backgroundColor: themeColors.bg }}
+      className="py-24 px-4 sm:px-8 relative overflow-hidden transition-colors duration-500"
+      style={{ backgroundColor: colors.bg }}
     >
-      <div className="max-w-[1600px] mx-auto px-6 relative z-10">
+      <div className="max-w-[1400px] mx-auto">
         
-        {/* Header Text */}
-        <div className="text-center mb-10 tech-title">
-          <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-4" style={{ color: themeColors.text }}>
+        {/* Header Section */}
+        <div className="text-center mb-12 select-none">
+          <h2 
+            className="text-4xl md:text-6xl font-black tracking-tighter mb-4"
+            style={{ color: colors.text }}
+          >
             THE <span className="text-blue-500">PLAYGROUND</span>
           </h2>
-          <p className="text-lg md:text-xl font-mono uppercase tracking-widest opacity-70" style={{ color: themeColors.subText }}>
-            Grab. Throw. Explore.
+          <p className="font-mono text-sm uppercase tracking-widest opacity-60" style={{ color: colors.text }}>
+            Drag. Throw. Collide.
           </p>
-          <div className="mt-4 text-xs font-mono opacity-50" style={{ color: themeColors.subText }}>
-            [ Interactive Physics Simulation ]
-          </div>
         </div>
 
-        {/* Physics Canvas Area */}
+        {/* Physics Canvas Wrapper */}
         <div 
-          className="relative w-full h-[600px] rounded-3xl overflow-hidden border cursor-grab active:cursor-grabbing shadow-2xl"
+          className="relative w-full h-[500px] rounded-2xl overflow-hidden border cursor-grab active:cursor-grabbing transition-colors duration-500 shadow-2xl"
           style={{ 
-            borderColor: themeColors.wall, 
-            boxShadow: darkMode ? "0 0 50px rgba(0,0,0,0.5)" : "0 0 50px rgba(0,0,0,0.1)"
+            borderColor: colors.border,
+            backgroundColor: colors.bg,
+            boxShadow: darkMode ? '0 0 40px rgba(0,0,0,0.5)' : '0 0 40px rgba(0,0,0,0.1)' 
           }}
         >
-          {/* Canvas Mount Point */}
+          {/* Canvas Mount */}
           <div ref={sceneRef} className="w-full h-full" />
 
-          {/* Overlay Text (Background) */}
+          {/* Background Decor */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.03] select-none">
-            <span className="text-[200px] font-black" style={{ color: themeColors.text }}>
-              TECH
+            <span className="text-[150px] md:text-[200px] font-black" style={{ color: colors.text }}>
+              STACK
             </span>
           </div>
 
-          {/* Hint */}
-          <div className="absolute bottom-6 right-6 pointer-events-none animate-pulse">
-            <span className="text-xs font-mono px-3 py-1 rounded border bg-opacity-20 backdrop-blur-md" 
-                  style={{ color: themeColors.text, borderColor: themeColors.text, background: themeColors.bg }}>
-              Wait for the drop ↓
-            </span>
+          {/* Hint Pill */}
+          <div className="absolute bottom-6 left-6 pointer-events-none animate-bounce">
+             <span 
+               className="text-[10px] font-mono px-3 py-1.5 rounded-full border opacity-70"
+               style={{ 
+                 color: colors.text, 
+                 borderColor: colors.border 
+               }}
+             >
+               ↓ GRAVITY ACTIVE
+             </span>
           </div>
 
         </div>
-
       </div>
     </section>
   );

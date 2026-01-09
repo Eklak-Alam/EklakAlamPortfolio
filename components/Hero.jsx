@@ -194,7 +194,6 @@ const HeroSection = () => {
                 {[
                     { Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/eklak-alam-40ba632b5/" },
                     { Icon: Github, href: "https://github.com/Eklak-Alam" },
-                    { Icon: FiGitlab, href: "https://gitlab.com/eklakalam420" },
                     { Icon: FaXTwitter, href: "https://x.com/eklak__alam" },
                     { Icon: Youtube, href: "https://www.youtube.com/@eklakalam04" }
                 ].map((link, idx) => (

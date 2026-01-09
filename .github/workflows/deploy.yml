@@ -1,0 +1,75 @@
+name: Build and Push Frontend
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Cancel previous runs if a new commit is pushed to save build minutes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # JOB 1: CHECK CODE QUALITY (Lint & Type Check)
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # Automatically caches node_modules
+
+      - name: 📦 Install Dependencies
+        run: npm ci # 'ci' is faster and safer than 'install' for CI environments
+
+      - name: 🔍 Run Linting
+        run: npm run lint
+        # If you have a test script, uncomment the line below:
+        # - name: 🧪 Run Tests
+        #   run: npm run test
+
+  # JOB 2: BUILD DOCKER IMAGE & PUSH
+  build-and-push:
+    needs: quality-check # Only run if quality-check passes
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' # Don't push Docker images on Pull Requests
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔐 Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 🏷️ Extract Metadata (Tags, Labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/eklak-portfolio # CHANGE THIS to your image name
+          tags: |
+            type=raw,value=latest
+            type=sha,format=long
+
+      - name: 🚀 Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: . 
+          # If your Next.js app is inside a folder (e.g., /frontend), change context to: ./frontend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # OPTIMIZATION: GitHub Actions Cache exporter
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -39,14 +39,15 @@ export function Navbar() {
   const navItems = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
+    { name: "Work", href: "#work" },
+    { name: "Infrastructure", href: "#devops" },
     { name: "Contact", href: "#contact" },
   ];
 
   const socialLinks = [
     { icon: <FiGithub size={18} />, url: "https://github.com/Eklak-Alam", name: "GitHub" },
     { icon: <FaLinkedinIn size={18} />, url: "https://www.linkedin.com/in/eklak-alam/", name: "LinkedIn" },
-    { icon: <SiX size={18} />, url: "https://x.com/dev_eklak", name: "Twitter" },
+    { icon: <SiX size={18} />, url: "https://x.com/eklak__alam", name: "Twitter" },
     { icon: <FiMail size={18} />, url: "mailto:eklakalam420@gmail.com", name: "Email" },
   ];
 
@@ -172,7 +173,7 @@ export function Navbar() {
               <button
                 key={item.name}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300"
+                className="px-4 cursor-pointer py-2 rounded-full text-sm font-medium transition-all duration-300"
                 style={{ 
                   color: pathname === item.href ? (darkMode ? "#fff" : "#000") : colors.textMain,
                   backgroundColor: pathname === item.href ? colors.activeBg : "transparent",

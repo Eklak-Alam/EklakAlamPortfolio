@@ -1,375 +1,225 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
-import { useState, useEffect } from "react";
-import { FiCode, FiServer, FiCloud, FiTool, FiCpu, FiActivity } from "react-icons/fi";
+import { useEffect, useRef, useState } from "react";
+import Matter from "matter-js";
 import { useTheme } from "../context/ThemeContext";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const techCategories = [
-  {
-    name: "Frontend",
-    icon: <FiCode className="text-xl" />,
-    color: "bg-blue-500",
-    techs: [
-      { 
-        name: "React.js", 
-        img: "https://cdn.worldvectorlogo.com/logos/react-2.svg",
-        usage: "UI Development"
-      },
-      { 
-        name: "Next.js", 
-        img: "https://cdn.worldvectorlogo.com/logos/nextjs-2.svg",
-        usage: "Full-stack Apps"
-      },
-      { 
-        name: "JavaScript", 
-        img: "https://cdn.worldvectorlogo.com/logos/javascript-1.svg",
-        usage: "Code base"
-      },
-      { 
-        name: "Tailwind CSS", 
-        img: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg",
-        usage: "Utility-first CSS"
-      },
-      { 
-        name: "Framer Motion", 
-        img: "https://cdn.worldvectorlogo.com/logos/framer-motion.svg",
-        usage: "Animations"
-      },
-    ],
-  },
-  {
-    name: "Backend",
-    icon: <FiServer className="text-xl" />,
-    color: "bg-emerald-500",
-    techs: [
-      { 
-        name: "Java", 
-        img: "https://cdn.worldvectorlogo.com/logos/java-4.svg",
-        usage: "Runtime"
-      },
-      { 
-        name: "Spring", 
-        img: "https://cdn.worldvectorlogo.com/logos/spring-3.svg",
-        usage: "API Framework"
-      },
-      { 
-        name: "MySQL", 
-        img: "https://cdn.worldvectorlogo.com/logos/mysql-6.svg",
-        usage: "Database"
-      },
-      { 
-        name: "JWT", 
-        img: "https://cdn.worldvectorlogo.com/logos/jwt-3.svg",
-        usage: "Authentication"
-      },
-      { 
-        name: "Redis", 
-        img: "https://cdn.worldvectorlogo.com/logos/redis.svg",
-        usage: "Caching"
-      },
-    ],
-  },
-  {
-    name: "DevOps",
-    icon: <FiCloud className="text-xl" />,
-    color: "bg-purple-500",
-    techs: [
-      { 
-        name: "Git", 
-        img: "https://cdn.worldvectorlogo.com/logos/git-icon.svg",
-        usage: "Version Control"
-      },
-      { 
-        name: "GitHub", 
-        img: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg",
-        usage: "Code Hosting"
-      },
-      { 
-        name: "Vercel", 
-        img: "https://cdn.worldvectorlogo.com/logos/vercel.svg",
-        usage: "Frontend Hosting"
-      },
-      { 
-        name: "Netlify", 
-        img: "https://cdn.worldvectorlogo.com/logos/netlify.svg",
-        usage: "Static Hosting"
-      },
-      { 
-        name: "Docker", 
-        img: "https://cdn.worldvectorlogo.com/logos/docker.svg",
-        usage: "Containerization"
-      },
-    ],
-  },
-  {
-    name: "Tools",
-    icon: <FiTool className="text-xl" />,
-    color: "bg-amber-500",
-    techs: [
-      { 
-        name: "VS Code", 
-        img: "https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg",
-        usage: "Code Editor"
-      },
-      { 
-        name: "IntelliJ", 
-        img: "https://cdn.worldvectorlogo.com/logos/intellij-idea-1.svg",
-        usage: "Java IDE"
-      },
-      { 
-        name: "Figma", 
-        img: "https://cdn.worldvectorlogo.com/logos/figma-1.svg",
-        usage: "UI Design"
-      },
-      { 
-        name: "Postman", 
-        img: "https://cdn.worldvectorlogo.com/logos/postman.svg",
-        usage: "API Testing"
-      },
-      { 
-        name: "Notion", 
-        img: "https://cdn.worldvectorlogo.com/logos/notion-logo-1.svg",
-        usage: "Documentation"
-      },
-    ],
-  },
-  {
-    name: "Languages",
-    icon: <FiCpu className="text-xl" />,
-    color: "bg-red-500",
-    techs: [
-      { 
-        name: "JavaScript", 
-        img: "https://cdn.worldvectorlogo.com/logos/javascript-1.svg",
-        usage: "Web Development"
-      },
-      { 
-        name: "Java", 
-        img: "https://cdn.worldvectorlogo.com/logos/java-4.svg",
-        usage: "Enterprise Applications"
-      },
-      { 
-        name: "Python", 
-        img: "https://cdn.worldvectorlogo.com/logos/python-5.svg",
-        usage: "Scripting & AI"
-      },
-      { 
-        name: "C", 
-        img: "https://cdn.worldvectorlogo.com/logos/c-1.svg",
-        usage: "System Programming"
-      },
-    ],
-  },
-  {
-    name: "AI & GenAI",
-    icon: <FiActivity className="text-xl" />,
-    color: "bg-indigo-500",
-    techs: [
-      { 
-        name: "Python", 
-        img: "https://cdn.worldvectorlogo.com/logos/python-5.svg",
-        usage: "Core Language"
-      },
-      { 
-        name: "NumPy", 
-        img: "https://cdn.worldvectorlogo.com/logos/numpy-1.svg",
-        usage: "Numerical Computing"
-      },
-      { 
-        name: "Pandas", 
-        img: "https://cdn.worldvectorlogo.com/logos/pandas.svg",
-        usage: "Data Analysis"
-      },
-      { 
-        name: "Matplotlib", 
-        img: "https://cdn.worldvectorlogo.com/logos/matplotlib.svg",
-        usage: "Data Visualization"
-      },
-      { 
-        name: "Seaborn", 
-        img: "https://cdn.worldvectorlogo.com/logos/seaborn.svg",
-        usage: "Statistical Plots"
-      },
-      { 
-        name: "FastAPI", 
-        img: "https://cdn.worldvectorlogo.com/logos/fastapi.svg",
-        usage: "API for ML Models"
-      },
-      { 
-        name: "LangChain", 
-        img: "https://cdn.worldvectorlogo.com/logos/langchain.svg",
-        usage: "LLM Framework"
-      },
-    ],
-  }
+// Register GSAP plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
+// --- DATA: Simplified for Physics World ---
+const techItems = [
+  { name: "React", category: "Frontend", img: "https://cdn.worldvectorlogo.com/logos/react-2.svg" },
+  { name: "Next.js", category: "Frontend", img: "https://cdn.worldvectorlogo.com/logos/nextjs-2.svg" },
+  { name: "JS", category: "Lang", img: "https://cdn.worldvectorlogo.com/logos/javascript-1.svg" },
+  { name: "Tailwind", category: "Frontend", img: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg" },
+  { name: "Framer", category: "Frontend", img: "https://cdn.worldvectorlogo.com/logos/framer-motion.svg" },
+  { name: "Java", category: "Backend", img: "https://cdn.worldvectorlogo.com/logos/java-4.svg" },
+  { name: "Spring", category: "Backend", img: "https://cdn.worldvectorlogo.com/logos/spring-3.svg" },
+  { name: "MySQL", category: "DB", img: "https://cdn.worldvectorlogo.com/logos/mysql-6.svg" },
+  { name: "Redis", category: "DB", img: "https://cdn.worldvectorlogo.com/logos/redis.svg" },
+  { name: "Docker", category: "DevOps", img: "https://cdn.worldvectorlogo.com/logos/docker.svg" },
+  { name: "Git", category: "DevOps", img: "https://cdn.worldvectorlogo.com/logos/git-icon.svg" },
+  { name: "GitHub", category: "DevOps", img: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg" },
+  { name: "AWS", category: "Cloud", img: "https://cdn.worldvectorlogo.com/logos/aws-2.svg" },
+  { name: "Python", category: "AI", img: "https://cdn.worldvectorlogo.com/logos/python-5.svg" },
+  { name: "FastAPI", category: "AI", img: "https://cdn.worldvectorlogo.com/logos/fastapi.svg" },
+  { name: "Figma", category: "Tool", img: "https://cdn.worldvectorlogo.com/logos/figma-1.svg" },
+  { name: "VS Code", category: "Tool", img: "https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg" },
 ];
 
 export function TechStack() {
+  const sceneRef = useRef(null);
+  const containerRef = useRef(null);
   const { darkMode } = useTheme();
-  const [activeCategory, setActiveCategory] = useState(techCategories[0]);
-  const controls = useAnimation();
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Color schemes for both modes
-  const darkColors = {
-    background: "#0f172a",
-    textPrimary: "#ffffff",
-    textSecondary: "#e2e8f0",
-    cardBg: "#1e293b",
-    cardBorder: "rgba(255, 255, 255, 0.1)",
-    inactiveTabBg: "rgba(255, 255, 255, 0.05)",
-    inactiveTabText: "#e2e8f0",
-    inactiveTabBorder: "rgba(255, 255, 255, 0.1)"
+  // --- THEME COLORS ---
+  const themeColors = {
+    bg: darkMode ? "#0f172a" : "#ffffff",
+    wall: darkMode ? "#334155" : "#e2e8f0",
+    text: darkMode ? "#ffffff" : "#0f172a",
+    subText: darkMode ? "#94a3b8" : "#64748b",
   };
-
-  const lightColors = {
-    background: "#ffffff",
-    textPrimary: "#0f172a",
-    textSecondary: "#334155",
-    cardBg: "#f8fafc",
-    cardBorder: "rgba(0, 0, 0, 0.1)",
-    inactiveTabBg: "rgba(0, 0, 0, 0.05)",
-    inactiveTabText: "#334155",
-    inactiveTabBorder: "rgba(0, 0, 0, 0.1)"
-  };
-
-  const colors = darkMode ? darkColors : lightColors;
 
   useEffect(() => {
-    controls.start("visible");
-  }, [activeCategory]);
+    // 1. Setup Matter.js
+    const Engine = Matter.Engine,
+      Render = Matter.Render,
+      World = Matter.World,
+      Bodies = Matter.Bodies,
+      Mouse = Matter.Mouse,
+      MouseConstraint = Matter.MouseConstraint,
+      Composite = Matter.Composite;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
+    const engine = Engine.create();
+    const render = Render.create({
+      element: sceneRef.current,
+      engine: engine,
+      options: {
+        width: sceneRef.current.clientWidth,
+        height: 600, // Fixed height for the playground
+        wireframes: false,
+        background: "transparent",
+        pixelRatio: typeof window !== 'undefined' ? window.devicePixelRatio : 1
       },
-    },
-  };
+    });
 
-  const itemVariants = {
-    hidden: { y: 30, opacity: 0, scale: 0.9 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      transition: { 
-        type: "spring", 
-        damping: 15, 
-        stiffness: 150,
-        mass: 0.5
+    // 2. Create Boundaries (Walls)
+    const wallOptions = { 
+      isStatic: true, 
+      render: { fillStyle: themeColors.wall, visible: true } 
+    };
+    
+    const width = sceneRef.current.clientWidth;
+    const height = 600;
+    const wallThick = 60;
+
+    const walls = [
+      Bodies.rectangle(width / 2, height + wallThick / 2 - 10, width, wallThick, wallOptions), // Floor
+      Bodies.rectangle(width / 2, -wallThick * 2, width, wallThick, wallOptions), // Ceiling (high up)
+      Bodies.rectangle(-wallThick / 2, height / 2, wallThick, height * 2, wallOptions), // Left
+      Bodies.rectangle(width + wallThick / 2, height / 2, wallThick, height * 2, wallOptions), // Right
+    ];
+
+    World.add(engine.world, walls);
+
+    // 3. Create Tech Icons (Circles)
+    const techBodies = techItems.map((tech) => {
+      // Random position
+      const x = Math.random() * (width - 100) + 50;
+      const y = Math.random() * -500 - 100; // Start above screen
+      const size = 35; // Radius
+
+      return Bodies.circle(x, y, size, {
+        restitution: 0.9, // Bounciness (0-1)
+        friction: 0.005,
+        density: 0.04,
+        render: {
+          sprite: {
+            texture: tech.img,
+            xScale: (size * 2) / 80, // Scaling image to fit circle (assuming ~80px avg logo)
+            yScale: (size * 2) / 80,
+          },
+        },
+      });
+    });
+
+    World.add(engine.world, techBodies);
+
+    // 4. Add Mouse Interaction
+    const mouse = Mouse.create(render.canvas);
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: { visible: false },
       },
-    },
-    hover: {
-      y: -10,
-      scale: 1.05,
-      boxShadow: darkMode 
-        ? "0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1)"
-        : "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-      transition: {
-        duration: 0.3,
-        ease: "easeOut"
+    });
+
+    World.add(engine.world, mouseConstraint);
+
+    // Keep the mouse in sync with scrolling
+    render.mouse = mouse;
+
+    // 5. Run the Engine
+    Matter.Runner.run(engine);
+    Render.run(render);
+
+    // 6. GSAP Entrance Animation (Text)
+    gsap.fromTo(
+      ".tech-title",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: containerRef.current, start: "top 80%" },
       }
-    }
-  };
+    );
+
+    setIsLoaded(true);
+
+    // 7. Cleanup & Resize Handling
+    const handleResize = () => {
+      render.canvas.width = sceneRef.current.clientWidth;
+      render.canvas.height = 600;
+      
+      // Reposition walls
+      Matter.Body.setPosition(walls[0], { x: sceneRef.current.clientWidth / 2, y: 600 + wallThick / 2 - 10 });
+      Matter.Body.setPosition(walls[1], { x: sceneRef.current.clientWidth / 2, y: -wallThick * 2 });
+      Matter.Body.setPosition(walls[2], { x: -wallThick / 2, y: 300 });
+      Matter.Body.setPosition(walls[3], { x: sceneRef.current.clientWidth + wallThick / 2, y: 300 });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      Render.stop(render);
+      World.clear(engine.world);
+      Engine.clear(engine);
+      render.canvas.remove();
+      render.canvas = null;
+      render.context = null;
+      render.textures = {};
+    };
+  }, [darkMode]); // Re-run if theme changes to update background/wall colors
 
   return (
-    <section className="py-16 px-4 sm:px-6" style={{ backgroundColor: colors.background }}>
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: colors.textPrimary }}>
-            My <span className="text-blue-500">Tech Stack</span>
+    <section 
+      ref={containerRef}
+      className="relative w-full py-20 overflow-hidden transition-colors duration-500"
+      style={{ backgroundColor: themeColors.bg }}
+    >
+      <div className="max-w-[1600px] mx-auto px-6 relative z-10">
+        
+        {/* Header Text */}
+        <div className="text-center mb-10 tech-title">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-4" style={{ color: themeColors.text }}>
+            THE <span className="text-blue-500">PLAYGROUND</span>
           </h2>
-          <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.textSecondary }}>
-            Technologies and languages I work with to build digital experiences
+          <p className="text-lg md:text-xl font-mono uppercase tracking-widest opacity-70" style={{ color: themeColors.subText }}>
+            Grab. Throw. Explore.
           </p>
-        </motion.div>
-
-        {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {techCategories.map((category) => (
-            <motion.button
-              key={category.name}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveCategory(category)}
-              className={`px-5 py-3 rounded-xl font-medium text-sm sm:text-base flex items-center gap-2 transition-all ${
-                activeCategory.name === category.name
-                  ? `${category.color} text-white shadow-lg`
-                  : `shadow-sm border`
-              }`}
-              style={{
-                backgroundColor: activeCategory.name === category.name 
-                  ? undefined 
-                  : colors.inactiveTabBg,
-                color: activeCategory.name === category.name 
-                  ? undefined 
-                  : colors.inactiveTabText,
-                borderColor: activeCategory.name === category.name 
-                  ? undefined 
-                  : colors.inactiveTabBorder
-              }}
-            >
-              {category.icon}
-              {category.name}
-            </motion.button>
-          ))}
+          <div className="mt-4 text-xs font-mono opacity-50" style={{ color: themeColors.subText }}>
+            [ Interactive Physics Simulation ]
+          </div>
         </div>
 
-        {/* Tech Cards */}
-        <motion.div
-          key={activeCategory.name}
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        {/* Physics Canvas Area */}
+        <div 
+          className="relative w-full h-[600px] rounded-3xl overflow-hidden border cursor-grab active:cursor-grabbing shadow-2xl"
+          style={{ 
+            borderColor: themeColors.wall, 
+            boxShadow: darkMode ? "0 0 50px rgba(0,0,0,0.5)" : "0 0 50px rgba(0,0,0,0.1)"
+          }}
         >
-          {activeCategory.techs.map((tech) => (
-            <motion.div
-              key={tech.name}
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-              className="rounded-2xl shadow-lg overflow-hidden border cursor-default group relative"
-              style={{
-                backgroundColor: colors.cardBg,
-                borderColor: colors.cardBorder
-              }}
-            >
-              <div className={`absolute top-0 left-0 h-2 w-full ${activeCategory.color}`}></div>
-              <div className="p-6 pt-8">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`w-16 h-16 rounded-lg border flex items-center justify-center p-3`}
-                       style={{ borderColor: colors.cardBorder }}>
-                    <img 
-                      src={tech.img} 
-                      alt={tech.name} 
-                      className="w-full h-full object-contain"
-                      onError={(e) => {
-                        e.currentTarget.src = `https://via.placeholder.com/128/${activeCategory.color.replace('bg-', '')}/ffffff?text=${tech.name.charAt(0)}`;
-                      }}
-                    />
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold mb-1" style={{ color: colors.textPrimary }}>{tech.name}</h3>
-                <p className="mb-4" style={{ color: colors.textSecondary }}>{tech.usage}</p>
-                <div className={`h-1 w-0 group-hover:w-full ${activeCategory.color} transition-all duration-500`}></div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+          {/* Canvas Mount Point */}
+          <div ref={sceneRef} className="w-full h-full" />
+
+          {/* Overlay Text (Background) */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.03] select-none">
+            <span className="text-[200px] font-black" style={{ color: themeColors.text }}>
+              TECH
+            </span>
+          </div>
+
+          {/* Hint */}
+          <div className="absolute bottom-6 right-6 pointer-events-none animate-pulse">
+            <span className="text-xs font-mono px-3 py-1 rounded border bg-opacity-20 backdrop-blur-md" 
+                  style={{ color: themeColors.text, borderColor: themeColors.text, background: themeColors.bg }}>
+              Wait for the drop ↓
+            </span>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

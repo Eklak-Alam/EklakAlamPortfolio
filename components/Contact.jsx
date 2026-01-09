@@ -119,9 +119,7 @@ export function Contact() {
   const socialLinks = [
     { name: "GitHub", icon: <FiGithub className="w-5 h-5" />, url: "https://github.com/Eklak-Alam" },
     { name: "LinkedIn", icon: <FaLinkedinIn className="w-5 h-5" />, url: "https://www.linkedin.com/in/eklak-alam/" },
-    { name: "Twitter", icon: <FiTwitter className="w-5 h-5" />, url: "https://x.com/dev_eklak" },
-    { name: "Instagram", icon: <FaInstagram className="w-5 h-5" />, url: "https://www.instagram.com/eklak__alam/" },
-    { name: "Telegram", icon: <FaTelegramPlane className="w-5 h-5" />, url: "https://t.me/stack_connect" }
+    { name: "Twitter", icon: <FiTwitter className="w-5 h-5" />, url: "https://x.com/eklak__alam" },
   ];
 
   const contactMethods = [

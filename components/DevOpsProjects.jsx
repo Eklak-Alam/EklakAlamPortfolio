@@ -134,8 +134,8 @@ export function DevOpsProjects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // --- LOAD MORE STATE ---
-  const [visibleCount, setVisibleCount] = useState(2); // Start with 2
-  const increment = 2; // Load 2 more on click
+  const [visibleCount, setVisibleCount] = useState(4); // Start with 2
+  const increment = 4; // Load 2 more on click
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + increment);

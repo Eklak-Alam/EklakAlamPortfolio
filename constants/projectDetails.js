@@ -106,6 +106,49 @@ export const projectDetails = {
     }
   },
 
+  "stackconnect": {
+    id: "stackconnect",
+    title: "Stack Connect",
+    tagline: "Real-Time Developer Collaboration Ecosystem",
+    category: "Social Network",
+    status: "Open Source",
+
+    coverImage: "/projectImg/stackconnect/stackconnect.png",
+    gallery: [
+      { url: "/projectImg/stackconnect/stackconnec1t.png", caption: "Real-Time Socket.io Chat" },
+      { url: "/projectImg/stackconnect/stackconnect2.png", caption: "Syntax Highlighted Code Sharing" },
+      { url: "/projectImg/stackconnect/stackconnect3.png", caption: "Syntax Highlighted Code Sharing" }
+    ],
+
+    description: "A community platform solving the isolation of remote developers. Unlike standard forums, Stack Connect focuses on real-time interaction, allowing developers to pair program, chat, and share code snippets instantly without efficient syntax highlighting.",
+
+    technicalDecisions: [
+      {
+        title: "WebSockets Implementation",
+        reason: "Implemented Socket.io namespaces to separate chat rooms and global notifications, reducing server load."
+      }
+    ],
+
+    architecture: "Client-Server model with a dedicated WebSocket server layer for ephemeral messaging.",
+
+    impactMetrics: [
+      { label: "Performance", value: "95+", description: "Google Lighthouse Score" },
+      { label: "Latency", value: "<50ms", description: "Message delivery time" }
+    ],
+
+    techStack: {
+      frontend: ["Next.js 14", "TypeScript"],
+      backend: ["Node.js", "Socket.io"],
+      database: ["MongoDB", "Mongoose"],
+      tools: ["Vercel", "ESLint"]
+    },
+
+    links: {
+      github: "https://github.com/Eklak-Alam/Stack-Connect",
+      live: "https://stackconnect.vercel.app/"
+    }
+  },
+
   "balaji": {
     id: "balaji",
     title: "Balaji Training Portal",
@@ -150,49 +193,6 @@ export const projectDetails = {
     links: {
       github: "https://github.com/Eklak-Alam/Training-Project-With-Certificate-Generate-Frontend-Code",
       live: "https://balajitraining.in/"
-    }
-  },
-
-  "stackconnect": {
-    id: "stackconnect",
-    title: "Stack Connect",
-    tagline: "Real-Time Developer Collaboration Ecosystem",
-    category: "Social Network",
-    status: "Open Source",
-
-    coverImage: "/projectImg/stackconnect/stackconnect.png",
-    gallery: [
-      { url: "/projectImg/stackconnect/stackconnec1t.png", caption: "Real-Time Socket.io Chat" },
-      { url: "/projectImg/stackconnect/stackconnect2.png", caption: "Syntax Highlighted Code Sharing" },
-      { url: "/projectImg/stackconnect/stackconnect3.png", caption: "Syntax Highlighted Code Sharing" }
-    ],
-
-    description: "A community platform solving the isolation of remote developers. Unlike standard forums, Stack Connect focuses on real-time interaction, allowing developers to pair program, chat, and share code snippets instantly without efficient syntax highlighting.",
-
-    technicalDecisions: [
-      {
-        title: "WebSockets Implementation",
-        reason: "Implemented Socket.io namespaces to separate chat rooms and global notifications, reducing server load."
-      }
-    ],
-
-    architecture: "Client-Server model with a dedicated WebSocket server layer for ephemeral messaging.",
-
-    impactMetrics: [
-      { label: "Performance", value: "95+", description: "Google Lighthouse Score" },
-      { label: "Latency", value: "<50ms", description: "Message delivery time" }
-    ],
-
-    techStack: {
-      frontend: ["Next.js 14", "TypeScript"],
-      backend: ["Node.js", "Socket.io"],
-      database: ["MongoDB", "Mongoose"],
-      tools: ["Vercel", "ESLint"]
-    },
-
-    links: {
-      github: "https://github.com/Eklak-Alam/Stack-Connect",
-      live: "https://stackconnect.vercel.app/"
     }
   },
 

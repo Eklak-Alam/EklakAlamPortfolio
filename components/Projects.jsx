@@ -17,7 +17,7 @@ export function Projects() {
   
   // --- LOAD MORE LOGIC ---
   const [visibleCount, setVisibleCount] = useState(3); // Start with 3
-  const increment = 2; // Load 2 more on click
+  const increment = 3; // Load 2 more on click
 
   // 1. Theme Config
   const themeStyles = darkMode ? {

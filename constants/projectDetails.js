@@ -392,6 +392,52 @@ export const projectDetails = {
       github: "https://github.com/Eklak-Alam/DeafLink",
       live: "https://www.deaflink.co/"
     }
+  },
+
+  "jaagosaran": {
+    id: "jaagosaran",
+    title: "Jaago Saran",
+    tagline: "Building the Next Unicorns from (Saran) Bihar",
+    category: "Non-Profit / Startup Incubator",
+    status: "Live & Active",
+
+    coverImage: "/projectImg/jaagosaran/jaagosaran.png",
+    gallery: [
+      { url: "/projectImg/jaagosaran/jaagosaran1.png", caption: "Founder's Retreat & Community Building" },
+      { url: "/projectImg/jaagosaran/jaagosaran2.png", caption: "Investor Meets & Capital Injection" },
+      { url: "/projectImg/jaagosaran/jaagosaran3.png", caption: "Tech Hackathons & Innovation Hubs" }
+    ],
+
+    description: "A digital platform and registered NGO designed to decentralize innovation in Bihar. It functions as a grassroots growth engine, connecting ambitious founders from Tier-2 cities with global mentors, capital, and a military-grade 12-week accelerator program.",
+
+    technicalDecisions: [
+      {
+        title: "Scalable Event Architecture",
+        reason: "Designed the platform to handle high-traffic registration waves for state-wide events like the 'Startup Mahakumbh', ensuring zero downtime during critical application windows."
+      },
+      {
+        title: "Protocol-Based Resource Access",
+        reason: "Implemented a tiered access system (Strategy, Capital, and Network Protocols) to streamline the flow of resources, ensuring founders get specific support based on their startup stage."
+      }
+    ],
+
+    architecture: "Community-driven ecosystem platform. Integrates a content management system for event updates with a secure backend for startup applications and investor matching.",
+
+    impactMetrics: [
+      { label: "Impact", value: "10k+", description: "Lives impacted in Saran" },
+      { label: "Portfolio", value: "50+", description: "Ventures Backed" },
+      { label: "Network", value: "100+", description: "Global Mentors Onboarded" }
+    ],
+
+    techStack: {
+      frontend: ["React.js", "Tailwind CSS", "Framer Motion"],
+      core: ["Context API", "GSAP (Animations)"],
+    },
+
+    links: {
+      github: "https://github.com/Eklak-Alam/", // Placeholder based on your pattern
+      live: "https://www.jaagosaran.vercel.app/" // Placeholder
+    }
   }
 };
 

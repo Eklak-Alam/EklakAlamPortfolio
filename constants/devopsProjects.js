@@ -93,6 +93,31 @@ export const devopsProjects = {
       "Chained commands to automatically push the local codebase to the newly created remote repository immediately after provisioning.",
       "Verified the automation by running `terraform apply`, which instantly created the repo and populated it with code."
     ]
+  },
+  "vortex-cicd": {
+    id: "vortex-cicd",
+    slug: "vortex-fullstack-devops-pipeline",
+    title: "Vortex: Full-Stack DevOps Ecosystem with Automated CI/CD",
+    shortDescription: "A production-grade full-stack application orchestrated via Docker and Nginx, featuring a zero-downtime CI/CD pipeline powered by Jenkins on AWS.",
+    fullDescription: "Moving a full-stack application from 'localhost' to a live production server is often where development stops and engineering begins. I built Vortex not just as a web app, but as a complete demonstration of a modern DevOps lifecycle. The core application consists of a high-performance Next.js 14 frontend and a robust Java Spring Boot backend, but the real engineering challenge was orchestrating these services in a secure, automated cloud environment.\n\nI tackled the classic 'works on my machine' problem by containerizing the entire stack using Docker and Docker Compose. To bridge the gap between development and production, I engineered a custom CI/CD pipeline using Jenkins hosted on an AWS EC2 instance. This pipeline automatically detects code changes via GitHub Webhooks, builds the Docker images, injects dynamic environment variables (like the server's public IP) during the build process, and deploys the new version without manual intervention.\n\nA major hurdle was managing networking and security. Exposing raw ports like 3000 and 8081 is insecure and unprofessional. I solved this by implementing Nginx as a Reverse Proxy. Nginx sits at the edge (Port 80), routing traffic internally to the correct containers while handling CORS and headers. This setup allows for a clean, production-ready URL structure while keeping the backend logic isolated from the public internet.",
+    tools: [
+      "Next.js 14",
+      "Java Spring Boot 3",
+      "Docker & Docker Compose",
+      "Jenkins (CI/CD)",
+      "Nginx (Reverse Proxy)",
+      "AWS EC2",
+      "MySQL",
+      "Groovy (Jenkinsfile)"
+    ],
+    steps: [
+      "Developed a decoupled full-stack architecture with a Next.js frontend and Spring Boot REST API backed by MySQL.",
+      "Containerized all services using optimized Dockerfiles (Multi-stage builds) to ensure consistency across environments.",
+      "Provisioned an AWS EC2 instance and configured a Jenkins server to act as the central automation hub.",
+      "Wrote a Groovy-based `Jenkinsfile` that auto-detects the server IP and injects it into the frontend build, solving dynamic environment issues.",
+      "Implemented Nginx as a reverse proxy to unify the frontend and backend under a single port (80) and secure the internal architecture.",
+      "Configured GitHub Webhooks to trigger the pipeline automatically on every push to the `main` branch."
+    ]
   }
 };
 
